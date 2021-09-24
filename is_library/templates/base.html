@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 
@@ -8,15 +9,16 @@
 	<meta name="author" content="Marek Sechra">
 	<meta name="author" content="Vasil Poposki">
 
-
-	<title>IIS-Knihovna</title>
+	<title>{% block title %}IIS Knihovna{% endblock %}</title>
 
 	<!--Links there-->
-	<link rel="stylesheet" href="styles/bootstrap/bootstrap.min.css">
-	<link rel="stylesheet" href="styles/style.css">
+	<link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	{% block css %}{% endblock %}
 </head>
 
 <body>
+	{% block content %}{% endblock %}
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-5"> </div>
@@ -28,4 +30,6 @@
 			</div>
 		</div>
 	</div>
+
+	{% block js %}{% endblock %}
 </body>

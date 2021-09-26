@@ -8,11 +8,11 @@
 
 ```shell
 $ git clone git@github.com:FilipSolich/IIS.git
-$ cd IIS 
+$ cd IIS
 $ python -m venv .env
 $ source .env/bin/activate
 $ pip install -r requiremets.txt
-$ cd is_library 
+$ cd fituska
 $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py creategroups

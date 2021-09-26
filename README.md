@@ -15,5 +15,6 @@ $ pip install -r requiremets.txt
 $ cd is_library 
 $ python manage.py makemigrations
 $ python manage.py migrate
+$ python manage.py creategroups
 $ python manage.py runserver
 ```

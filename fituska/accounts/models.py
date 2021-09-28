@@ -1,19 +1,20 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 
 
 class User(AbstractBaseUser, PermissionsMixin):
 
-    email = models.EmailField(_('email address'), unique=True)
-    first_name = models.CharField(_('first name'), max_length=150, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
+    login = models.CharField('login', max_length=8, unique=True)
+    email = models.EmailField('email address', unique=True)
+    first_name = models.CharField('first name', max_length=150, blank=True)
+    last_name = models.CharField('last name', max_length=150, blank=True)
+    karma = models.IntegerField('karma', default=0)
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'login'
 
     def __str__(self):
-        return self.first_name
+        return self.login
 
     def clean(self):
         super().clean()

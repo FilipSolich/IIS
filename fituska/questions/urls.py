@@ -1,4 +1,6 @@
 from django.urls import include, path
+from . import views
 
-urlspatterns = [
+urlpatterns = [
+    path('questions/',views.temple_questions,name='questions'),
 ]

@@ -24,6 +24,7 @@ def test_base(request):
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
+    path('', include('questions.urls')),
     path('test',test_base),
 ]
 

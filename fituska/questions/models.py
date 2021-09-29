@@ -1,7 +1,9 @@
 from django.db import models
 
-from accounts.model import User
+from accounts.models import User
 
+class Answer(models.Model):
+    pass
 
 class Rating(models.Model):
 
@@ -10,5 +12,4 @@ class Rating(models.Model):
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
 
 
-class Answer(models.Model):
-    pass
+

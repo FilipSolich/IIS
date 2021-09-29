@@ -37,3 +37,4 @@ def make_moderator(request, user_id):
         user.save()
 
     return HttpResponse()
+

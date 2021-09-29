@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.shortcuts import render
+
+
+def test_base(request):
+    return render(request, "base.html")
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
     path('', include('accounts.urls')),
+    path('test',test_base),
 ]
+

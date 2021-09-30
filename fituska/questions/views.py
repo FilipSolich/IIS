@@ -16,6 +16,15 @@ def question_detail(request, subject_name, question_id):
     return render(request, 'questions/question.html', {'questions': question})
 
 
+def _add_points_to_answer(answer, type_):
+    if type_:
+        answer.points += 1
+    else:
+        answer.points -= 1
+
+    answer.save()
+
+
 def answer_rate(request, answer_id, **kwargs):
     answer = get_object_or_404(Answer, pk=answer_id)
     type_ = request.POST.get('type')
@@ -23,9 +32,11 @@ def answer_rate(request, answer_id, **kwargs):
     if not rate:
         rate = Rating.objects.create(type=type_, user=request.user, answer=answer)
         rate.save()
+        _add_points_to_answer(answer, type_)
     else:
         if rate.type != type_:
             rate.type = type_
             rate.save()
+            _add_points_to_answer(answer, type_)
 
     return HttpResponse()

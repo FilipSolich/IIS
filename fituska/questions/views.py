@@ -1,9 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
-from .models import Answer, Question
-from accounts.models import Rating
-from subject.models import Subject
+from .models import Answer, Question, Rating
+from subjects.models import Subject
 
 
 def questions_list(request, subject_name):

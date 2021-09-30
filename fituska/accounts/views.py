@@ -1,10 +1,11 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,render
 from django.contrib.auth import login
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.models import Group
 from django.http.response import HttpResponse, HttpResponseForbidden
 from django.urls import reverse_lazy
 from django.views.generic import FormView
+
 
 from .forms import UserCreationForm
 from .models import User
@@ -37,3 +38,6 @@ def make_moderator(request, user_id):
         user.save()
 
     return HttpResponse()
+
+def temple_accounts(request):
+    return render(request,"accounts/accounts.html")

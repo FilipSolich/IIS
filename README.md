@@ -16,7 +16,7 @@ $ git clone git@github.com:FilipSolich/IIS.git
 $ cd IIS
 $ python -m venv .env
 $ source .env/bin/activate
-$ pip install -r requiremets.txt
+$ pip install -r requirements.txt
 $ cd fituska
 $ python manage.py makemigrations
 $ python manage.py migrate

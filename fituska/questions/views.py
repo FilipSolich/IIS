@@ -1,10 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 
 from .models import Answer, Question, Rating
 from subjects.models import Subject
 
-
+# TODO Dodelat vyhledavani
 def questions_list(request, subject_name):
     subject = get_object_or_404(Subject, name=subject_name)
     questions = Question.objects.filter(subject=subject)
@@ -25,6 +26,7 @@ def _add_points_to_answer(answer, type_):
     answer.save()
 
 
+@login_required
 def answer_rate(request, answer_id, **kwargs):
     answer = get_object_or_404(Answer, pk=answer_id)
     type_ = request.POST.get('type')

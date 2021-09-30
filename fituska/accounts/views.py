@@ -1,14 +1,15 @@
-from django.shortcuts import get_object_or_404,render
 from django.contrib.auth import login
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Group
 from django.http.response import HttpResponse, HttpResponseForbidden
+from django.shortcuts import get_object_or_404,render
 from django.urls import reverse_lazy
 from django.views.generic import FormView
 
-
 from .forms import UserCreationForm
 from .models import User
+
 
 class LoginView(auth_views.LoginView):
 
@@ -27,10 +28,21 @@ class SignUpView(FormView):
         return super().form_valid()
 
 
-def make_moderator(request, user_id):
-    if not request.user.is_admin:
-        return HttpResponseForbidden()
+def leaderboard(request):
+    subject_id = request.GET.get('subject')
+    if not subject_id:
+        users = User.objects.all().order_by('-karma')
+        context = {'users': users}
+    else:
+        subject = get_object_or_404(Subjects, pk=subject_id)
+        sub_karma = Karma.objects.filter(subject=subject).order_by('-karma')
+        context = {'sub_karma': sub_karma}
 
+    return render(request, 'accounts/leaderboard.html', context)
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def make_moderator(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     group = Group.objects.get(name='Moderators')
     if not group in user.groups.all():
@@ -39,5 +51,17 @@ def make_moderator(request, user_id):
 
     return HttpResponse()
 
-def temple_accounts(request):
-    return render(request,"accounts/accounts.html")
+
+@user_passes_test(lambda u: u.is_superuser)
+def delete_user(request, user_id):
+    User.objects.get(pk=user_id).delete()
+    return HttpResponse()
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def list_users(request):
+    if not request.user.is_admin:
+        return HttpResponseForbidden()
+
+    users = User.objects.all()
+    return render(request, 'accounts/list_users.html', {'users': users})

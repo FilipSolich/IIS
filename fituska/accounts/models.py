@@ -12,6 +12,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField('first name', max_length=150, blank=True)
     last_name = models.CharField('last name', max_length=150, blank=True)
 
+    subjects = models.ManyToManyField(Subject)
+
     USERNAME_FIELD = 'login'
 
     def __str__(self):

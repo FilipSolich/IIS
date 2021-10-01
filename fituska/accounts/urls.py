@@ -12,6 +12,7 @@ urlpatterns = [
     path('leaderboard/', views.leaderboard, name='leaderboard'),
 
     path('admin/users/', views.list_users, name='list_users'),
-    path('admin/user/make_moderator/<int:user_id>/', views.make_moderator, name='make_moderator'),
-    path('admin/user/delete/<int:user_id>', views.delete_user, name='delete_user'),
+    path('admin/users/moderators/', views.make_moderator, name='make_moderator'),
+    path('admin/users/moderators/<int:user_id>', views.delete_moderator, name='make_moderator'),
+    path('admin/user/<int:user_id>', views.delete_user, name='delete_user'),
 ]

@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group
 from django.http.response import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404,render
 from django.urls import reverse_lazy
+from django.views.decorators.http import require_POST, require_http_methods
 from django.views.generic import FormView
 
 from .forms import UserCreationForm
@@ -42,8 +43,15 @@ def leaderboard(request):
 
 
 @user_passes_test(lambda u: u.is_superuser)
-def make_moderator(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
+def list_users(request):
+    users = User.objects.all()
+    return render(request, 'accounts/list_users.html', {'users': users})
+
+
+@require_POST
+@user_passes_test(lambda u: u.is_superuser)
+def make_moderator(request):
+    user = get_object_or_404(User, pk=request.POST.get('user_id'))
     group = Group.objects.get(name='Moderators')
     if not group in user.groups.all():
         user.groups.add(group)
@@ -52,16 +60,18 @@ def make_moderator(request, user_id):
     return HttpResponse()
 
 
+@require_http_methods(['DELETE'])
 @user_passes_test(lambda u: u.is_superuser)
-def delete_user(request, user_id):
-    User.objects.get(pk=user_id).delete()
+def delete_moderator(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    group = Group.objects.get(name='Moderators')
+    user.groups.remove(group)
+    user.save()
     return HttpResponse()
 
 
+@require_http_methods(['DELETE'])
 @user_passes_test(lambda u: u.is_superuser)
-def list_users(request):
-    if not request.user.is_admin:
-        return HttpResponseForbidden()
-
-    users = User.objects.all()
-    return render(request, 'accounts/list_users.html', {'users': users})
+def delete_user(request, user_id):
+    get_object_or_404(User, pk=user_id).delete()
+    return HttpResponse()

@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from .models import Answer, Question, Rating
 from subjects.models import Subject
 
+
 # TODO Dodelat vyhledavani
 def questions_list(request, subject_name):
     subject = get_object_or_404(Subject, name=subject_name)
@@ -17,11 +18,11 @@ def question_detail(request, subject_name, question_id):
     return render(request, 'questions/question.html', {'questions': question})
 
 
-def _add_points_to_answer(answer, type_):
+def _add_points_to_answer(answer, type_, value=1):
     if type_:
-        answer.points += 1
+        answer.points += value
     else:
-        answer.points -= 1
+        answer.points -= value
 
     answer.save()
 
@@ -39,6 +40,6 @@ def answer_rate(request, answer_id, **kwargs):
         if rate.type != type_:
             rate.type = type_
             rate.save()
-            _add_points_to_answer(answer, type_)
+            _add_points_to_answer(answer, type_, value=2)
 
     return HttpResponse()

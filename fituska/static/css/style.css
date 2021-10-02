@@ -1,8 +1,12 @@
 /*
 Author: xsechr00
-Subject: ISS
+Subject: IIS
 */
 
 body{
 	background-color: skyblue;
+}
+
+.my_dropdown{
+	display: none !important;
 }

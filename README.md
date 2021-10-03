@@ -1,4 +1,4 @@
-# IIS - Knihovní systém
+# IIS - FITUŠKA
 
 ## Požadavky
 

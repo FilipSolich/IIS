@@ -6,4 +6,8 @@ class Category(models.Model):
 
 
 class Subject(models.Model):
-    pass
+
+    class Meta:
+        permissions = (
+            ('can_confirm_subject', 'Can confirm subject'),
+        )

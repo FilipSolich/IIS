@@ -1,25 +1,48 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
-	<div class="w-25 p-3">
-		<h4> Předměty: </h4>
-		<ul class="list-group">
-		<li class="list-group-item list-group-item-action dropdown"> 
 
-			<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-			ISS
-			</a>
-			<div class="dropdown-menu">
-			<ul class="list-group">
-				<li class="list-group-item list-group-item-action dropdown-item"><a href="#">Year</a>
-				</li>
-				<li class="list-group-item list-group-item-action dropdown-item"><a href="#">Semestr</a></li>
-				<li class="list-group-item list-group-item-action dropdown-item"><a href="#">Complusory</a></li>
-			</ul>
-			</div>
-		</li>
+<div class="container">
+	<div class="text-end"><a href="">Log-in</a></div>
+</div>
+
+
+<div class="container">
+	
+	<div class=" w-25 mt-1 mb-5 px-2">
+		<h2>Povinné</h2>
+		<select class="form-select" size="3" aria-label="Default select example">
+			<option selected value="2021">2021</option>
+			<option value="2020">2020</option>
+			<option value="2019">2019</option>
+			<option value="2018">2018</option>
+		</select>
+	</div>
+	<div class="w-100 p-3">
+		<h4>1. ročník</h4>
+		<ul class="list-inline ">
+			<li class="list-inline-item border-0 w-75 mt-1"> 
+				<span class="text-info">Zimní</span>
+				<div class="">
+					<ul class="list-group w-100 mt-1">
+						<li class="list-group-item list-group-item-action">Diskretné matematika</li>
+						<li class="list-group-item list-group-item-action">Základy programování</li>
+						<li class="list-group-item list-group-item-action">Sofwarové inženýrství</li>
+					</ul>
+				</div>
+			</li>
+			<li class="list-inline-item border-0 w-75 mt-1 "> 
+				<span class="text-warning">Letní</span>
+				<div class="">
+					<ul class="list-group w-100 mt-1">
+						<li class="list-group-item list-group-item-action">Matematická analýza</li>
+						<li class="list-group-item list-group-item-action">Strojové učení</li>
+						<li class="list-group-item list-group-item-action">Unix</li>
+					</ul>
+				</div>
+			</li>
 		</ul>
+
 	</div>
 </div>
 {% endblock %}

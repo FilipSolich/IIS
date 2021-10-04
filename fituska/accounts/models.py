@@ -29,6 +29,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         all_karma = [int(karma) for karma in all_karma]
         return sum(all_karma)
 
+    @property
+    def is_moderator(self):
+        return self.groups.filter(name='Moderators').exist()
+
 
 class Karma(models.Model):
 

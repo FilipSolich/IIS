@@ -2,11 +2,10 @@ from django.contrib.auth import login
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.models import Group
-from django.http.response import HttpResponse, HttpResponseForbidden
-from django.shortcuts import get_object_or_404,render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.decorators.http import require_POST, require_http_methods
 from django.views.generic import FormView
+from django.views.decorators.http import require_GET, require_POST
 
 from .forms import UserCreationForm
 from .models import User
@@ -29,6 +28,7 @@ class SignUpView(FormView):
         return super().form_valid()
 
 
+@require_GET
 def leaderboard(request):
     subject_id = request.GET.get('subject')
     if not subject_id:
@@ -45,7 +45,15 @@ def leaderboard(request):
 @user_passes_test(lambda u: u.is_superuser)
 def list_users(request):
     users = User.objects.all()
-    return render(request, 'accounts/list_users.html', {'users': users})
+    mods = users.filter(is_moderator=True)
+    return render(request, 'accounts/list_users.html', {'users': users, 'mods': mods})
+
+
+@require_POST
+@user_passes_test(lambda u: u.is_superuser)
+def delete_user(request):
+    get_object_or_404(User, pk=request.POST.get('user_id')).delete()
+    return redirect('list_users')
 
 
 @require_POST
@@ -57,21 +65,14 @@ def make_moderator(request):
         user.groups.add(group)
         user.save()
 
-    return HttpResponse()
+    return redirect('list_users')
 
 
-@require_http_methods(['DELETE'])
+@require_POST
 @user_passes_test(lambda u: u.is_superuser)
-def delete_moderator(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
+def delete_moderator(request):
+    user = get_object_or_404(User, pk=request.POST.get('user_id'))
     group = Group.objects.get(name='Moderators')
     user.groups.remove(group)
     user.save()
-    return HttpResponse()
-
-
-@require_http_methods(['DELETE'])
-@user_passes_test(lambda u: u.is_superuser)
-def delete_user(request, user_id):
-    get_object_or_404(User, pk=user_id).delete()
-    return HttpResponse()
+    return redirect('list_users')

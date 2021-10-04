@@ -2,7 +2,6 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 
-from subjects.models import Subject
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -11,8 +10,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('email address', unique=True)
     first_name = models.CharField('first name', max_length=150, blank=True)
     last_name = models.CharField('last name', max_length=150, blank=True)
-
-    subjects = models.ManyToManyField(Subject)
 
     USERNAME_FIELD = 'login'
 
@@ -36,6 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Karma(models.Model):
 
+    from subjects.models import Subject
     karma = models.IntegerField('karma', default=0)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

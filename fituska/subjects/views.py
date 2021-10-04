@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
 
@@ -12,8 +12,7 @@ def create_subject(request):
     pass
 
 
-# TODO mod or admin
-@require_POST
+@user_passes_test(lambda x: x.is_moderator or x.is_superuser)
 def confirm_subject(request):
     pass
 

@@ -8,7 +8,7 @@ class Question(models.Model):
 
     title = models.CharField('title', max_length=150)
     text = models.TextField('text', max_length=10000)
-    picture = models.ImageField()
+    picture = models.ImageField('picture')
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
@@ -28,9 +28,9 @@ class AbstractAnswer(models.Model):
 
 class Answer(AbstractAnswer):
 
-    validity = models.BooleanField('type',blank=True)
-    points = models.DecimalField(max_digits=5,decimal_places=0, blank=True)
-    teacher_points = models.DecimalField(max_digits=5,decimal_places=0,blank=True)
+    validity = models.BooleanField('validity', blank=True)
+    points = models.DecimalField('points', max_digits=5,decimal_places=0, blank=True)
+    teacher_points = models.DecimalField('teacher_points', max_digits=5,decimal_places=0,blank=True)
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 

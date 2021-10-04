@@ -27,7 +27,6 @@
 </head>
 
 <body>
-	{% block content %}{% endblock %}
 	<div class="container">
 		<header>
 			<div class="row mb-5 mt-2">
@@ -44,8 +43,7 @@
 		<div class="bg-white text-dark" style="height:80%">
 			<div class="vh-100">
 				<div class="border border-secondary" style="height:100%">
-
-					
+					{% block content %}{% endblock %}
 				</div>
 			</div>
 		</div>

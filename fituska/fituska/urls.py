@@ -21,8 +21,9 @@ def test_base(request):
     return render(request, "base.html")
 
 urlpatterns = [
+    path('', include('subjects.urls')),
     path('accounts/', include('accounts.urls')),
     path('questions/', include('questions.urls')),
-    path('test',test_base),
+    path('test/',test_base),
 ]
 

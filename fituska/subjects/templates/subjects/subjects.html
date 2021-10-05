@@ -3,7 +3,13 @@
 {% block content %}
 
 <div class="container">
+
+	{% if user.is_authenticated %}
+ 	<div class="text-end"><a href="{% url 'logout' %}">Log-out</a></div>
+ 	{% else %}	
 	<div class="text-end"><a href="accounts/login">Log-in</a></div>
+	{% endif %}
+	
 </div>
 
 

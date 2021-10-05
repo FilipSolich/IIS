@@ -20,7 +20,7 @@ class AbstractAnswer(models.Model):
     text = models.TextField(blank=False, max_length=10000)
     picture = models.ImageField(blank=True)
 
-    user = models.ForeignKey(User, on_delete=models.PROTECT) # can be cascade
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
 
     class Meta:
         abstract = True

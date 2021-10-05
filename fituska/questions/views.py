@@ -20,14 +20,14 @@ def detail_question(request, shortcut, year, question_id):
     return render(request, 'questions/question.html', {'questions': question})
 
 
-@teacher_required
 @require_POST
+@teacher_required
 def confirm_answer(request, shortcut, year, question_id, answer_id):
     pass
 
 
-@teacher_required
 @require_POST
+@teacher_required
 def reject_answer(request, shortcut, year, question_id, answer_id):
     pass
 

@@ -45,14 +45,14 @@ def students(request, subject_id):
     pass
 
 
-@teacher_required
 @require_POST
+@teacher_required
 def confirm_student(request, subject_id):
     pass
 
 
-@teacher_required
 @require_POST
+@teacher_required
 def reject_student(request, subject_id):
     pass
 

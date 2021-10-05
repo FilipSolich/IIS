@@ -18,7 +18,7 @@ u2 = User.objects.create(login='xsechr00',email='marokac@seznam.cz',first_name='
 u2.set_password("marek_sechra")
 users.append(u2)
 
-u3 = User.objects.create(login='xnovak00',email='solich@tutanota.cz',first_name='Filip',last_name="Solich")
+u3 = User.objects.create(login='xsolich00',email='solich@tutanota.cz',first_name='Filip',last_name="Solich")
 u3.set_password("filip_solich")
 users.append(u3)
 
@@ -43,7 +43,7 @@ users.append(u10)
 u9 = User.objects.create(login='xbalk00',email='m.balek00gmail.com',first_name='Mirek',last_name="Bálek")
 users.append(u9)
 
-u11 = User.objects.create(login='xsechr01',email='marokac@seznam.cz',first_name='David',last_name="Sechra")
+u11 = User.objects.create(login='xsechr01',email='d.sechra@seznam.cz',first_name='David',last_name="Sechra")
 users.append(u11)
 
 save(users)

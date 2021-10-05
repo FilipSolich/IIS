@@ -1,10 +1,13 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.shortcuts import render
+from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
+
+from accounts.decorators import teacher_required
 
 
 def list_subjects(request):
-    return render(request, 'subjects/subjects.html')
+    return render(request, 'subjects/subjects.html', {})
 
 
 @login_required
@@ -13,23 +16,44 @@ def create_subject(request):
 
 
 @user_passes_test(lambda x: x.is_moderator or x.is_superuser)
+def new_subjects(request):
+    pass
+
+
+@user_passes_test(lambda x: x.is_moderator or x.is_superuser)
 def confirm_subject(request):
     pass
 
 
-# TODO teacher
-def create_category(request, subject_id):
+@user_passes_test(lambda x: x.is_moderator or x.is_superuser)
+def reject_subject(request):
     pass
 
 
-# TODO teacher
+@teacher_required
+def create_category(request, subject_id):
+    pass
+
 @require_POST
+@teacher_required
 def delete_category(request, subject_id):
     pass
 
 
-# TODO teacher
+@teacher_required
 def students(request, subject_id):
+    pass
+
+
+@teacher_required
+@require_POST
+def confirm_student(request, subject_id):
+    pass
+
+
+@teacher_required
+@require_POST
+def reject_student(request, subject_id):
     pass
 
 

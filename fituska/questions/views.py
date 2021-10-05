@@ -32,15 +32,6 @@ def reject_answer(request, shortcut, year, question_id, answer_id):
     pass
 
 
-def _add_points_to_answer(answer, type_, value=1):
-    if type_:
-        answer.points += value
-    else:
-        answer.points -= value
-
-    answer.save()
-
-
 @require_POST
 @login_required
 def rate_answer(request, shortcut, year, question_id, answer_id):
@@ -50,11 +41,11 @@ def rate_answer(request, shortcut, year, question_id, answer_id):
     if not rate:
         rate = Rating.objects.create(type=type_, user=request.user, answer=answer)
         rate.save()
-        _add_points_to_answer(answer, type_)
+        answer.add_points(type_)
     else:
         if rate.type != type_:
             rate.type = type_
             rate.save()
-            _add_points_to_answer(answer, type_, value=2)
+            answer.add_points(type_, value=2)
 
     return HttpResponse()

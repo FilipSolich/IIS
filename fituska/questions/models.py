@@ -34,6 +34,17 @@ class Answer(AbstractAnswer):
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
+    def __int__(self):
+        return self.points + self.teacher_points
+
+    def add_points(self, type_, value=1):
+        if type_:
+            self.points += value
+        else:
+            self.points -= value
+
+        self.save()
+
 
 class Reaction(AbstractAnswer):
 

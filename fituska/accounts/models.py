@@ -34,7 +34,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Karma(models.Model):
 
-    from subjects.models import Subject
+    from subjects.models import Subject # Must be here to prevent circular import
+
     karma = models.IntegerField('karma', default=0)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

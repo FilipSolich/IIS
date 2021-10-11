@@ -9,6 +9,10 @@ class Category(models.Model):
 
 class Subject(models.Model):
 
+    name = models.CharField(max_length=100, unique=True, null=True)
+    year = models.IntegerField(null=True)
+    semester = models.CharField(max_length=20, null=True)
+
     class Meta:
         permissions = (
             ('can_confirm_subject', 'Can confirm subject'),

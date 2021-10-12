@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col">
+        <h1>Přidat předmět</h1>
+        </div>
+    </div>
+    <!-- FORM -->
+    <div class="row">
+        <form method="POST">
+            <table>
+            {{ form }}
+            </table>
+ <!--            
+        <div class="row">
+            <div class="col-4">
+                <input type="text" placeholder="Name" max_length="100">
+            </div>
+        </div>
+        <div class="row pt-1">
+            <div class="col-4">
+                <input type="number" placeholder="Year" max_length="100">
+            </div>
+        </div>
+        <div class="row pt-1">
+            <div class="col-4">
+                <input type="text" placeholder="Semester" max_length="100">
+            </div>
+        </div> -->
+        {% csrf_token %}
+        <div class="row pt-1">
+            <div class="col-4">
+                <button style="width: 90px;" type="submit">
+                    Submit
+                </button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

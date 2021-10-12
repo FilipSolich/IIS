@@ -9,11 +9,17 @@ class Category(models.Model):
 
 class Subject(models.Model):
 
+    name = models.CharField('Nazev předmětu', max_length=100, unique=True, null=True)
+    year = models.IntegerField('Ročník', null=True)
+    semester = models.CharField('Semestr(Z/L)',max_length=20, null=True)
+
     class Meta:
         permissions = (
             ('can_confirm_subject', 'Can confirm subject'),
         )
 
+    def __str__(self):
+        return self.name
 
 class Registration(models.Model):
 

@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponseForbidden
+from django.http import response, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
@@ -21,8 +21,13 @@ def new_subjects(request):
         form = AddSubjectForm()
     return render(request, 'subjects/new.html', {'form': form})
 
-def subject_questions(request):
-    return render(request, 'subjects/questions.html', {})
+def subject_questions(request, subject_id):
+
+    try:
+        subject = Subject.objects.get(pk = subject_id)
+    except:
+        raise response.Http404("Subject does not exist")
+    return render(request, 'subjects/questions.html', {'subject': subject})
 
 @login_required
 def create_subject(request):

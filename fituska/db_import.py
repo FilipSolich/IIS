@@ -18,7 +18,7 @@ u2 = User.objects.create(login='xsechr00',email='marokac@seznam.cz',first_name='
 u2.set_password("marek_sechra")
 users.append(u2)
 
-u3 = User.objects.create(login='xsolich00',email='solich@tutanota.cz',first_name='Filip',last_name="Solich")
+u3 = User.objects.create(login='xsolic00',email='solich@tutanota.cz',first_name='Filip',last_name="Solich")
 u3.set_password("filip_solich")
 users.append(u3)
 

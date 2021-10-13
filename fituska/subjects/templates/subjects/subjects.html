@@ -3,13 +3,11 @@
 {% block content %}
 
 <div class="container">
-
 	{% if user.is_authenticated %}
-	<div class="text-end"><a href="{% url 'logout' %}">Log-out</a></div>
+		<div class="text-end"><a href="{% url 'logout' %}">Log-out</a></div>
 	{% else %}
-	<div class="text-end"><a href="accounts/login">Log-in</a></div>
+		<div class="text-end"><a href="accounts/login">Log-in</a></div>
 	{% endif %}
-
 </div>
 
 
@@ -49,13 +47,12 @@
 						{% for subject in ordered_subject_list %}
 							{% if subject.year == 1 and subject.semester == 'L' %}
 								<li class="list-group-item list-group-item-action"><a href="subjects/{{ subject.id }}">{{ subject.name }}</a></li>
-							{% endif %}	
+							{% endif %}
 						{% endfor %}
 					</ul>
 				</div>
 			</li>
 		</ul>
-
 	</div>
 </div>
 {% endblock %}

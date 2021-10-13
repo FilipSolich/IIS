@@ -6,8 +6,9 @@
 	{% if user.is_authenticated %}
 		<div class="text-end"><a href="{% url 'logout' %}">Log-out</a></div>
 	{% else %}
-		<div class="text-end"><a href="accounts/login">Log-in</a></div>
+		<div class="text-end me-2"><a href="{% url 'login'%}"><i class="bi bi-people-fill text-info" style="font-size: 35px;"></i></a></div>
 	{% endif %}
+		<div class="text-end me-2 mt-2 "><a class = "text-decoration-none text-info" href="{% url 'leaderboard' %}"> LEADER-BOARD </a> </div>
 </div>
 
 
@@ -55,4 +56,6 @@
 		</ul>
 	</div>
 </div>
+
 {% endblock %}
+

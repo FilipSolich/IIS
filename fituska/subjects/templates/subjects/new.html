@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col">
+            <h1>Přidat předmět</h1>
+        </div>
+    </div>
+    <!-- FORM -->
+    <div class="row">
+        <form method="POST">
+            <table>
+                {{ form }}
+            </table>
+
+            {% csrf_token %}
+            <div class="row pt-1">
+                <div class="col-4">
+                    <button style="width: 90px;" type="submit">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,24 +1,37 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponseForbidden
-from django.shortcuts import get_object_or_404, render
+from django.http import response, HttpResponseForbidden
+from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from accounts.decorators import teacher_required
-
+from .models import Subject
+from .forms import AddSubjectForm
 
 def list_subjects(request):
-    return render(request, 'subjects/subjects.html', {})
+    ordered_subject_list = Subject.objects.all()
+    return render(request, 'subjects/subjects.html', {'ordered_subject_list': ordered_subject_list})
 
+def new_subjects(request):
+    if request.method == 'POST':
+        form = AddSubjectForm(request.POST)
+        #if form.is_valid():
+        form.save()
+        return redirect("/")
+    else:
+        form = AddSubjectForm()
+    return render(request, 'subjects/new.html', {'form': form})
+
+def subject_questions(request, subject_id):
+
+    try:
+        subject = Subject.objects.get(pk = subject_id)
+    except:
+        raise response.Http404("Subject does not exist")
+    return render(request, 'subjects/questions.html', {'subject': subject})
 
 @login_required
 def create_subject(request):
     pass
-
-
-@user_passes_test(lambda x: x.is_moderator or x.is_superuser)
-def new_subjects(request):
-    pass
-
 
 @user_passes_test(lambda x: x.is_moderator or x.is_superuser)
 def confirm_subject(request):

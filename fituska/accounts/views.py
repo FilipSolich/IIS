@@ -20,12 +20,12 @@ class SignUpView(FormView):
 
     form_class = UserCreationForm
     template_name = 'accounts/signup.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('list_subjects')
 
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return super().form_valid()
+        return super().form_valid(form)
 
 
 

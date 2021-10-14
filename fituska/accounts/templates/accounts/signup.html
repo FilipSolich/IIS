@@ -2,6 +2,11 @@
 
 
 {% block content %}
+
+
+{% if form.errors %}
+	<p>Wrong username or password. please try again.</p>
+{% endif %}
 <div class="container w-50 justify-content-center mt-5 ">
 	<div class="text-center display-5">Registrační formulář</div>
 	<form class="p-5"method="post" action="{% url 'signup' %}">

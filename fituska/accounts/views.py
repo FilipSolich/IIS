@@ -12,6 +12,7 @@ from .models import User, Karma
 from subjects.models import Subject
 
 
+
 class LoginView(auth_views.LoginView):
 
     template_name = 'accounts/login.html'
@@ -32,7 +33,8 @@ class SignUpView(FormView):
 @require_GET
 def leaderboard(request):
     subjects = Subject.objects.all()
-    years = subjects.group_by('year')
+    years = subjects.values('year')
+    subjects = subjects.values('shortcut')
     context = {'subjects': subjects, 'years': years}
 
     short_subject = request.GET.get('subject')

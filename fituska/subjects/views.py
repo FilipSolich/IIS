@@ -6,11 +6,19 @@ from django.views.decorators.http import require_POST
 from accounts.decorators import teacher_required
 from .models import Subject
 from .forms import AddSubjectForm
+from utils import get_unique_values
+
+
 
 
 def list_subjects(request):
     ordered_subject_list = Subject.objects.all()
-    return render(request, 'subjects/subjects.html', {'ordered_subject_list': ordered_subject_list})
+    return render(request, 'subjects/subjects.html',
+    {'ordered_subject_list': ordered_subject_list,
+    'ordered_grade_list': get_unique_values(ordered_subject_list,"grade"),
+    'ordered_semester_list': get_unique_values(ordered_subject_list,"semester")
+
+    })
 
 
 @login_required

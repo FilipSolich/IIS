@@ -6,8 +6,8 @@
 	<p>Wrong username or password. please try again.</p>
 {% endif %}
 
-<div class="container mt-5 d-flex justify-content-center">
-	<form  class="p-5 border"method="post" action="{% url 'login' %}">
+<div class="container mt-5 d-flex justify-content-center w-50 p-3">
+	<form  class="p-5 border w-100"method="post" action="{% url 'login' %}">
 	{% csrf_token %}
 		<table>
 			<tr>
@@ -25,4 +25,8 @@
 		</div>
 	</form>
 </div>
+<div class="float-right text-end w-50">
+	<a class = "text-decoration-none text-info" href="{% url 'signup' %}"> Registrace </a>
+</div>
+
 {% endblock %}

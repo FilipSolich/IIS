@@ -30,6 +30,7 @@ class SignUpView(FormView):
 def leaderboardView(request):
    return render(request,'accounts/leaderboard.html')
 
+
 @require_GET
 def leaderboard(request):
     subject_id = request.GET.get('subject')

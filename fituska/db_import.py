@@ -24,17 +24,17 @@ u2.set_password('marek_sechra')
 u2.groups.add(mod)
 users.append(u2)
 
-u3 = User.objects.create(login='xsolich00', email='solich@tutanota.cz', first_name='Filip', last_name='Solich')
+u3 = User.objects.create(login='xsolic00', email='solich@tutanota.cz', first_name='Filip', last_name='Solich')
 u3.set_password('filip_solich')
 u3.groups.add(mod)
 users.append(u3)
 
 u4 = User.objects.create(login='xvokal00', email='d.vokal@gmail.com', first_name='Daniel', last_name='Vokál')
-u3.set_password('nejakeheslo1')
+u4.set_password('nejakeheslo1')
 users.append(u4)
 
 u5 = User.objects.create(login='xnamys00', email='v.myslitel@seznam.cz', first_name='Vojtěch', last_name='Namyslo')
-u3.set_password('nejakeheslo2')
+u5.set_password('nejakeheslo2')
 users.append(u5)
 
 save(users)

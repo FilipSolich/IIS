@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h1>Moderátoři</h1>
+	<ul class="list-group">
+	{% for mod in mods %}
+		<li class="list-group-item d-flex justify-content-between align-items-center">
+			{{ mod }}
+			<span class="badge bg-primary rounded-pill">
+				<form method="post" action="{% url 'delete_moderator' %}">
+					{% csrf_token %}
+					<input type="hidden" name="user_id" value="{{ mod.id }}">
+					<input class="rounded border-0 bg-info text-white p-1 btn-danger" type="submit" value="Odebrat"/>
+				</form>
+			</span>
+		</li>
+	{% endfor %}
+	</ul>
+	<h1>Uživatelé</h1>
+	<ul class="list-group">
+	{% for user in no_mods %}
+		<li class="list-group-item d-flex justify-content-between align-items-center">
+			{{ user }}
+			<span class="badge bg-primary rounded-pill">
+				<form method="post" action="{% url 'make_moderator' %}">
+					{% csrf_token %}
+					<input type="hidden" name="user_id" value="{{ user.id }}">
+					<input class="rounded border-0 bg-info text-white p-1 btn-primary" type="submit" value="Přidat"/>
+				</form>
+			</span>
+		</li>
+	{% endfor %}
+	</ul>
+{% endblock %}

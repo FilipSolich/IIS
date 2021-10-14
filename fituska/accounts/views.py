@@ -60,8 +60,9 @@ def leaderboard(request):
 @user_passes_test(lambda u: u.is_superuser)
 def list_users(request):
     users = User.objects.all()
-    mods = users.filter(is_moderator=True)
-    return render(request, 'accounts/list_users.html', {'users': users, 'mods': mods})
+    mods = [user for user in users if user.is_moderator]
+    no_mods = [user for user in users if not user.is_moderator]
+    return render(request, 'accounts/list_users.html', {'no_mods': no_mods, 'mods': mods})
 
 
 @require_POST

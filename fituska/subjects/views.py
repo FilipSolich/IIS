@@ -21,8 +21,8 @@ def create_subject(request):
 def new_subjects(request):
     if request.method == 'POST':
         form = AddSubjectForm(request.POST)
-        #if form.is_valid():
-        form.save()
+        if form.is_valid():
+            form.save()
         return redirect("/")
     else:
         form = AddSubjectForm()

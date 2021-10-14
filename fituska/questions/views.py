@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.http import require_POST
 
+from .forms import ConfirmAnswerForm
 from .models import Answer, Question, Rating
 from accounts.decorators import teacher_required
 from subjects.models import Subject
@@ -17,14 +18,22 @@ def list_questions(request, shortcut, year):
 
 def detail_question(request, shortcut, year, question_id):
     question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'questions/question.html', {'questions': question})
+    answers = Answer.objects.filter(question=question)
+    answers_forms = [
+        (answer, ConfirmAnswerForm(inittial={'answer_id': answer.id})) for answer in answers
+    ]
+    return render(request, 'questions/question.html', {
+        'questions': question,
+        'answers_forms': answer_forms
+    })
 
 
 @require_POST
 @teacher_required
 def confirm_answer(request, shortcut, year, question_id, answer_id):
-    pass
-
+    form = ConfirmAnswerForm(request.POST)
+    if form.is_valid():
+        pass
 
 @require_POST
 @teacher_required

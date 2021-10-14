@@ -5,11 +5,12 @@ from django.contrib.auth.models import Group
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import FormView
-from django.views.decorators.http import require_GET, require_POST
+from django.views.decorators.http import require_POST
 
-from .forms import UserCreationForm
+from .forms import FilterLeaderboardForm, UserCreationForm
 from .models import User, Karma
 from subjects.models import Subject
+from utils import get_unique_values
 
 
 class LoginView(auth_views.LoginView):
@@ -29,19 +30,25 @@ class SignUpView(FormView):
         return super().form_valid(form)
 
 
-@require_GET
 def leaderboard(request):
     subjects = Subject.objects.all()
-    years = subjects.group_by('year')
-    context = {'subjects': subjects, 'years': years}
+    years = get_unique_values(subjects, '-year')
+    shortcuts = get_unique_values(subjects, 'shortcut')
 
-    short_subject = request.GET.get('subject')
+    form = FilterLeaderboardForm(request.GET, shortcuts=shortcuts, years=years)
+    context = {'form': form}
+
+    shortcut = request.GET.get('shortcut')
     year = request.GET.get('year')
 
+    if shortcut == '--' or year == '--':
+        shortcut = None
+        year = None
+
     try:
-        subject = Subject.objects.get(shortcut=short_subject, year=year)
+        subject = Subject.objects.get(shortcut=shortcut, year=year)
     except Subject.DoesNotExist:
-        users = User.objects.all().order_by('-karma')
+        users = sorted(User.objects.all(), key=lambda user: user.karma, reverse=True)
         context.update({'users': users})
     else:
         sub_karma = Karma.objects.filter(subject=subject).order_by('-karma')

@@ -3,12 +3,12 @@
 {% block content %}
 <div class="container">
 	<h3> LEADER BOARD</h3>
-	<select class="form-select" aria-label="Default select example">
-		<option selected value="--">--</option>
-		{% for subject in subjects %}
-			<option value="{{ subject.shortcut }}">{{ subject.shortcut }}</option>
-		{% endfor %}
-	</select>
+	
+	<form class="p-5 border w-100" method="get" action="{% url 'leaderboard' %}">
+		{{ form.as_p }}
+		
+		<input class=" rounded border-0 bg-info text-white p-1" type="submit" value="hledat"/>
+	</form>
 	<ul class="list-group">
 		{% if users %}
 			{% for user in users %}

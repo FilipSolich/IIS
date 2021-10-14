@@ -27,8 +27,6 @@ class SignUpView(FormView):
         login(self.request, user)
         return super().form_valid()
 
-def leaderboardView(request):
-   return render(request,'accounts/leaderboard.html')
 
 @require_GET
 def leaderboard(request):

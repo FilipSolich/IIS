@@ -1,7 +1,8 @@
 """Import dummy data into DB"""
 
-from accounts.models import User
-from subjects.models import Subject
+from accounts.models import User, Karma
+from questions.models import Question, Answer, Reaction, Rating
+from subjects.models import Category, Subject, Registration
 
 def save(lst):
     for item in lst:
@@ -46,8 +47,11 @@ users.append(u9)
 u11 = User.objects.create(login='xsechr01',email='d.sechra@seznam.cz',first_name='David',last_name="Sechra")
 users.append(u11)
 
+save(users)
+
 
 subjects = []
+
 s1 = Subject.objects.create(name='Diskretní matematika', year ='2020', semester = 'winter', shortcut ='IDM', grade = 1, compulsory ='compulsory')
 subjects.append(s1)
 
@@ -105,10 +109,48 @@ subjects.append(s17)
 s19 = Subject.objects.create(name='Bezpečnost a počítačové sítě', year ='2020', semester = 'summer', shortcut ='IBS', grade = 2, compulsory ='uncompulsory' )
 subjects.append(s17)
 
-#SAVING....
-
-save(users)
 save(subjects)
 
 
+karma = []
 
+k1 = Karma.objects.create(karma=10, user=u1, subject=s1)
+karma.append(k1)
+
+k2 = Karma.objects.create(karma=15, user=u1, subject=s2)
+karma.append(k2)
+
+k3 = Karma.objects.create(karma=100, user=u1, subject=s3)
+karma.append(k3)
+
+k4 = Karma.objects.create(karma=20, user=u3, subject=s10)
+karma.append(k4)
+
+k5 = Karma.objects.create(karma=13, user=u4, subject=s11)
+karma.append(k5)
+
+k6 = Karma.objects.create(karma=2, user=u3, subject=s9)
+karma.append(k6)
+
+k7 = Karma.objects.create(karma=4, user=u2, subject=s8)
+karma.append(k7)
+
+k8 = Karma.objects.create(karma=15, user=u2, subject=s7)
+karma.append(k8)
+
+k9 = Karma.objects.create(karma=200, user=u5, subject=s6)
+karma.append(k9)
+
+k10 = Karma.objects.create(karma=5, user=u6, subject=s5)
+karma.append(k10)
+
+k11 = Karma.objects.create(karma=1, user=u8, subject=s2)
+karma.append(k11)
+
+k12 = Karma.objects.create(karma=99, user=u5, subject=s4)
+karma.append(k12)
+
+k13 = Karma.objects.create(karma=40, user=u3, subject=s12)
+karma.append(k13)
+
+save(karma)

@@ -8,7 +8,8 @@ from django.views.generic import FormView
 from django.views.decorators.http import require_GET, require_POST
 
 from .forms import UserCreationForm
-from .models import User
+from .models import User, Karma
+from subjects.models import Subject
 
 
 class LoginView(auth_views.LoginView):
@@ -28,17 +29,23 @@ class SignUpView(FormView):
         return super().form_valid(form)
 
 
-
 @require_GET
 def leaderboard(request):
-    subject_id = request.GET.get('subject')
-    if not subject_id:
+    subjects = Subject.objects.all()
+    years = subjects.group_by('year')
+    context = {'subjects': subjects, 'years': years}
+
+    short_subject = request.GET.get('subject')
+    year = request.GET.get('year')
+
+    try:
+        subject = Subject.objects.get(shortcut=short_subject, year=year)
+    except Subject.DoesNotExist:
         users = User.objects.all().order_by('-karma')
-        context = {'users': users}
+        context.update({'users': users})
     else:
-        subject = get_object_or_404(Subjects, pk=subject_id)
         sub_karma = Karma.objects.filter(subject=subject).order_by('-karma')
-        context = {'sub_karma': sub_karma}
+        context.update({'sub_karma': sub_karma})
 
     return render(request, 'accounts/leaderboard.html', context)
 

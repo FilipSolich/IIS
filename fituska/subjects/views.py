@@ -7,6 +7,7 @@ from accounts.decorators import teacher_required
 from .models import Subject
 from .forms import AddSubjectForm
 
+
 def list_subjects(request):
     ordered_subject_list = Subject.objects.all()
     return render(request, 'subjects/subjects.html', {'ordered_subject_list': ordered_subject_list})

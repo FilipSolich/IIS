@@ -16,8 +16,8 @@ class Subject(models.Model):
         winter = "zimní"
         summer = "letní"
 
-    name = models.CharField('Nazev předmětu', max_length=100, unique=True, null=True)
-    shortcut = models.CharField('Zkratka předmětu', max_length=6, unique=True, null=True, blank=False)
+    name = models.CharField('Nazev předmětu', max_length=100, null=True)
+    shortcut = models.CharField('Zkratka předmětu', max_length=6, null=True, blank=False)
     year = models.IntegerField('Rok', null=True)
     semester = models.CharField('Semestr', choices = type_semester.choices, max_length=20, null=True)
     grade = models.IntegerField('Ročník', null=True ,blank=False) #after database data change null to False !!! #TODO

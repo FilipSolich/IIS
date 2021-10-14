@@ -1,5 +1,7 @@
 """Import dummy data into DB"""
 
+from django.contrib.auth.models import Group
+
 from accounts.models import User, Karma
 from questions.models import Question, Answer, Reaction, Rating
 from subjects.models import Category, Subject, Registration

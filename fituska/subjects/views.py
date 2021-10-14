@@ -6,19 +6,23 @@ from django.views.decorators.http import require_POST
 from accounts.decorators import teacher_required
 from .models import Subject
 from .forms import AddSubjectForm
+from utils import get_unique_values
+
+
 
 
 def list_subjects(request):
     ordered_subject_list = Subject.objects.all()
-    return render(request, 'subjects/subjects.html', {'ordered_subject_list': ordered_subject_list})
+    return render(request, 'subjects/subjects.html',
+    {'ordered_subject_list': ordered_subject_list,
+    'ordered_grade_list': get_unique_values(ordered_subject_list,"grade"),
+    'ordered_semester_list': get_unique_values(ordered_subject_list,"semester")
+
+    })
 
 
 @login_required
 def create_subject(request):
-    pass
-
-@permission_required('subjects.can_confirm_subject')
-def new_subjects(request):
     if request.method == 'POST':
         form = AddSubjectForm(request.POST)
         if form.is_valid():
@@ -27,6 +31,11 @@ def new_subjects(request):
     else:
         form = AddSubjectForm()
     return render(request, 'subjects/new.html', {'form': form})
+
+
+@permission_required('subjects.can_confirm_subject')
+def new_subjects(request):
+    pass
 
 
 @permission_required('subjects.can_confirm_subject')

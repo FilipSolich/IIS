@@ -3,14 +3,8 @@
 {% block content %}
 
 <div class="container">
-	{% if user.is_authenticated %}
-	<div class="text-end"><a href="{% url 'logout' %}">Log-out</a></div>
-	{% else %}
-	<div class="text-end me-2"><a href="{% url 'login'%}"><i class="bi bi-people-fill text-info"
-				style="font-size: 35px;"></i></a></div>
-	{% endif %}
 	<div class="text-end me-2 mt-2 "><a class="text-decoration-none text-info" href="{% url 'leaderboard' %}">
-			LEADER-BOARD </a> </div>
+			ŽEBŘÍČEK </a> </div>
 </div>
 
 
@@ -25,102 +19,45 @@
 			<option value="2018">2018</option>
 		</select>
 	</div>
-	<h5 style="float: right;"><a href="subjects/new/">Přidat předmět</a></h5>
 
+	{% if user.is_authenticated %}
+
+	<h5 style="float: right;"><a href="subjects/">Přidat předmět</a></h5>
+	
+	{% endif %}
 	<div class="w-100 p-3">
-		<h4>1. ročník</h4>
+		{% for grade in ordered_grade_list %}
+		<h4>Ročník {{ grade }}.</h4>
 		<ul class="list-inline ">
+			{% for semester in  ordered_semester_list %}
 			<li class="list-inline-item border-0 w-75 mt-1">
-				<span class="text-info">Zimní</span>
+				{% if semester == 'winter' %}
+					<span class="text-info">{{ "Zimní" }}</span>
+				{% endif %}
+				{% if semester == 'summer' %}
+					<span class="text-warning">{{ "Letní" }}</span>
+				{% endif %}
+					
+				
 				<div class="">
 					<ul class="list-group w-100 mt-1">
 						{% for subject in ordered_subject_list %}
-						{% if subject.grade == 1 and subject.semester == 'zimní' %}
-						<li class="list-group-item"><a href="subjects/{{ subject.id }}"
-								style="text-decoration:none; color:black">{{ subject.name }}</a></li>
+						{% if subject.grade == grade and subject.semester == semester and subject.compulsory == 'compulsory' %}
+						<li class="list-group-item">
+							<a class="text-decoration-none text-dark" href="subjects/{{ subject.id }}">
+								{{ subject.name }}
+							</a>
+						</li>
 						{% endif %}
 						{% endfor %}
 					</ul>
 				</div>
 			</li>
-			<li class="list-inline-item border-0 w-75 mt-1 ">
-				<span class="text-warning">Letní</span>
-				<div class="">
-					<ul class="list-group w-100 mt-1">
-						{% for subject in ordered_subject_list %}
-						{% if subject.grade == 1 and subject.semester == 'letní' %}
-						<li class="list-group-item"><a href="subjects/{{ subject.id }}"
-								style="text-decoration:none; color:black">{{ subject.name }}</a></li>
-						{% endif %}
-						{% endfor %}
-					</ul>
-				</div>
-			</li>
+			{% endfor %}
 		</ul>
+		{% endfor %}
 	</div>
 
-	<div class="w-100 p-3">
-	<h4>2. ročník</h4>
-	<ul class="list-inline ">
-		<li class="list-inline-item border-0 w-75 mt-1">
-			<span class="text-info">Zimní</span>
-			<div class="">
-				<ul class="list-group w-100 mt-1">
-					{% for subject in ordered_subject_list %}
-					{% if subject.grade == 2 and subject.semester == 'zimní' %}
-					<li class="list-group-item"><a href="subjects/{{ subject.id }}"
-							style="text-decoration:none; color:black">{{ subject.name }}</a></li>
-					{% endif %}
-					{% endfor %}
-				</ul>
-			</div>
-		</li>
-		<li class="list-inline-item border-0 w-75 mt-1 ">
-			<span class="text-warning">Letní</span>
-			<div class="">
-				<ul class="list-group w-100 mt-1">
-					{% for subject in ordered_subject_list %}
-					{% if subject.grade == 2 and subject.semester == 'letní' %}
-					<li class="list-group-item"><a href="subjects/{{ subject.id }}"
-							style="text-decoration:none; color:black">{{ subject.name }}</a></li>
-					{% endif %}
-					{% endfor %}
-				</ul>
-			</div>
-			</li>
-		</ul>
-	</div>
-	<div class="w-100 p-3">
-		<h4>3. ročník</h4>
-		<ul class="list-inline ">
-			<li class="list-inline-item border-0 w-75 mt-1">
-				<span class="text-info">Zimní</span>
-				<div class="">
-					<ul class="list-group w-100 mt-1">
-						{% for subject in ordered_subject_list %}
-						{% if subject.grade == 3 and subject.semester == 'zimní' %}
-						<li class="list-group-item"><a href="subjects/{{ subject.id }}"
-								style="text-decoration:none; color:black">{{ subject.name }}</a></li>
-						{% endif %}
-						{% endfor %}
-					</ul>
-				</div>
-			</li>
-			<li class="list-inline-item border-0 w-75 mt-1 ">
-				<span class="text-warning">Letní</span>
-				<div class="">
-					<ul class="list-group w-100 mt-1">
-						{% for subject in ordered_subject_list %}
-						{% if subject.grade == 3 and subject.semester == 'letní' %}
-						<li class="list-group-item"><a href="subjects/{{ subject.id }}"
-								style="text-decoration:none; color:black">{{ subject.name }}</a></li>
-						{% endif %}
-						{% endfor %}
-					</ul>
-				</div>
-			</li>
-		</ul>
-	</div>
-</div>
-
+		
+	
 {% endblock %}

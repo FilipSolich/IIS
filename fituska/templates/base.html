@@ -42,10 +42,19 @@
 	</div>
 
 	<main class="container">
-		<div class="bg-white text-dark" style="height:80%">
-			<div class="vh-100">
-				<div class="border border-secondary" style="height:100%">
-					{% block content %}{% endblock %}
+		<div class="bg-white text-dark h-100">
+			<div class="">
+				<div class="border border-secondary" >
+						{% if user.is_authenticated %}
+					<div class="text-end"><a href="{% url 'logout' %}">Log-out</a></div>
+						{% else %}
+					<div class="text-end me-2"><a href="{% url 'login'%}"><i class="bi bi-people-fill text-info"
+						style="font-size: 35px;"></i></a></div>
+						{% endif %}
+
+					{% block content %}
+					{% endblock %}
+					
 				</div>
 			</div>
 		</div>

@@ -33,14 +33,8 @@ class SignUpView(FormView):
 
 def leaderboard(request):
     subjects = Subject.objects.all()
-<<<<<<< HEAD
-    years = subjects.values('year')
-    subjects = subjects.values('shortcut')
-    context = {'subjects': subjects, 'years': years}
-=======
     years = get_unique_values(subjects, '-year')
     shortcuts = get_unique_values(subjects, 'shortcut')
->>>>>>> 43d43812dcaf5723d14c45dfadaa2e308d5e851e
 
     form = FilterLeaderboardForm(request.GET, shortcuts=shortcuts, years=years)
     context = {'form': form}

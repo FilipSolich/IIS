@@ -21,9 +21,10 @@
 	</div>
 
 	{% if user.is_authenticated %}
-	<h5 style="float: right;"><a href="subjects/new/">Přidat předmět</a></h5>
-	{% endif %}
+
+	<h5 style="float: right;"><a href="subjects/">Přidat předmět</a></h5>
 	
+	{% endif %}
 	<div class="w-100 p-3">
 		{% for grade in ordered_grade_list %}
 		<h4>Ročník {{ grade }}.</h4>

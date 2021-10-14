@@ -23,11 +23,6 @@ def list_subjects(request):
 
 @login_required
 def create_subject(request):
-    pass
-
-
-@permission_required('subject.can_confirm_subject')
-def new_subjects(request):
     if request.method == 'POST':
         form = AddSubjectForm(request.POST)
         if form.is_valid():
@@ -36,6 +31,12 @@ def new_subjects(request):
     else:
         form = AddSubjectForm()
     return render(request, 'subjects/new.html', {'form': form})
+
+
+@permission_required('subject.can_confirm_subject')
+def new_subjects(request):
+    pass
+
 
 
 @permission_required('subject.can_confirm_subject')

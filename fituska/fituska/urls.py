@@ -9,7 +9,7 @@ def test_base(request):
     return render(request, "base.html")
 
 urlpatterns = [
-    path('', list_subjects,name='list_subjects'),
+    path('', list_subjects, name='list_subjects'),
     path('subjects/', include('subjects.urls')),
     path('accounts/', include('accounts.urls')),
     path('questions/', include('questions.urls')),

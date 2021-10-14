@@ -3,13 +3,29 @@
 {% block content %}
 <div class="container">
 	<h3> LEADER BOARD</h3>
-	<ul class="list-group">
-		{% for user in users %}
-			<li class="list-group-item d-flex justify-content-between align-items-center">
-				{{ user.login }}
-				<span class="badge bg-primary rounded-pill">{{ user.karma }}</span>
-			</li>
+	<select class="form-select" aria-label="Default select example">
+		<option selected value="--">--</option>
+		{% for subject in subjects %}
+			<option value="{{ subject.shortcut }}">{{ subject.shortcut }}</option>
 		{% endfor %}
+	</select>
+	<ul class="list-group">
+		{% if users %}
+			{% for user in users %}
+				<li class="list-group-item d-flex justify-content-between align-items-center">
+					{{ user.login }}
+					<span class="badge bg-primary rounded-pill">{{ user.karma }}</span>
+				</li>
+			{% endfor %}
+		{% endif %}
+		{% if sub_karma %}
+			{% for karma in sub_karma %}
+				<li class="list-group-item d-flex justify-content-between align-items-center">
+					{{ karma.user }}
+					<span class="badge bg-primary rounded-pill">{{ karma.karma }}</span>
+				</li>
+			{% endfor %}
+		{% endif %}
 	</ul>
 </div>
 {% endblock %}

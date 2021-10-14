@@ -8,4 +8,4 @@ class UserCreationForm(BaseUserCreationForm):
     class Meta:
 
         model = User
-        fields = ('email', 'first_name', 'last_name')
+        fields = ('email', 'login', 'first_name', 'last_name')

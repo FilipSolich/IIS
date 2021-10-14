@@ -4,8 +4,14 @@
 <div class="container">
     <div class="row text-left">
         <div class="col">
-            <h1>{{ subject.name }}</h1>
+            <h1>{{subject.shortcut}} - {{ subject.name }} ({{ subject.year }})</h1>
+            
+            <li>Semestr: {{ subject.semester }}</li>
+            <li>Ročník: {{ subject.grade }}.</li>
+            <li>{{ subject.compulsory }}</li>
+
         </div>
     </div>
 </div>
+
 {% endblock %}

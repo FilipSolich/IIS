@@ -16,7 +16,7 @@ class Subject(models.Model):
         winter = "zimní"
         summer = "letní"
 
-    name = models.CharField('Nazev předmětu', max_length=100, unique=True, null=True)
+    name = models.CharField('Nazev předmětu', max_length=100, null=True)
     shortcut = models.CharField('Zkratka předmětu', max_length=6, null=True, blank=False)
     year = models.IntegerField('Rok', null=True)
     semester = models.CharField('Semestr', choices = type_semester.choices, max_length=20, null=True)

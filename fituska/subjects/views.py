@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import response, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST
 from accounts.decorators import teacher_required
 from .models import Subject
 from .forms import AddSubjectForm
+
 
 def list_subjects(request):
     ordered_subject_list = Subject.objects.all()
@@ -17,7 +18,7 @@ def create_subject(request):
     pass
 
 
-@user_passes_test(lambda x: x.is_moderator or x.is_superuser)
+@permission_required('subject.can_confirm_subject')
 def new_subjects(request):
     if request.method == 'POST':
         form = AddSubjectForm(request.POST)
@@ -29,12 +30,12 @@ def new_subjects(request):
     return render(request, 'subjects/new.html', {'form': form})
 
 
-@user_passes_test(lambda x: x.is_moderator or x.is_superuser)
+@permission_required('subject.can_confirm_subject')
 def confirm_subject(request):
     pass
 
 
-@user_passes_test(lambda x: x.is_moderator or x.is_superuser)
+@permission_required('subject.can_confirm_subject')
 def reject_subject(request):
     pass
 

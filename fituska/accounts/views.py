@@ -13,7 +13,6 @@ from subjects.models import Subject
 from utils import get_unique_values
 
 
-
 class LoginView(auth_views.LoginView):
 
     template_name = 'accounts/login.html'

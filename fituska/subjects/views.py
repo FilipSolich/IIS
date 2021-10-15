@@ -3,21 +3,28 @@ from django.http import response, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
-from accounts.decorators import teacher_required
 from .models import Subject
-from .forms import AddSubjectForm
-from utils import get_unique_values
-
-
+from .forms import AddSubjectForm, FilterYearForm
+from accounts.decorators import teacher_required
+from utils import get_unique_values, get_current_school_years
 
 
 def list_subjects(request):
     ordered_subject_list = Subject.objects.all()
-    return render(request, 'subjects/subjects.html',
-    {'ordered_subject_list': ordered_subject_list,
-    'ordered_grade_list': get_unique_values(ordered_subject_list,"grade"),
-    'ordered_semester_list': get_unique_values(ordered_subject_list,"-semester")
+    years = get_unique_values(ordered_subject_list, '-year')
 
+    form = FilterYearForm(request.GET, years=years)
+
+    year = request.GET.get('year')
+    if not year or year == '--':
+        year = get_current_school_years()
+    ordered_subject_list = ordered_subject_list.filter(year=year)
+
+    return render(request, 'subjects/subjects.html', {
+        'ordered_subject_list': ordered_subject_list,
+        'ordered_grade_list': get_unique_values(ordered_subject_list,"grade"),
+        'ordered_semester_list': get_unique_values(ordered_subject_list,"-semester"),
+        'form': form,
     })
 
 

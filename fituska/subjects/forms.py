@@ -18,6 +18,6 @@ class FilterYearForm(forms.Form):
 
         super().__init__(*args, **kwargs)
 
-        years = [(year, year) for year in years]
+        years = [(year, f'{year}/{year+1}') for year in years]
         years.insert(0, ('--', '--'))
         self.fields['year'] = forms.ChoiceField(choices=years, required=False)

@@ -1,5 +1,17 @@
 from django import forms
 
+from .models import Question
+
+
+# TODO add category option
+class QuestionForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Question
+        fields = ['title', 'text', 'picture', 'category']
+
+
 class ConfirmAnswerForm(forms.Form):
 
     teacher_points = forms.IntegerField(initial=0)

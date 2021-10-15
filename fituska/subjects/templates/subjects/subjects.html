@@ -9,9 +9,14 @@
 
 
 <div class="container">
-
+	{% for comp in ordered_compulsory_list %}
 	<div class=" w-25 mt-1 mb-5 px-2">
-		<h2>Povinné</h2>
+		{% if comp == 'compulsory'  %}
+		<h2><span>{{ "Povinné" }}</span></h2>
+		{% endif %}
+		{% if comp == 'uncompulsory' %}
+		<h2><span>{{ "Nepovinné" }}</span></h2>
+		{% endif %}
 		<select class="form-select" size="3" aria-label="Default select example">
 			<option selected value="2021">2021</option>
 			<option value="2020">2020</option>
@@ -27,7 +32,10 @@
 	{% endif %}
 	<div class="w-100 p-3">
 		{% for grade in ordered_grade_list %}
-		<h4>Ročník {{ grade }}.</h4>
+			{% if comp == 'compulsory' %}
+				<h4>Ročník {{ grade }}.</h4>
+			{% endif %}
+
 		<ul class="list-inline ">
 			{% for semester in  ordered_semester_list %}
 			<li class="list-inline-item border-0 w-75 mt-1">
@@ -42,7 +50,7 @@
 				<div class="">
 					<ul class="list-group w-100 mt-1">
 						{% for subject in ordered_subject_list %}
-						{% if subject.grade == grade and subject.semester == semester and subject.compulsory == 'compulsory' %}
+								{% if subject.grade == grade and subject.semester == semester and subject.compulsory == comp %}
 						<li class="list-group-item">
 							<a class="text-decoration-none text-dark" href="subjects/{{ subject.id }}">
 								{{ subject.name }}
@@ -55,6 +63,7 @@
 			</li>
 			{% endfor %}
 		</ul>
+		{% endfor %}
 		{% endfor %}
 	</div>
 

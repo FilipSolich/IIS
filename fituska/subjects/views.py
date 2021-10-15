@@ -24,7 +24,8 @@ def list_subjects(request):
         'ordered_subject_list': ordered_subject_list,
         'ordered_grade_list': get_unique_values(ordered_subject_list,"grade"),
         'ordered_semester_list': get_unique_values(ordered_subject_list,"-semester"),
-        'form': form,
+        'ordered_compulsory_list': get_unique_values(ordered_subject_list,"compulsory"),
+        'form': form
     })
 
 

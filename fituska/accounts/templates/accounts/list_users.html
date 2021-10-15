@@ -13,6 +13,13 @@
 					<input class="rounded border-0 bg-info text-white p-1 btn-danger" type="submit" value="Odebrat"/>
 				</form>
 			</span>
+			<span class="badge bg-primary rounded-pill">
+				<form method="post" action="{% url 'delete_user' %}">
+					{% csrf_token %}
+					<input type="hidden" name="user_id" value="{{ mod.id }}">
+					<input class="rounded border-0 bg-info text-white p-1 btn-danger" type="submit" value="Odstranit u6ivatele"/>
+				</form>
+			</span>
 		</li>
 	{% endfor %}
 	</ul>
@@ -26,6 +33,13 @@
 					{% csrf_token %}
 					<input type="hidden" name="user_id" value="{{ user.id }}">
 					<input class="rounded border-0 bg-info text-white p-1 btn-primary" type="submit" value="Přidat"/>
+				</form>
+			</span>
+			<span class="badge bg-primary rounded-pill">
+				<form method="post" action="{% url 'delete_user' %}">
+					{% csrf_token %}
+					<input type="hidden" name="user_id" value="{{ user.id }}">
+					<input class="rounded border-0 bg-info text-white p-1 btn-danger" type="submit" value="Odstranit u6ivatele"/>
 				</form>
 			</span>
 		</li>

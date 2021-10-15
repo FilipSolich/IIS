@@ -17,7 +17,6 @@ class FilterLeaderboardForm(FilterYearForm):
 
     def __init__(self, *args, **kwargs):
         shortcuts = kwargs.pop('shortcuts')
-        #years = kwargs.pop('years')
 
         super().__init__(*args, **kwargs)
 

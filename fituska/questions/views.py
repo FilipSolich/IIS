@@ -19,10 +19,10 @@ def list_questions(request, shortcut, year):
 def add_question(request, shortcut, year):
     subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
     if request.method == 'POST':
-        form = QuestionForm(request.POST)
+        form = QuestionForm(request.POST, request.FILES)
         if form.is_valid():
             question = form.save(commit=False)
-            question.user = reqeust.user
+            question.user = request.user
             question.subject = subject
             question.save()
 
@@ -30,7 +30,7 @@ def add_question(request, shortcut, year):
     else:
         form = QuestionForm()
 
-    return render(request, 'questions/add_question.html', {'form': form})
+    return render(request, 'questions/add_question.html', {'form': form, 'subject': subject})
 
 
 def detail_question(request, shortcut, year, question_id):

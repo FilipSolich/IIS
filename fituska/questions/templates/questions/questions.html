@@ -1,2 +1,10 @@
 {% extends 'base.html' %}
 
+{% block content %}
+    {% for question in questions %}
+        {{ question.title }}
+        {% if question.picture %}
+            <img src="{{ question.picture.url }}">
+        {% endif %}
+    {% endfor %}
+{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form method="post" action="{% url 'add_question' %}">
+    <form method="post" enctype="multipart/form-data" action="{% url 'add_question' subject.shortcut subject.year %}">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Zeptat se">

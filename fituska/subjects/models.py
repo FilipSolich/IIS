@@ -8,11 +8,14 @@ class Category(models.Model):
 
 
 class Subject(models.Model):
+
     class choice_compulsory(models.TextChoices):
+
         compulsory = 'povinný'
         uncompulsory = 'nepovinný'
 
     class type_semester(models.TextChoices):
+
         winter = "zimní"
         summer = "letní"
 
@@ -22,11 +25,12 @@ class Subject(models.Model):
     semester = models.CharField('Semestr', choices = type_semester.choices, max_length=20, null=True)
     grade = models.IntegerField('Ročník', null=True, blank=False) #after database data change null to False !!! #TODO
     compulsory = models.CharField(max_length=20, choices=choice_compulsory.choices, default=choice_compulsory.uncompulsory)
-    confirmed = models.BooleanField(default=False)
-    
+    confirmed = models.BooleanField(null=True, default=None)
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
+
         permissions = (
             ('can_confirm_subject', 'Can confirm subject'),
         )

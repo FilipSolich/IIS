@@ -3,17 +3,33 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
 
-from .forms import QuestionForm, ConfirmAnswerForm
+from .forms import QuestionForm, ConfirmAnswerForm, FilterCategoryForm
 from .models import Answer, Question, Rating
 from accounts.decorators import teacher_required
-from subjects.models import Subject
+from subjects.models import Category, Subject
 
 
-# TODO Dodelat vyhledavani
 def list_questions(request, shortcut, year):
     subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
-    questions = Question.objects.filter(subject=subject)
-    return render(request, 'questions/questions.html', {'questions': questions})
+    category_form = FilterCategoryForm(request.GET, subject=subject)
+
+    category_id = request.GET.get('category')
+
+    if category_id == '--':
+        category_id = None
+
+    try:
+        category = Category.objects.get(pk=category_id)
+    except Category.DoesNotExist:
+        questions = Question.objects.filter(subject=subject)
+    else:
+        questions = Question.objects.filter(subject=subject, category=category)
+
+
+    return render(request, 'questions/questions.html', {
+        'questions': questions,
+        'category_form': category_form
+    })
 
 
 def add_question(request, shortcut, year):
@@ -28,7 +44,7 @@ def add_question(request, shortcut, year):
 
             return redirect('questions', shortcut, year)
     else:
-        form = QuestionForm()
+        form = QuestionForm(subject=subject)
 
     return render(request, 'questions/add_question.html', {'form': form, 'subject': subject})
 
@@ -39,6 +55,7 @@ def detail_question(request, shortcut, year, question_id):
     answers_forms = [
         (answer, ConfirmAnswerForm(inittial={'answer_id': answer.id})) for answer in answers
     ]
+
     return render(request, 'questions/question.html', {
         'questions': question,
         'answers_forms': answer_forms
@@ -48,12 +65,14 @@ def detail_question(request, shortcut, year, question_id):
 def add_answer(request, shortcut, year, question_id):
     pass
 
+
 @require_POST
 @teacher_required
 def confirm_answer(request, shortcut, year, question_id, answer_id):
     form = ConfirmAnswerForm(request.POST)
     if form.is_valid():
         pass
+
 
 @require_POST
 @teacher_required

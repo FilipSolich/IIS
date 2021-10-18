@@ -6,7 +6,7 @@ from django.views.decorators.http import require_POST
 from .models import Subject
 from .forms import AddSubjectForm, FilterYearForm
 from accounts.decorators import teacher_required
-from utils import get_unique_values, get_current_school_years
+from utils import get_unique_values, get_current_school_year
 
 
 def list_subjects(request):
@@ -17,7 +17,7 @@ def list_subjects(request):
 
     year = request.GET.get('year')
     if not year or year == '--':
-        year = get_current_school_years()
+        year = get_current_school_year()
     ordered_subject_list = ordered_subject_list.filter(year=year)
 
     return render(request, 'subjects/subjects.html', {

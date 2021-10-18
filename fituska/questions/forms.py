@@ -1,10 +1,19 @@
 from django import forms
 
 from .models import Question
+from subjects.models import Category
 
 
-# TODO add category option
 class QuestionForm(forms.ModelForm):
+
+    def __init__(*args, **kwargs):
+        subject = kwargs.pop('subject')
+
+        super().__init__(*args, **kwargs)
+
+        self.fields['category'] = forms.ModelChoiceField(
+            queryset=Category.objects.filter(subject=subject)
+        )
 
     class Meta:
 
@@ -23,3 +32,17 @@ class ConfirmAnswerForm(forms.Form):
             raise ValidationError('Body musí být kladné číslo.')
 
         return value
+
+
+class FilterCategoryForm(forms.Form):
+
+    def __init__(*args, **kwargs):
+        subject = kwargs.pop('subject')
+
+        super().__init__(*args, **kwargs)
+
+        category = [
+            (category.id, category.name) for category in Category.objects.firlter(subject=subject)
+        ]
+        category.insert(0, ('--', '--'))
+        self.fields['category'] = forms.ChoiceField(choices=category, required=False)

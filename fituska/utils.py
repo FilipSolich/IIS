@@ -1,5 +1,7 @@
 """Project handy functions"""
+
 from datetime import datetime
+
 
 def get_unique_values(queryset, key):
     queryset = queryset.order_by(key)
@@ -10,7 +12,7 @@ def get_unique_values(queryset, key):
     return list(dict.fromkeys(multiple_values))
 
 
-def get_current_school_years():
+def get_current_school_year():
     date = datetime.today()
     if 1 < date.month < 8:
         return date.year - 1

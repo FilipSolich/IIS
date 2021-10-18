@@ -22,13 +22,13 @@
 			<div class="h-100" type="text" placeholder="xxlogin00"> {{ form.login }} </div>
 
 			<label class="pt-4">Heslo</label>
-			<div class=""type="password" id="password" name="password" placeholder="vaše heslo"> {{ form.password1 }} </div>
+			<div class=""type="password" id="password" name="password" onchange="check_pass();" placeholder="vaše heslo"> {{ form.password1 }} </div>
 			<label class=" pt-2">Zadejte znova heslo </label>
 			<div class="" type="password" id="password2" name="password2" placeholder="vaše heslo"  onchange="check_pass();"> {{ form.password2 }} </div>
 			<span id='msg'> </span>
 			<div class="d-flex justify-content-end mt-2 w-75">
-				<input class=" rounded border-0 bg-info text-white p-1" type="submit" value="Registration" />
-				<input class="" type="hidden" name="next" id="submit" value="{{ next }}" />
+				<input class=" rounded border-0 bg-info text-white p-1" id="submit" type="submit" value="Registration" />
+				<input class="" type="hidden" name="next"  value="{{ next }}" />
 			</div>
 		</div>
 	</form>

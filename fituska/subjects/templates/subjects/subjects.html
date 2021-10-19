@@ -9,6 +9,9 @@
 
 
 <div class="container">
+	<div>
+		<span pt-2>{{ form.as_p}} </span>
+	</div>
 	{% for comp in ordered_compulsory_list %}
 	<div class=" w-25 mt-1 mb-5 px-2">
 		{% if comp == 'compulsory'  %}
@@ -17,12 +20,7 @@
 		{% if comp == 'uncompulsory' %}
 		<h2><span>{{ "Nepovinné" }}</span></h2>
 		{% endif %}
-		<select class="form-select" size="3" aria-label="Default select example">
-			<option selected value="2021">2021</option>
-			<option value="2020">2020</option>
-			<option value="2019">2019</option>
-			<option value="2018">2018</option>
-		</select>
+
 	</div>
 
 	{% if user.is_authenticated %}

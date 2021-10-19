@@ -143,3 +143,65 @@ r12 = Registration.objects.create(confirmed=False, user=u5, subject=s10)
 registrations.append(r12)
 
 save(registrations)
+
+
+categories = []
+
+c1 = Category.objects.create(name="Semestralni zkouska", subject=s1)
+categories.append(c1)
+
+c2 = Category.objects.create(name="Pulsemestralni zkouska", subject=s1)
+categories.append(c2)
+
+c3 = Category.objects.create(name="1. projekt", subject=s1)
+categories.append(c3)
+
+c4 = Category.objects.create(name="Semestralni zkouska", subject=s2)
+categories.append(c4)
+
+c5 = Category.objects.create(name="Pulsemestralni zkouska", subject=s2)
+categories.append(c5)
+
+c6 = Category.objects.create(name="Cviceni 1", subject=s2)
+categories.append(c6)
+
+c7 = Category.objects.create(name="Semestralni zkouska", subject=s3)
+categories.append(c7)
+
+c8 = Category.objects.create(name="1. projekt", subject=s4)
+categories.append(c8)
+
+c9 = Category.objects.create(name="2. projekt", subject=s4)
+categories.append(c9)
+
+c10 = Category.objects.create(name="Semestralni zkouska", subject=s5)
+categories.append(c10)
+
+c11 = Category.objects.create(name="Cviceni 1", subject=s5)
+categories.append(c11)
+
+c12 = Category.objects.create(name="Cviceni 2", subject=s5)
+categories.append(c12)
+
+c13 = Category.objects.create(name="Semestralni zkouska", subject=s6)
+categories.append(c13)
+
+c14 = Category.objects.create(name="Pulsemestralni zkouska", subject=s7)
+categories.append(c14)
+
+c15 = Category.objects.create(name="Semestralni zkouska", subject=s7)
+categories.append(c15)
+
+c16 = Category.objects.create(name="Semestralni zkouska", subject=s8)
+categories.append(c16)
+
+c17 = Category.objects.create(name="Semestralni zkouska", subject=s9)
+categories.append(c17)
+
+c18 = Category.objects.create(name="Semestralni zkouska", subject=s10)
+categories.append(c18)
+
+c19 = Category.objects.create(name="Pulsemestralni zkouska", subject=s10)
+categories.append(c19)
+
+save(categories)

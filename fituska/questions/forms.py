@@ -6,7 +6,7 @@ from subjects.models import Category
 
 class QuestionForm(forms.ModelForm):
 
-    def __init__(*args, **kwargs):
+    def __init__(self, *args, **kwargs):
         subject = kwargs.pop('subject')
 
         super().__init__(*args, **kwargs)
@@ -36,7 +36,7 @@ class ConfirmAnswerForm(forms.Form):
 
 class FilterCategoryForm(forms.Form):
 
-    def __init__(*args, **kwargs):
+    def __init__(self, *args, **kwargs):
         subject = kwargs.pop('subject')
 
         super().__init__(*args, **kwargs)

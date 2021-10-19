@@ -22,4 +22,4 @@ class FilterLeaderboardForm(FilterYearForm):
 
         shortcuts = [(shortcut, shortcut) for shortcut in shortcuts]
         shortcuts.insert(0, ('--', '--'))
-        self.fields['shortcut'] = forms.ChoiceField(choices=shortcuts, required=False)
+        self.fields['shortcut'] = forms.ChoiceField(choices=shortcuts, required=False, label='Zkratka')

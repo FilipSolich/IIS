@@ -25,8 +25,8 @@ def list_questions(request, shortcut, year):
     else:
         questions = Question.objects.filter(subject=subject, category=category)
 
-
     return render(request, 'questions/questions.html', {
+        'subject_info': subject,
         'questions': questions,
         'category_form': category_form
     })
@@ -63,6 +63,10 @@ def detail_question(request, shortcut, year, question_id):
 
 
 def add_answer(request, shortcut, year, question_id):
+    pass
+
+
+def add_reaction(request, shortcut, year, question_id, answer_id):
     pass
 
 

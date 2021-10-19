@@ -10,3 +10,7 @@ body{
 .my_dropdown{
 	display: none !important;
 }
+
+#inner:empty ~ #outer {
+    display: none !important;
+}

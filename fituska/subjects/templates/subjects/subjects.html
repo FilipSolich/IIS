@@ -9,8 +9,12 @@
 
 
 <div class="container">
-	<div>
-		<span pt-2>{{ form.as_p}} </span>
+		<div class="w-25 mb-5 ms-5">
+		<form>
+			<label>Rok</label>
+			<div class="pt-2">{{ form.year }} </div>
+			<input class=" rounded border-0 bg-info text-white p-2 mt-3"  type="submit" value="hledat"/>
+		</form>
 	</div>
 	{% for comp in ordered_compulsory_list %}
 	<div class=" w-25 mt-1 mb-5 px-2">
@@ -28,7 +32,7 @@
 	<h5 style="float: right;"><a href="subjects/">Přidat předmět</a></h5>
 	
 	{% endif %}
-	<div class="w-100 p-3">
+	<div class="w-100 p-3 mt-5">
 		{% for grade in ordered_grade_list %}
 			{% if comp == 'compulsory' %}
 				<h4>Ročník {{ grade }}.</h4>
@@ -38,14 +42,14 @@
 			{% for semester in  ordered_semester_list %}
 			<li class="list-inline-item border-0 w-75 mt-1">
 				{% if semester == 'winter' %}
-					<span class="text-info">{{ "Zimní" }}</span>
+							<span class="text-info">Zimní</span>
 				{% endif %}
+
 				{% if semester == 'summer' %}
-					<span class="text-warning">{{ "Letní" }}</span>
+					<span class="text-warning" id="outer">Letní</span>
 				{% endif %}
-					
-				
-				<div class="">
+		
+				<div id="inner">
 					<ul class="list-group w-100 mt-1">
 						{% for subject in ordered_subject_list %}
 								{% if subject.grade == grade and subject.semester == semester and subject.compulsory == comp %}
@@ -65,6 +69,6 @@
 		{% endfor %}
 	</div>
 
-		
+
 	
 {% endblock %}

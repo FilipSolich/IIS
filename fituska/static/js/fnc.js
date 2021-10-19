@@ -1,5 +1,4 @@
 
-
 function check_pass()
 {
 	if ( document.getElementById('id_password2').value != document.getElementById('id_password1').value ){
@@ -13,3 +12,10 @@ function check_pass()
 		document.getElementById('submit').style.display = 'block';
 	}
 }
+$( document ).ready(function() {
+	console.log("document loaded");
+	if ($('#inner').is(':empty') ){
+		document.getElementById('outer').style.display = 'none';
+	}
+
+});

@@ -20,6 +20,16 @@ def list_subjects(request):
         year = get_current_school_year()
     ordered_subject_list = ordered_subject_list.filter(year=year)
 
+    comp = []
+    uncomp = []
+    for subj in ordered_subject_list:
+        if subj.compulsory == "compulsory":
+            comp.append(subj)
+        else:
+            uncomp.append(subj)
+
+
+
     return render(request, 'subjects/subjects.html', {
         'ordered_subject_list': ordered_subject_list,
         'ordered_grade_list': get_unique_values(ordered_subject_list,"grade"),

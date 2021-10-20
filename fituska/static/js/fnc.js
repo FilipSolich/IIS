@@ -12,10 +12,12 @@ function check_pass()
 		document.getElementById('submit').style.display = 'block';
 	}
 }
-$( document ).ready(function() {
+$(document).ready(function() {
 	console.log("document is ready");
-	if ($('#inner').is(':empty') ){
-		document.getElementById('outer').style.display = 'none';
+	if (  $('.inner').html()!="" ){
+		console.log("div is 0");
 	}
+
+	
 
 });

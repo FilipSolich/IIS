@@ -49,17 +49,20 @@
 					<div class="text-warning" id="outer">Letní</div>
 				{% endif %}
 		
-				<div id="inner">
+				<div >
 					<ul class="list-group w-100 mt-1">
+						<span class="inner">
 						{% for subject in ordered_subject_list %}
 								{% if subject.grade == grade and subject.semester == semester and subject.compulsory == comp %}
 						<li class="list-group-item">
 							<a class="text-decoration-none text-dark" href="{% url 'questions' subject.shortcut subject.year %}">
+								
 								{{ subject.name }}
 							</a>
 						</li>
 						{% endif %}
 						{% endfor %}
+					</span>
 					</ul>
 				</div>
 			</li>

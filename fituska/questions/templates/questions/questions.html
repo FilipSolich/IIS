@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container ms-5">
     <div class="row text-left">
         <div class="col">
             <h1>{{subject.shortcut}} - {{ subject.name }} ({{ subject.year }})</h1>
@@ -23,19 +23,34 @@
      				<td>{{ subject.grade }}</td>
 
      				{% if subject.compulsory == "compulsory" %}
-     					<td class="tetx-danger">Ano</td>
+     					<td class="text-danger">Ano</td>
      				{% else %}
-     					<td class="tetx-danger">Ne</td>
+     					<td class="">Ne</td>
      				{% endif %}
   				</tr>
 
 			</table>
 		</div>
 			<form>
-			{{ category_form.as_p }}
+				<label> Kategorie: </label>
+				<label>{{ category_form.category }}</label>
 				<input class="rounded border-0 bg-info text-white p-1 mt-3 mb-2 mx-2" type="submit" value="Hledej!"/>
-				<input class="" type="hidden" name="next" value="{{ next }}"/>
 			<form>
+
+			<div class="mt-5 mb-5">
+				{% for q in questions%}
+				{% if forloop.first %}
+					<h5> Otázky:  </h5>
+				{% endif %}
+					<div class="border w-75 mt-2 p-2"> 
+						<b><p class="px-2">{{ q.title }}</p></b>
+						<p class="ps-5" style="font-size: 12px;"> {{ q.text }} </p>
+						<button class="rounded border-0 bg-info text-white p-1 mt-3 mb-2 mx-2" href="url 'add_answer' subject.shortcut subject.year question.question_id "> Přidat odpověď </button>
+					</div>
+				{% endfor %}
+				
+				
+			</div>
 
 		</div> 
     </div>

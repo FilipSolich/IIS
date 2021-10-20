@@ -46,7 +46,7 @@ class FilterCategoryForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         category = [
-            (category.id, category.name) for category in Category.objects.firlter(subject=subject)
+            (category.id, category.name) for category in Category.objects.filter(subject=subject)
         ]
         category.insert(0, ('--', '--'))
         self.fields['category'] = forms.ChoiceField(choices=category, required=False)

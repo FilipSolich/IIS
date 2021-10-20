@@ -42,11 +42,11 @@
 			{% for semester in  ordered_semester_list %}
 			<li class="list-inline-item border-0 w-75 mt-1">
 				{% if semester == 'winter' %}
-							<span class="text-info">Zimní</span>
+							<div class="text-info" id="outer">Zimní</div>
 				{% endif %}
 
 				{% if semester == 'summer' %}
-					<span class="text-warning" id="outer">Letní</span>
+					<div class="text-warning" id="outer">Letní</div>
 				{% endif %}
 		
 				<div id="inner">
@@ -54,7 +54,7 @@
 						{% for subject in ordered_subject_list %}
 								{% if subject.grade == grade and subject.semester == semester and subject.compulsory == comp %}
 						<li class="list-group-item">
-							<a class="text-decoration-none text-dark" href="subjects/{{ subject.id }}">
+							<a class="text-decoration-none text-dark" href="{% url 'questions' subject.shortcut subject.year %}">
 								{{ subject.name }}
 							</a>
 						</li>

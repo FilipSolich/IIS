@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
 
-from .forms import QuestionForm, ConfirmAnswerForm, FilterCategoryForm
+from .forms import AnswerForm, QuestionForm, ConfirmAnswerForm, FilterCategoryForm
 from .models import Answer, Question, Rating
 from accounts.decorators import teacher_required
 from subjects.models import Category, Subject
@@ -63,7 +63,20 @@ def detail_question(request, shortcut, year, question_id):
 
 
 def add_answer(request, shortcut, year, question_id):
-    pass
+    question = get_object_or_404(Question, pk=question_id)
+    if request.method == 'POST':
+        form = AnswerForm(request.POST, request.FILES)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.user = request.user
+            answer.question = question
+            answer.save()
+
+            return redirect('question', shortcut, year, question_id)
+    else:
+        form = AnswerForm()
+
+    return render(request, 'questions/add_answer.html', {'form': form, 'question': question})
 
 
 def add_reaction(request, shortcut, year, question_id, answer_id):

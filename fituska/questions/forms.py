@@ -21,6 +21,10 @@ class QuestionForm(forms.ModelForm):
         fields = ['title', 'text', 'picture', 'category']
 
 
+class AnswerForm(forms.ModelForm):
+    pass
+
+
 class ConfirmAnswerForm(forms.Form):
 
     teacher_points = forms.IntegerField(initial=0)

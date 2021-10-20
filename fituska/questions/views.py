@@ -26,7 +26,7 @@ def list_questions(request, shortcut, year):
         questions = Question.objects.filter(subject=subject, category=category)
 
     return render(request, 'questions/questions.html', {
-        'subject_info': subject,
+        'subject': subject,
         'questions': questions,
         'category_form': category_form
     })

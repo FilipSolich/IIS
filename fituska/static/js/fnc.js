@@ -13,7 +13,7 @@ function check_pass()
 	}
 }
 $( document ).ready(function() {
-	console.log("document loaded");
+	console.log("document is ready");
 	if ($('#inner').is(':empty') ){
 		document.getElementById('outer').style.display = 'none';
 	}

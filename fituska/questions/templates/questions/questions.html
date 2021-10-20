@@ -1,10 +1,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {% for question in questions %}
-        {{ question.title }}
-        {% if question.picture %}
-            <img src="{{ question.picture.url }}">
-        {% endif %}
-    {% endfor %}
+
+<div class="container">
+    <div class="row text-left">
+        <div class="col">
+            <h1>{{subject.shortcut}} - {{ subject.name }} ({{ subject.year }})</h1>
+            <div class="w-50">
+	         <table class="table">
+  				<tr>
+   					<th scope="col">Semester</th>
+    				<th scope="col">Ročník</th>
+    				<th scope="col">Povinný </th>
+  				</tr>
+  				<tr>
+  					{% if subject.semester == "winter"%}
+    					<td class="text-info">Zimní</td>
+    				{% else %}
+    					<td class="text-warning">Letní</td>
+    				{% endif %}
+
+     				<td>{{ subject.grade }}</td>
+
+     				{% if subject.compulsory == "compulsory" %}
+     					<td class="tetx-danger">Ano</td>
+     				{% else %}
+     					<td class="tetx-danger">Ne</td>
+     				{% endif %}
+  				</tr>
+
+			</table>
+		</div>
+			<form>
+			{{ category_form.as_p }}
+				<input class="rounded border-0 bg-info text-white p-1 mt-3 mb-2 mx-2" type="submit" value="Hledej!"/>
+				<input class="" type="hidden" name="next" value="{{ next }}"/>
+			<form>
+
+		</div> 
+    </div>
+</div>
+
 {% endblock %}

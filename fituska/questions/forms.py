@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Question
+from .models import Answer, Question
 from subjects.models import Category
 
 
@@ -22,7 +22,11 @@ class QuestionForm(forms.ModelForm):
 
 
 class AnswerForm(forms.ModelForm):
-    pass
+
+    class Meta:
+
+        model = Answer
+        fields = ['text', 'picture']
 
 
 class ConfirmAnswerForm(forms.Form):

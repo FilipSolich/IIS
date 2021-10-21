@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .forms import AnswerForm, QuestionForm, ConfirmAnswerForm, FilterCategoryForm
@@ -57,21 +58,27 @@ def detail_question(request, shortcut, year, question_id, form=None):
         (answer, ConfirmAnswerForm(inittial={'answer_id': answer.id})) for answer in answers
     ]
 
+    try:
+        user_answer = Answer.objects.get(question=question, user=request.user)
+    except Answer.DoesNotExist:
+        user_answer = False
+
     if form:
-        question_form = form
-    elif Answer.objects.get(question=question, user=request.user):
-        question_form = None
+        answer_form = form
+    elif request.user.is_anonymous or user_answer:
+        answer_form = None
     else:
-        question_form = QuestionForm()
+        answer_form = AnswerForm()
 
     return render(request, 'questions/question.html', {
         'question': question,
-        'answers': answer_and_forms,
-        'question_form': question_form,
+        'answers': answers_and_forms,
+        'answer_form': answer_form,
     })
 
 
 @require_POST
+@login_required
 def add_answer(request, shortcut, year, question_id):
     if Answer.objects.get(question=question, user=request.user):
         return HttpResponseBadRequest()
@@ -106,6 +113,7 @@ def reject_answer(request, shortcut, year, question_id, answer_id):
     pass
 
 
+@csrf_exempt
 @require_POST
 @login_required
 def rate_answer(request, shortcut, year, question_id, answer_id):

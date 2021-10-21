@@ -29,7 +29,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def is_moderator(self):
-        return self.groups.filter(name='Moderators').exists()
+        return True if self.groups.get(name='Moderators') else False
+
+    @property
+    def is_teacher(self, subject):
+        return subject.user == self
 
 
 class Karma(models.Model):

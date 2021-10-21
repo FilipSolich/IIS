@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.http import require_POST
 
@@ -49,34 +49,43 @@ def add_question(request, shortcut, year):
     return render(request, 'questions/add_question.html', {'form': form, 'subject': subject})
 
 
-def detail_question(request, shortcut, year, question_id):
+def detail_question(request, shortcut, year, question_id, form=None):
     question = get_object_or_404(Question, pk=question_id)
     answers = Answer.objects.filter(question=question)
-    answers_forms = [
+
+    answers_and_forms = [
         (answer, ConfirmAnswerForm(inittial={'answer_id': answer.id})) for answer in answers
     ]
 
+    if form:
+        question_form = form
+    elif Answer.objects.get(question=question, user=request.user):
+        question_form = None
+    else:
+        question_form = QuestionForm()
+
     return render(request, 'questions/question.html', {
         'questions': question,
-        'answers_forms': answer_forms
+        'answers': answer_and_forms,
+        'question_form': question_form,
     })
 
 
+@require_POST
 def add_answer(request, shortcut, year, question_id):
+    if Answer.objects.get(question=question, user=request.user):
+        return HttpResponseBadRequest()
+
     question = get_object_or_404(Question, pk=question_id)
-    if request.method == 'POST':
-        form = AnswerForm(request.POST, request.FILES)
-        if form.is_valid():
-            answer = form.save(commit=False)
-            answer.user = request.user
-            answer.question = question
-            answer.save()
+    form = AnswerForm(request.POST, request.FILES)
+    if form.is_valid():
+        answer = form.save(commit=False)
+        answer.user = request.user
+        answer.question = question
+        answer.save()
+        return redirect('question', shortcut, year, question_id)
 
-            return redirect('question', shortcut, year, question_id)
-    else:
-        form = AnswerForm()
-
-    return render(request, 'questions/add_answer.html', {'form': form, 'question': question})
+    return redirect('question', shortcut, year, question_id, form=form)
 
 
 def add_reaction(request, shortcut, year, question_id, answer_id):

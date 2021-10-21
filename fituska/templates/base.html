@@ -36,9 +36,8 @@
 			<div class="row mb-5 mt-2">
 				<div class="col-sm-5"> </div>
 				<div class="col-sm-6">
-					<h2> <a class="text-dark text-decoration-none" href="{% url 'list_subjects' %}">FITUSKA !!!</a></h2>
+					<h2><a class="text-dark text-decoration-none" href="{% url 'list_subjects' %}">FITUSKA !!!</a></h2>
 				</div>
-				
 			</div>
 		</header>
 	</div>
@@ -47,16 +46,20 @@
 		<div class="bg-white text-dark h-100">
 			<div class="">
 				<div class="border border-secondary" >
-						{% if user.is_authenticated %}
-					<div class="text-end"><a href="{% url 'logout' %}">Log-out</a></div>
-						{% else %}
-					<div class="text-end me-2"><a href="{% url 'login'%}"><i class="bi bi-people-fill text-info"
-						style="font-size: 35px;"></i></a></div>
-						{% endif %}
+					{% if user.is_authenticated %}
+						<div class="text-end">
+							<a href="{% url 'logout' %}">Log-out</a>
+						</div>
+					{% else %}
+						<div class="text-end me-2">
+							<a href="{% url 'login'%}">
+								<i class="bi bi-people-fill text-info" style="font-size: 35px;"></i>
+							</a>
+						</div>
+					{% endif %}
 
 					{% block content %}
 					{% endblock %}
-					
 				</div>
 			</div>
 		</div>

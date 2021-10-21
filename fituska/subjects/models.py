@@ -3,7 +3,6 @@ from django.db import models
 from accounts.models import User
 
 
-
 class Subject(models.Model):
 
     class choice_compulsory(models.TextChoices):
@@ -43,6 +42,9 @@ class Registration(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
+
 class Category(models.Model):
+
     name = models.CharField('category_name', max_length=100, null=True)
+
     subject = models.ForeignKey(Subject, default=None, on_delete=models.CASCADE)

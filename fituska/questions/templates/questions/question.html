@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+	<div> <a class="text-decoration-none text-info" href="{% url 'questions' question.subject.shortcut question.subject.year %}"> ZPĚT</a> </div>
+	<div class="m-5"> <h6> <span> Předmět: </span> <span class="text-muted"> {{ question.subject.name }} </span></h6	> </div>
+	<div class="m-5">
+	<h3>{{ question.title }}</h3>
+	<p class="mx-5">{{ question.text}} </p>
+	<p> {{ question.picture}} </p>
+	</div>
+</div>
+
+<div class="container m-5">
+	<h6>Odpověď</h6>
+	<form>
+
+	</form>
+</div>
+
+{% endblock %}

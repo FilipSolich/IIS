@@ -57,8 +57,8 @@ def detail_question(request, shortcut, year, question_id):
     ]
 
     return render(request, 'questions/question.html', {
-        'questions': question,
-        'answers_forms': answer_forms
+        'question': question,
+        'answers_forms': answers_forms
     })
 
 

@@ -43,9 +43,9 @@
 					<h5> Otázky:  </h5>
 				{% endif %}
 					<div class="border w-75 mt-2 p-2"> 
-						<b><p class="px-2">{{ q.title }}</p></b>
+						<p class="px-2"><a class="text-decoration-none text-info" href="{% url 'question' subject.shortcut subject.year q.id %}">{{ q.title }}</a></p>
 						<p class="ps-5" style="font-size: 12px;"> {{ q.text }} </p>
-						<button class="rounded border-0 bg-info text-white p-1 mt-3 mb-2 mx-2" href="url 'add_answer' subject.shortcut subject.year question.question_id "> Přidat odpověď </button>
+						
 					</div>
 				{% endfor %}
 				

@@ -13,7 +13,7 @@ def list_subjects(request):
     ordered_subject_list = Subject.objects.all()
     years = get_unique_values(ordered_subject_list, '-year')
 
-    form = FilterYearForm(request.GET, years=years)
+    form = FilterYearForm(request.GET, years=years, default_none=False)
 
     year = request.GET.get('year')
     if not year or year == '--':

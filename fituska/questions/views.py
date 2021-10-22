@@ -33,6 +33,7 @@ def list_questions(request, shortcut, year):
     })
 
 
+@login_required
 def add_question(request, shortcut, year):
     subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
     if request.method == 'POST':
@@ -60,7 +61,7 @@ def detail_question(request, shortcut, year, question_id, form=None):
     #[ [answer,accept] ]
     try:
         user_answer = Answer.objects.get(question=question, user=request.user)
-    except Answer.DoesNotExist:
+    except (Answer.DoesNotExist, TypeError):
         user_answer = False
 
     if form:
@@ -94,6 +95,11 @@ def add_answer(request, shortcut, year, question_id):
 
     return redirect('question', shortcut, year, question_id, form=form)
 
+<<<<<<< HEAD
+=======
+
+@login_required
+>>>>>>> d1d3a11dd418bc03e8dfd31f781ead2ee2c95e22
 def add_reaction(request, shortcut, year, question_id, answer_id):
     pass
 

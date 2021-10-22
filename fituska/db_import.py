@@ -211,7 +211,37 @@ questions = []
 q1 = Question.objects.create(title="Náhled zkoušky",text="Dobrý den, chci se zeptat kdy bude možnost náhlednout na zkoušku ? Díky",user= u2, subject=s1, category = c1)
 questions.append(q1)
 
-q2 = Question.objects.create(title="Pruběh zkoušky",text="Dobrý den, chci se zeptat jestli bude zkouška v D105 ? Nikde jsem nenašel žadné info Díky",user= u2, subject=s1, category = c1)
+q2 = Question.objects.create(title="Pruběh zkoušky",text="Dobrý den, chci se zeptat jestli bude zkouška v D105 ? Nikde jsem nenašel žadné info Díky", user= u2, subject=s1, category = c1)
 questions.append(q2)
+
+q3 = Question.objects.create(title="1. uloha", text="Jake bylo reseni 1. ulohy?", subject=s2, user=u1, category=c5)
+questions.append(q3)
+
+q4 = Question.objects.create(title="2. uloha", text="Jake bylo reseni 2. ulohy?", subject=s2, user=u3, category=c5)
+questions.append(q4)
+
+q5 = Question.objects.create(title="Cas na vypracovani", text="Dobry den, kolik casu budeme mit na vypracovani pulsemestralni zkousky?", subject=s2, user=u5, category=c5)
+questions.append(q5)
+
+q6 = Question.objects.create(title="Cas", text="Dobry den, kolik casu budeme mit na vypracovani zkousky?", subject=s3, user=u3, category=c7)
+questions.append(q6)
+
+q7 = Question.objects.create(title="Cviko", text="V jake laboratori bude cviceni?", subject=s2, user=u3, category=c6)
+questions.append(q7)
+
+q8 = Question.objects.create(title="Ucivo", text="Dobry den, budou urcity integraly na zkousce?", subject=s3, user=u1, category=c7)
+questions.append(q8)
+
+q9 = Question.objects.create(title="Forma odevzdani", text="Dobry den, v jakem formatu mame odevzdat reseni projektu?", subject=s4, user=u3, category=c8)
+questions.append(q9)
+
+q10 = Question.objects.create(title="Program", text="Dobry den, chtel jsem se zeptat, v jakem programu je nejlepsi delat diagramy?", subject=s4, user=u4, category=c8)
+questions.append(q10)
+
+q11 = Question.objects.create(title="Opravny termin", text="Kdy presne bude 1. opravny termin zkousky?", subject=s5, user=u1, category=c10)
+questions.append(q11)
+
+q12 = Question.objects.create(title="IDE", text="Dobry den, jake vyvojove prostredi budeme na cvicenich pouzivat?", subject=s5, user=u3, category=c11)
+questions.append(q12)
 
 save(questions)

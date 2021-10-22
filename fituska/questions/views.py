@@ -60,7 +60,7 @@ def detail_question(request, shortcut, year, question_id, form=None):
 
     try:
         user_answer = Answer.objects.get(question=question, user=request.user)
-    except Answer.DoesNotExist:
+    except (Answer.DoesNotExist, TypeError):
         user_answer = False
 
     if form:

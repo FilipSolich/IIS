@@ -33,6 +33,7 @@ def list_questions(request, shortcut, year):
     })
 
 
+@login_required
 def add_question(request, shortcut, year):
     subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
     if request.method == 'POST':
@@ -95,6 +96,7 @@ def add_answer(request, shortcut, year, question_id):
     return redirect('question', shortcut, year, question_id, form=form)
 
 
+@login_required
 def add_reaction(request, shortcut, year, question_id, answer_id):
     pass
 

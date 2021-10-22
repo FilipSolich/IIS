@@ -15,9 +15,11 @@ class FilterYearForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         years = kwargs.pop('years')
+        default_none = kwargs.pop('default_none', True)
 
         super().__init__(*args, **kwargs)
 
         years = [(year, f'{year}/{year+1}') for year in years]
-        years.insert(0, ('--', '--'))
+        if default_none:
+            years.insert(0, ('--', '--'))
         self.fields['year'] = forms.ChoiceField(choices=years, required=False)

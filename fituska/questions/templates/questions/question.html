@@ -20,7 +20,8 @@
 
 		<div class="border mt-2 mb-2 p-3">
 			<div class="row">
-				<div class="w-75 col-sm">{{ answer.answer}} Some answer </div>
+				<!-- {% for answer in answers %}-->
+				<div class="w-75 col-sm"><!--{{ answer.answer.text }}--> nejaka random odpoved</div>
 				<div class="w-25 mx-5">
 					<div class="col-sm row w-25" style="float:right !important;">
 						<span class="h4">
@@ -35,8 +36,9 @@
 						</span>
 					</div>
 				</div>
+				<!-- {% endfor %} -->
 			</div>
-			<div class="w-50">{{ answer.form_as.p}} some form for accept </div>
+			<div class="w-50">{{ answer.form_as.p }} some form for accept </div>
 			<div>
 				<button class="rounded border-0 bg-info text-white p-1 m-4" style="float:right !important;" type="submit">
 					Reakce
@@ -53,10 +55,6 @@
 {% endif %}
 <!-- TODO testovaci form SMAZAT! -->
 
-
-
-
-<button ">TEST</button>
 
 {% endblock %}
 

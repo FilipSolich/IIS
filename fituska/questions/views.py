@@ -56,9 +56,9 @@ def detail_question(request, shortcut, year, question_id, form=None):
     answers = Answer.objects.filter(question=question)
 
     answers_and_forms = [
-        (answer, ConfirmAnswerForm(inittial={'answer_id': answer.id})) for answer in answers
+        (answer, ConfirmAnswerForm(initial={'answer_id': answer.id})) for answer in answers
     ]
-    #[ [answer,accept] ]
+
     try:
         user_answer = Answer.objects.get(question=question, user=request.user)
     except (Answer.DoesNotExist, TypeError):

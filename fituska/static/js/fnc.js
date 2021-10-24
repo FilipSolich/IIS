@@ -13,7 +13,7 @@ function check_pass()
 	}
 }
 $(document).ready(function() {
-	console.log("document is ready");
+	
 	if (  $('.inner').html()!="" ){
 		console.log("div is 0");
 	}
@@ -21,3 +21,4 @@ $(document).ready(function() {
 	
 
 });
+

@@ -14,3 +14,11 @@ body{
 #inner:empty ~ #outer {
     display: none !important;
 }
+
+#reaction{
+	height:auto !important;
+	width: 100% !important;
+	height: auto;
+	background-color: white;
+	bottom: -300px !important;
+}

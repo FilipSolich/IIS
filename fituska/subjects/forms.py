@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import ModelForm
+from django.forms import ModelForm, BooleanField
 
 from .models import Subject
 
@@ -8,8 +8,14 @@ class AddSubjectForm(ModelForm):
     class Meta:
 
         model = Subject
-        fields = '__all__'
+        fields = ('name', 'shortcut', 'year', 'semester', 'grade', 'compulsory',)
 
+class ConfirmSubjectForm(ModelForm):
+
+    #confirmed = forms.BooleanField(widget=forms.CheckboxInput)
+    class Meta:
+        model = Subject
+        fields = ('confirmed',)
 
 class FilterYearForm(forms.Form):
 

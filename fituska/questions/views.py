@@ -95,11 +95,8 @@ def add_answer(request, shortcut, year, question_id):
 
     return redirect('question', shortcut, year, question_id, form=form)
 
-<<<<<<< HEAD
-=======
 
 @login_required
->>>>>>> d1d3a11dd418bc03e8dfd31f781ead2ee2c95e22
 def add_reaction(request, shortcut, year, question_id, answer_id):
     pass
 

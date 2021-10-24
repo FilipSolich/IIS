@@ -245,3 +245,11 @@ q12 = Question.objects.create(title="IDE", text="Dobry den, jake vyvojove prostr
 questions.append(q12)
 
 save(questions)
+
+
+answers = []
+
+a1 = Answer.objects.create(text="Možnost náhledu bude 30.2.2020 v kanceláří T208", validity=True, points=0 ,user= u1, question=q1)
+answers.append(a1)
+
+save(answers)

@@ -42,19 +42,19 @@ save(users)
 
 subjects = []
 
-s1 = Subject.objects.create(name='Diskretní matematika', year='2020', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory',confirmed = True, user = u1)
+s1 = Subject.objects.create(name='Diskretní matematika', year='2020', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory',confirmed = False, user = u1)
 subjects.append(s1)
 
-s2 = Subject.objects.create(name='Diskretní matematika', year='2019', semester='winter', shortcut='IDM', grade=1,compulsory='compulsory', confirmed = True, user = u1 )
+s2 = Subject.objects.create(name='Diskretní matematika', year='2019', semester='winter', shortcut='IDM', grade=1,compulsory='compulsory', confirmed = False, user = u1 )
 subjects.append(s2)
 
-s3 = Subject.objects.create(name='Diskretní matematika', year='2018', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory', confirmed = True, user = u2 )
+s3 = Subject.objects.create(name='Diskretní matematika', year='2018', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory', confirmed = False, user = u2 )
 subjects.append(s3)
 
-s4 = Subject.objects.create(name='Softwarové inženýrství', year='2020', semester='winter', shortcut='IUS', grade=1, compulsory='compulsory', confirmed = True, user = u3)
+s4 = Subject.objects.create(name='Softwarové inženýrství', year='2020', semester='winter', shortcut='IUS', grade=1, compulsory='compulsory', confirmed = False, user = u3)
 subjects.append(s4)
 
-s5 = Subject.objects.create(name='Matematická analýza 1', year ='2020', semester = 'summer', shortcut ='IMA1', grade = 1, compulsory ='compulsory', confirmed = True, user = u3 )
+s5 = Subject.objects.create(name='Matematická analýza 1', year ='2020', semester = 'summer', shortcut ='IMA1', grade = 1, compulsory ='compulsory', confirmed = False, user = u3 )
 subjects.append(s5)
 
 s6 = Subject.objects.create(name='Návrh číslicových systémů', year ='2020', semester = 'summer', shortcut ='INC', grade = 1, compulsory ='compulsory', confirmed = True, user = u3 )

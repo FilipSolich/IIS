@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from .models import Subject
-from .forms import AddSubjectForm, FilterYearForm
+from .forms import AddSubjectForm, ConfirmSubjectForm, FilterYearForm
 from accounts.decorators import teacher_required
 from utils import get_unique_values, get_current_school_year
 
@@ -53,7 +53,14 @@ def create_subject(request):
 
 @permission_required('subjects.can_confirm_subject')
 def new_subjects(request):
-    pass
+    unconfirmed_subjects = Subject.objects.filter(confirmed=False)
+
+    if request.method == 'POST':
+        form = ConfirmSubjectForm(request.POST)
+        return redirect("/")
+    else:
+        form = ConfirmSubjectForm()
+    return render(request, 'subjects/confirm.html', {'unconfirmed_subjects': unconfirmed_subjects, 'form': form})
 
 
 @permission_required('subjects.can_confirm_subject')

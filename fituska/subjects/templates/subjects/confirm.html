@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row text-center">
+        <div class="col">
+            <h1>Nově přidané předměty</h1>
+        </div>
+    </div>
+{% for subject in unconfirmed_subjects %}
+    <li>{{ subject.name }} </li>
+    <table>
+        {{ form }}
+    </table>
+
+{% endfor %}
+
+
+{% endblock %}

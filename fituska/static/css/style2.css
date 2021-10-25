@@ -18,7 +18,10 @@ body{
 #reaction{
 	height:auto !important;
 	width: 100% !important;
-	height: auto;
 	background-color: white;
 	bottom: -300px !important;
+	z-index: 0 !important;
+	position: inherit !important;
+	will-change: inherit !important;
+	transform: none !important;
 }

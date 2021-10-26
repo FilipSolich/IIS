@@ -86,6 +86,8 @@ def add_answer(request, shortcut, year, question_id):
     try:
         Answer.objects.get(question=question, user=request.user)
     except Answer.DoesNotExist:
+        pass
+    else:
         return HttpResponseBadRequest()
 
     form = AnswerForm(request.POST, request.FILES)
@@ -96,8 +98,9 @@ def add_answer(request, shortcut, year, question_id):
         answer.save()
 
         # Add 1 upvote from answer author
-        request.POST.update({'type': True})
-        rate_answer(request, shortcut, year, question_id, answer.id)
+        rate = Rating.objects.create(type=True, user=request.user, answer=answer)
+        rate.save()
+        answer.add_points(True)
 
         return redirect('question', shortcut, year, question_id)
 

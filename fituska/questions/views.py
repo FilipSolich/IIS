@@ -37,7 +37,7 @@ def list_questions(request, shortcut, year):
 def add_question(request, shortcut, year):
     subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
     if request.method == 'POST':
-        form = QuestionForm(request.POST, request.FILES)
+        form = QuestionForm(request.POST, request.FILES, subject=subject)
         if form.is_valid():
             question = form.save(commit=False)
             question.user = request.user

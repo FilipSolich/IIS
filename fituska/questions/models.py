@@ -14,6 +14,9 @@ class Question(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.title
+
 
 class AbstractAnswer(models.Model):
 
@@ -25,6 +28,9 @@ class AbstractAnswer(models.Model):
     class Meta:
         abstract = True
 
+    def __str__(self):
+        return self.text
+
 
 class Answer(AbstractAnswer):
 
@@ -34,7 +40,8 @@ class Answer(AbstractAnswer):
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
-    def __int__(self):
+    @property
+    def sum_points(self):
         return self.points + self.teacher_points
 
     def add_points(self, type_, value=1):

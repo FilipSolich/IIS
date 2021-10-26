@@ -85,7 +85,7 @@ def detail_question(request, shortcut, year, question_id, form=None):
     return render(request, 'questions/question.html', {
         'subject': subject,
         'question': question,
-        'answers': answers_and_forms,
+        'answers_and_forms': answers_and_forms,
         'answer_form': answer_form,
     })
 
@@ -143,8 +143,13 @@ def reject_answer(request, shortcut, year, question_id, answer_id):
 @login_required
 def rate_answer(request, shortcut, year, question_id, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
-    type_ = request.POST.get('type')
-    rate = Rating.objects.get(user=request.user, answer=answer)
+    type_ = True if request.POST.get('type') == 'true' else False
+
+    try:
+        rate = Rating.objects.get(user=request.user, answer=answer)
+    except Rating.DoesNotExist:
+        rate = None
+
     if not rate:
         rate = Rating.objects.create(type=type_, user=request.user, answer=answer)
         rate.save()

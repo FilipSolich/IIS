@@ -52,3 +52,6 @@ class Category(models.Model):
     name = models.CharField('category_name', max_length=100, null=True)
 
     subject = models.ForeignKey(Subject, default=None, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name

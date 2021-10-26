@@ -56,9 +56,19 @@ def detail_question(request, shortcut, year, question_id, form=None):
     question = get_object_or_404(Question, pk=question_id)
     answers = Answer.objects.filter(question=question)
 
-    answers_and_forms = [
-        (answer, ConfirmAnswerForm(initial={'answer_id': answer.id})) for answer in answers
-    ]
+    # TODO remove
+    #answers_and_forms = [
+    #    (answer, ConfirmAnswerForm(initial={'answer_id': answer.id})) for answer in answers
+    #]
+
+    answers_and_forms = []
+    for answer in answers:
+        try:
+            rate = Rating.objects.get(user=request.user, answer=answer)
+        except Rating.DoesNotExist:
+            rate = None
+
+        answers_and_forms.append((answer, rate, ConfirmAnswerForm(initial={'answer_id': answer.id})))
 
     try:
         user_answer = Answer.objects.get(question=question, user=request.user)

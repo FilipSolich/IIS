@@ -17,11 +17,10 @@
 {% if user.is_authenticated %}
 <div class="mx-5">
 	<h6>Odpovědi</h6>
-
+	{% for answe, y in answers %}
 		<div class="border mt-2 mb-5 p-3">
 			<div class="row">
-				{% for answe, y in answers %}
-
+				
 				<div class="w-75 col-sm">{{ answe.text }}</div>
 				
 				<div class="w-25 mx-5">

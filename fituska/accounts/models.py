@@ -1,5 +1,5 @@
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.models import Group, PermissionsMixin
 from django.db import models
 
 
@@ -29,9 +29,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def is_moderator(self):
-        return True if self.groups.get(name='Moderators') else False
+        try:
+            self.groups.get(name='Moderators')
+            return True
+        except Group.DoesNotExist:
+            return False
 
-    @property
     def is_teacher(self, subject):
         return subject.user == self
 

@@ -81,16 +81,24 @@ def detail_question(request, shortcut, year, question_id, form=None):
 @require_POST
 @login_required
 def add_answer(request, shortcut, year, question_id):
-    if Answer.objects.get(question=question, user=request.user):
+    question = get_object_or_404(Question, pk=question_id)
+
+    try:
+        Answer.objects.get(question=question, user=request.user)
+    except Answer.DoesNotExist:
         return HttpResponseBadRequest()
 
-    question = get_object_or_404(Question, pk=question_id)
     form = AnswerForm(request.POST, request.FILES)
     if form.is_valid():
         answer = form.save(commit=False)
         answer.user = request.user
         answer.question = question
         answer.save()
+
+        # Add 1 upvote from answer author
+        request.POST.update({'type': True})
+        rate_answer(request, shortcut, year, question_id, answer.id)
+
         return redirect('question', shortcut, year, question_id)
 
     return redirect('question', shortcut, year, question_id, form=form)

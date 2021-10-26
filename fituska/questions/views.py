@@ -81,10 +81,10 @@ def detail_question(request, shortcut, year, question_id, form=None):
 @require_POST
 @login_required
 def add_answer(request, shortcut, year, question_id):
+    
+    question = get_object_or_404(Question, pk=question_id)
     if Answer.objects.get(question=question, user=request.user):
         return HttpResponseBadRequest()
-
-    question = get_object_or_404(Question, pk=question_id)
     form = AnswerForm(request.POST, request.FILES)
     if form.is_valid():
         answer = form.save(commit=False)

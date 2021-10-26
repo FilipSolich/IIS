@@ -52,6 +52,7 @@ def add_question(request, shortcut, year):
 
 
 def detail_question(request, shortcut, year, question_id, form=None):
+    subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
     question = get_object_or_404(Question, pk=question_id)
     answers = Answer.objects.filter(question=question)
 
@@ -72,6 +73,7 @@ def detail_question(request, shortcut, year, question_id, form=None):
         answer_form = AnswerForm()
 
     return render(request, 'questions/question.html', {
+        'subject': subject,
         'question': question,
         'answers': answers_and_forms,
         'answer_form': answer_form,

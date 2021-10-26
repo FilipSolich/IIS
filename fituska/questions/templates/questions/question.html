@@ -54,14 +54,13 @@
 			</div>
 			
 </div>
-	<form method="POST" action="{% url 'add_answer' question.subject.shortcut question.subject.year  question.id %}">
+	<form method="post" enctype="multipart/form-data" action="{% url 'add_answer' subject.shortcut subject.year question.id %}">
 		{% csrf_token %}
 		<label class="mt-5">Zadejte prosím odpověď:</label>
-		<div class="mt-3 mb-3" > {{ answer_form.text }} </div>
-		<div style="font-size:14px !important ;"> {{ answer_form.picture}} </div>
+		<div class="mt-3 mb-3" >{{ answer_form.text }}</div>
+		<div style="font-size:14px !important ;">{{ answer_form.picture}}</div>
 
 		<input class="rounded border-0 bg-info text-white p-1 mt-3" type="submit" value="Odeslat"/>
-
 	</form>
 </div>
 {% endfor %}

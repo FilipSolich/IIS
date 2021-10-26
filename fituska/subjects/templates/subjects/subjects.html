@@ -28,9 +28,9 @@
 	</div>
 
 	{% if user.is_authenticated %}
-
+		{%if forloop.first %}
 	<h5 style="float: right;"><a href="subjects/">Přidat předmět</a></h5>
-	
+		{% endif %}
 	{% endif %}
 	<div class="w-100 p-3 mt-5">
 		{% for grade in ordered_grade_list %}

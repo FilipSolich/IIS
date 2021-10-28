@@ -31,7 +31,7 @@
 	<br>
 
 	<h6>Odpovědi</h6>
-	{% for answer, rate, form in answers_and_forms %}
+	{% for answer, reactions, rate, form in answers_and_reactions %}
 		<div class="border mt-2 mb-5 p-3 {% if answer.valid %}border-success{% elif answer.valid is False %}border-danger{% endif %}">
 			<div class="row">
 				<div class="w-75 col-sm">{{ answer.text }}</div>
@@ -49,6 +49,7 @@
 								{% endif %}
 							</a>
 						</span>
+						<span id="points-{{ answer.id }}">{{ answer.points }}</span>
 						<span class="h4">
 							<a class="text-warning" onclick="answer_rate('{% url 'rate' subject.shortcut subject.year question.id answer.id %}', {{ answer.id }}, false)">
 								{% if rate.type or rate.type == None %}
@@ -60,18 +61,16 @@
 						</span>
 					</div>
 				</div>
-				<div>
-					<span id="points-{{ answer.id }}">{{ answer.points }}</span>
-				</div>
 			</div>
 			<div class="dropdown">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
 				<div id="reaction" class="dropdown-menu mt-5" >
-					<p>reakce reakce</p>
-					<p>reakce reakce reakce</p>
-					<form>
-						<label>Zadejte prosím reakci</label>
-					</form>
+					{% for reaction in reactions %}
+						<form>
+							<label>Zadejte prosím reakci</label>
+						</form>
+						<p>{{ reaction.text }}</p>
+					{% endfor %}
 				</div>
 			</div>
 		</div>

@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .forms import AnswerForm, QuestionForm, ConfirmAnswerForm, FilterCategoryForm, ReactionForm
-from .models import Answer, Question, Rating
+from .models import Answer, Question, Rating, Reaction
 from accounts.decorators import teacher_required
 from subjects.models import Category, Subject
 
@@ -58,14 +58,18 @@ def detail_question(request, shortcut, year, question_id, form=None):
     question = get_object_or_404(Question, pk=question_id)
     answers = Answer.objects.filter(question=question)
 
-    answers_and_forms = []
+    answers_and_reactons = []
     for answer in answers:
         try:
             rate = Rating.objects.get(user=request.user, answer=answer)
         except (Rating.DoesNotExist, TypeError):
             rate = None
 
-        answers_and_forms.append((answer, rate, ConfirmAnswerForm(initial={'answer_id': answer.id})))
+        reactions = Reaction.objects.filter(answer=answer)
+
+        answers_and_reactons.append((
+            answer, reactions, rate, ConfirmAnswerForm(initial={'answer_id': answer.id})
+        ))
 
     try:
         user_answer = Answer.objects.get(question=question, user=request.user)
@@ -82,7 +86,7 @@ def detail_question(request, shortcut, year, question_id, form=None):
     return render(request, 'questions/question.html', {
         'subject': subject,
         'question': question,
-        'answers_and_forms': answers_and_forms,
+        'answers_and_reactions': answers_and_reactons,
         'answer_form': answer_form,
     })
 
@@ -139,12 +143,18 @@ def reject_answer(request, shortcut, year, question_id, answer_id):
 @login_required
 def rate_answer(request, shortcut, year, question_id, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
+    question = get_object_or_404(Question, pk=question_id)
     type_ = json.loads(request.body).get('type')
+
+    user_ratings = Rating.objects.filter(user=request.user, answer__question=question).count()
 
     try:
         rate = Rating.objects.get(user=request.user, answer=answer)
     except Rating.DoesNotExist:
         rate = None
+        
+        if user_ratings >= 3:
+            return HttpResponseBadRequest()
 
     if not rate:
         rate = Rating.objects.create(type=type_, user=request.user, answer=answer)

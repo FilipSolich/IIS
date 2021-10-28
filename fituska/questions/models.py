@@ -14,6 +14,10 @@ class Question(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+    class Meta:
+
+        ordering = ('-id',)
+
     def __str__(self):
         return self.title
 

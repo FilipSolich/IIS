@@ -16,4 +16,3 @@ urlpatterns = [
     path('<int:subject_id>/students/reject/', views.reject_student, name='reject_student'),
     path('<int:subject_id>/register/', views.register_subject, name='register_subject'),
 ]
-

@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .forms import AnswerForm, QuestionForm, ConfirmAnswerForm, FilterCategoryForm, ReactionForm
+from .forms import AnswerForm, QuestionForm, CloseAnswerForm, FilterCategoryForm, ReactionForm
 from .models import Answer, Question, Rating, Reaction
 from accounts.decorators import teacher_required
 from subjects.models import Category, Subject
@@ -53,22 +53,29 @@ def add_question(request, shortcut, year):
     return render(request, 'questions/add_question.html', {'form': form, 'subject': subject})
 
 
-def detail_question(request, shortcut, year, question_id, form=None):
+def detail_question(request, shortcut, year, question_id, old_answer_form=None, old_close_answer_form=None):
     subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
     question = get_object_or_404(Question, pk=question_id)
     answers = Answer.objects.filter(question=question)
 
     answers_and_reactons = []
     for answer in answers:
+        reactions = Reaction.objects.filter(answer=answer)
+
         try:
             rate = Rating.objects.get(user=request.user, answer=answer)
         except (Rating.DoesNotExist, TypeError):
             rate = None
 
-        reactions = Reaction.objects.filter(answer=answer)
+        if old_close_answer_form and answer.id == old_close_answer_form.answer_id:
+            close_answer_form = old_close_answer_form
+        elif answer.valid is None and not request.user.is_anonymous and request.user.is_teacher(subject):
+            close_answer_form = CloseAnswerForm(initial={'answer_id': answer.id})
+        else:
+            close_answer_form = None
 
         answers_and_reactons.append((
-            answer, reactions, rate, ConfirmAnswerForm(initial={'answer_id': answer.id})
+            answer, reactions, rate, close_answer_form
         ))
 
     try:
@@ -76,8 +83,8 @@ def detail_question(request, shortcut, year, question_id, form=None):
     except (Answer.DoesNotExist, TypeError):
         user_answer = False
 
-    if form:
-        answer_form = form
+    if old_answer_form:
+        answer_form = old_answer_form
     elif request.user.is_anonymous or user_answer:
         answer_form = None
     else:
@@ -116,7 +123,7 @@ def add_answer(request, shortcut, year, question_id):
 
         return redirect('question', shortcut, year, question_id)
 
-    return redirect('question', shortcut, year, question_id, form=form)
+    return redirect('question', shortcut, year, question_id, old_answer_form=form)
 
 
 @login_required
@@ -124,18 +131,21 @@ def add_reaction(request, shortcut, year, question_id, answer_id):
     pass
 
 
+@csrf_exempt
 @require_POST
 @teacher_required
-def confirm_answer(request, shortcut, year, question_id, answer_id):
-    form = ConfirmAnswerForm(request.POST)
+def close_answer(request, shortcut, year, question_id, answer_id):
+    valid = True if 'valid' in request.POST.keys() else False
+    answer = get_object_or_404(Answer, pk=answer_id)
+    form = CloseAnswerForm(request.POST)
     if form.is_valid():
-        pass
+        answer.valid = valid
+        answer.teacher_points = form.cleaned_data.get('teacher_points', 0) if valid else 0
+        answer.save()
 
+        return redirect('question', shortcut, year, question_id)
 
-@require_POST
-@teacher_required
-def reject_answer(request, shortcut, year, question_id, answer_id):
-    pass
+    return redirect('question', shortcut, year, question_id, old_close_answer_form=form)
 
 
 @csrf_exempt

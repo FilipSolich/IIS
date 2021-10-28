@@ -249,40 +249,40 @@ save(questions)
 
 answers = []
 
-a1 = Answer.objects.create(text="Možnost náhledu bude 21.2.2020 v kanceláří T208", validity=True, points=0 ,user= u1, question=q1)
+a1 = Answer.objects.create(text="Možnost náhledu bude 21.2.2020 v kanceláří T208", valid=True, user= u1, question=q1)
 answers.append(a1)
 
-a2 = Answer.objects.create(text="Zkouška bude probíhat v D105 a D0025 od 8:00", validity=True, points=2 ,user= u1, question=q2)
+a2 = Answer.objects.create(text="Zkouška bude probíhat v D105 a D0025 od 8:00", valid=True, user= u1, question=q2)
 answers.append(a2)
 
-a3 = Answer.objects.create(text="Výsledkem této ulohy byl určitý integrál, který měl hodnotu 42", validity=True, points=5 ,user= u1, question=q3)
+a3 = Answer.objects.create(text="Výsledkem této ulohy byl určitý integrál, který měl hodnotu 42", valid=True, user= u1, question=q3)
 answers.append(a3)
 
-a4 = Answer.objects.create(text="Výsledkem byla 0", validity=True, points=1 ,user= u1, question=q4)
+a4 = Answer.objects.create(text="Výsledkem byla 0", valid=True, user= u1, question=q4)
 answers.append(a4)
 
-a5 = Answer.objects.create(text="Budu se na vás těšit v 7:00 a konec bude v 9:00 tudíž máte na vypracování 120min", validity=True, points=1 ,user= u1, question=q5)
+a5 = Answer.objects.create(text="Budu se na vás těšit v 7:00 a konec bude v 9:00 tudíž máte na vypracování 120min", valid=True, user= u1, question=q5)
 answers.append(a5)
 
-a6 = Answer.objects.create(text="Délka je stavena na 180min začátek bude v 11:00", validity=True, points=1 ,user= u1, question=q6)
+a6 = Answer.objects.create(text="Délka je stavena na 180min začátek bude v 11:00", valid=True, user= u1, question=q6)
 answers.append(a6)
 
-a7 = Answer.objects.create(text="Laboratoře probíhájí v L208", validity=True, points=1 ,user= u1, question=q7)
+a7 = Answer.objects.create(text="Laboratoře probíhájí v L208", valid=True, user= u1, question=q7)
 answers.append(a7)
 
-a8 = Answer.objects.create(text="Budou zde všechny integrály, které jsme probílali během semestru", validity=True, points=2 ,user= u1, question=q8)
+a8 = Answer.objects.create(text="Budou zde všechny integrály, které jsme probílali během semestru", valid=True, user= u1, question=q8)
 answers.append(a8)
 
-a9 = Answer.objects.create(text="Prosím odevzdejte výsledky archiv ve formátu xxlogin00.zip|.targz|.rar ", validity=True, points=3 ,user= u1, question=q9)
+a9 = Answer.objects.create(text="Prosím odevzdejte výsledky archiv ve formátu xxlogin00.zip|.targz|.rar ", valid=True, user= u1, question=q9)
 answers.append(a9)
 
-a10 = Answer.objects.create(text="Pokud používáte Visual Studio doporučuji si stáhnout knihovnu na kreslení těchto diagramů nebo můžeme využít draw.io", validity=True, points=7 ,user= u1, question=q10)
+a10 = Answer.objects.create(text="Pokud používáte Visual Studio doporučuji si stáhnout knihovnu na kreslení těchto diagramů nebo můžeme využít draw.io", valid=True, user= u1, question=q10)
 answers.append(a10)
 
-a11 = Answer.objects.create(text="Možnost náhledu bude 8.3.2020 v kanceláří T208", validity=True, points=4 ,user= u1, question=q11)
+a11 = Answer.objects.create(text="Možnost náhledu bude 8.3.2020 v kanceláří T208", valid=True, user= u1, question=q11)
 answers.append(a11)
 
-a12 = Answer.objects.create(text="Budeme výhradně využivát VIM, jestli se to dá brát jako IDE", validity=True, points=1 ,user= u1, question=q12)
+a12 = Answer.objects.create(text="Budeme výhradně využivát VIM, jestli se to dá brát jako IDE", valid=True, user= u1, question=q12)
 answers.append(a12)
 
 save(answers)

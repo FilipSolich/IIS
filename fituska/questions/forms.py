@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Answer, Question
+from .models import Answer, Question, Reaction
 from subjects.models import Category
 
 
@@ -26,6 +26,14 @@ class AnswerForm(forms.ModelForm):
     class Meta:
 
         model = Answer
+        fields = ['text', 'picture']
+
+
+class ReactionForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Reaction
         fields = ['text', 'picture']
 
 

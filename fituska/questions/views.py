@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .forms import AnswerForm, QuestionForm, ConfirmAnswerForm, FilterCategoryForm
+from .forms import AnswerForm, QuestionForm, ConfirmAnswerForm, FilterCategoryForm, ReactionForm
 from .models import Answer, Question, Rating
 from accounts.decorators import teacher_required
 from subjects.models import Category, Subject
@@ -58,16 +58,11 @@ def detail_question(request, shortcut, year, question_id, form=None):
     question = get_object_or_404(Question, pk=question_id)
     answers = Answer.objects.filter(question=question)
 
-    # TODO remove
-    #answers_and_forms = [
-    #    (answer, ConfirmAnswerForm(initial={'answer_id': answer.id})) for answer in answers
-    #]
-
     answers_and_forms = []
     for answer in answers:
         try:
             rate = Rating.objects.get(user=request.user, answer=answer)
-        except Rating.DoesNotExist:
+        except (Rating.DoesNotExist, TypeError):
             rate = None
 
         answers_and_forms.append((answer, rate, ConfirmAnswerForm(initial={'answer_id': answer.id})))
@@ -114,7 +109,6 @@ def add_answer(request, shortcut, year, question_id):
         # Add 1 upvote from answer author
         rate = Rating.objects.create(type=True, user=request.user, answer=answer)
         rate.save()
-        answer.add_points(True)
 
         return redirect('question', shortcut, year, question_id)
 
@@ -155,12 +149,10 @@ def rate_answer(request, shortcut, year, question_id, answer_id):
     if not rate:
         rate = Rating.objects.create(type=type_, user=request.user, answer=answer)
         rate.save()
-        answer.add_points(type_)
     else:
         if rate.type != type_:
             rate.type = type_
             rate.save()
-            answer.add_points(type_, value=2)
         else:
             rate.delete()
 

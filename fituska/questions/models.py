@@ -34,23 +34,19 @@ class AbstractAnswer(models.Model):
 
 class Answer(AbstractAnswer):
 
-    validity = models.BooleanField('validity', blank=True, null=True)
-    points = models.DecimalField('points', max_digits=5, decimal_places=0, blank=True, default=0)
-    teacher_points = models.DecimalField('teacher_points', max_digits=5, decimal_places=0, default=0, blank=True)
+    valid = models.BooleanField('valid', blank=True, null=True)
+    teacher_points = models.IntegerField('teacher_points', default=0, blank=True)
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
     @property
+    def points(self):
+        ratings = [rating.type for rating in Rating.objects.filter(answer=self)]
+        return ratings.count(True) - ratings.count(False)
+
+    @property
     def sum_points(self):
         return self.points + self.teacher_points
-
-    def add_points(self, type_, value=1):
-        if type_:
-            self.points += value
-        else:
-            self.points -= value
-
-        self.save()
 
 
 class Reaction(AbstractAnswer):

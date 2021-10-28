@@ -1,5 +1,7 @@
+import json
+
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -143,7 +145,7 @@ def reject_answer(request, shortcut, year, question_id, answer_id):
 @login_required
 def rate_answer(request, shortcut, year, question_id, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
-    type_ = True if request.POST.get('type') == 'true' else False
+    type_ = json.loads(request.body).get('type')
 
     try:
         rate = Rating.objects.get(user=request.user, answer=answer)
@@ -159,5 +161,7 @@ def rate_answer(request, shortcut, year, question_id, answer_id):
             rate.type = type_
             rate.save()
             answer.add_points(type_, value=2)
+        else:
+            rate.delete()
 
-    return HttpResponse()
+    return JsonResponse({'id': answer_id, 'type': type_})

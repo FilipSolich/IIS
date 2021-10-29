@@ -53,7 +53,8 @@ def add_question(request, shortcut, year):
     return render(request, 'questions/add_question.html', {'form': form, 'subject': subject})
 
 
-def detail_question(request, shortcut, year, question_id, old_answer_form=None, old_close_answer_form=None):
+def detail_question(request, shortcut, year, question_id, old_answer_form=None,
+                    old_close_answer_form=None, old_reaction_form=None):
     subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
     question = get_object_or_404(Question, pk=question_id)
     answers = Answer.objects.filter(question=question)
@@ -62,6 +63,11 @@ def detail_question(request, shortcut, year, question_id, old_answer_form=None, 
     for answer in answers:
         reactions = Reaction.objects.filter(answer=answer)
 
+        if old_reaction_form and answer.id == old_reaction_form.answer_id:
+            reaction_form = old_reaction_form
+        else:
+            reaction_form = ReactionForm(initial={'answer_id': answer.id})
+
         try:
             rate = Rating.objects.get(user=request.user, answer=answer)
         except (Rating.DoesNotExist, TypeError):
@@ -69,13 +75,14 @@ def detail_question(request, shortcut, year, question_id, old_answer_form=None, 
 
         if old_close_answer_form and answer.id == old_close_answer_form.answer_id:
             close_answer_form = old_close_answer_form
-        elif answer.valid is None and not request.user.is_anonymous and request.user.is_teacher(subject):
+        elif (answer.valid is None and not request.user.is_anonymous and
+                request.user.is_teacher(subject)):
             close_answer_form = CloseAnswerForm(initial={'answer_id': answer.id})
         else:
             close_answer_form = None
 
         answers_and_reactons.append((
-            answer, reactions, rate, close_answer_form
+            answer, reactions, reaction_form, rate, close_answer_form
         ))
 
     try:
@@ -128,8 +135,18 @@ def add_answer(request, shortcut, year, question_id):
 
 @login_required
 def add_reaction(request, shortcut, year, question_id, answer_id):
-    pass
+    answer = get_object_or_404(Answer, pk=answer_id)
 
+    form = ReactionForm(request.POST)
+    if form.is_valid():
+        reaction = form.save(commit=False)
+        reaction.user = reqeust.user
+        reaction.answer = answer
+        reaction.save()
+
+        return redirect('question', shortcut, year, question_id)
+
+    return redirect('question', shortcut, year,question_id, old_reaction_form=form)
 
 @csrf_exempt
 @require_POST

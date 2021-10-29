@@ -31,6 +31,8 @@ class AnswerForm(forms.ModelForm):
 
 class ReactionForm(forms.ModelForm):
 
+    answer_id = forms.IntegerField(widget=forms.HiddenInput())
+
     class Meta:
 
         model = Reaction

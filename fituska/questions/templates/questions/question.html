@@ -31,7 +31,7 @@
 	<br>
 
 	<h6>Odpovědi</h6>
-	{% for answer, reactions, rate, form in answers_and_reactions %}
+	{% for answer, reactions, reaction_form, rate, close_form in answers_and_reactions %}
 		<div class="border mt-2 mb-5 p-3 {% if answer.valid %}border-success{% elif answer.valid is False %}border-danger{% endif %}">
 			<div class="row">
 				<div class="w-75 col-sm">{{ answer.text }}</div>
@@ -39,11 +39,11 @@
 					<div class="col-sm"><img src="{{ answer.picture.url }}"></div>
 				{% endif %}
 
-				{% if form %}
+				{% if close_form %}
 					<form method="post" action="{% url 'close_answer' subject.shortcut subject.year question.id answer.id %}">
-						{{ form.teacher_points.label_tag }}
-						{{ form.teacher_points }}
-						{{ form.answer_id }}
+						{{ close_form.teacher_points.label_tag }}
+						{{ close_form.teacher_points }}
+						{{ close_form.answer_id }}
 						<input type="submit" name="valid" value="Správná odpověď" class="rounded bg-success" />
 						<input type="submit" name="invalid" value="Špatná odpověď" class="rounded bg-danger" />
 					</form>

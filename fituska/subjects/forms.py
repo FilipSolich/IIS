@@ -12,7 +12,6 @@ class AddSubjectForm(ModelForm):
 
 class ConfirmSubjectForm(ModelForm):
 
-    #confirmed = forms.BooleanField(widget=forms.CheckboxInput)
     class Meta:
         model = Subject
         fields = ('confirmed',)

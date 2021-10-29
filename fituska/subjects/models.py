@@ -15,9 +15,7 @@ class Subject(models.Model):
         winter = "zimní"
         summer = "letní"
 
-    class confirm_choices(models.TextChoices):
-        confirm = 'schválit'
-        reject = 'zamítnout'
+
 
     name = models.CharField('Nazev předmětu', max_length=100, null=True)
     shortcut = models.CharField('Zkratka předmětu', max_length=6, null=True, blank=False)
@@ -25,7 +23,7 @@ class Subject(models.Model):
     semester = models.CharField('Semestr', choices = type_semester.choices, max_length=20, null=True)
     grade = models.IntegerField('Ročník', null=True, blank=False) #after database data change null to False !!! #TODO
     compulsory = models.CharField(max_length=20, choices=choice_compulsory.choices, default=choice_compulsory.uncompulsory)
-    confirmed = models.BooleanField('Schválit předmět', choices=confirm_choices.choices, null=True, default=False)
+    confirmed = models.BooleanField('Schválit předmět', null=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

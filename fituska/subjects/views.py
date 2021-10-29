@@ -57,7 +57,9 @@ def new_subjects(request):
 
     if request.method == 'POST':
         form = ConfirmSubjectForm(request.POST)
-        return redirect("/")
+        if form.is_valid():
+            form.save()
+        return redirect("/subjects/new")
     else:
         form = ConfirmSubjectForm()
     return render(request, 'subjects/confirm.html', {'unconfirmed_subjects': unconfirmed_subjects, 'form': form})

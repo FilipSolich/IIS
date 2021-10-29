@@ -7,13 +7,38 @@
             <h1>Nově přidané předměty</h1>
         </div>
     </div>
-{% for subject in unconfirmed_subjects %}
-    <li>{{ subject.name }} </li>
-    <table>
-        {{ form }}
-    </table>
+    
+        {% for subject in unconfirmed_subjects %}
+        <p>
+            <div>
+                <ul class="list-group w-100 mt-1">
+                    <h5>{{ subject.name }}</h5>
+                    <li class="list-group-item">Zkratka: {{ subject.shortcut }}</li>
+                    <li class="list-group-item">Rok: {{ subject.year }}</li>
+                    <li class="list-group-item">Semestr: {{ subject.semester }}</li>
+                    <li class="list-group-item">Ročník: {{ subject.grade }}</li>
+                    <li class="list-group-item">Povinnost: {{ subject.compulsory }}</li>
+                    <li class="list-group-item">Přidal/a: <b>{{ subject.user }}</b></li>
+                </ul>
+            </div>
 
-{% endfor %}
+            <form method="POST">
+                <div class="col-2 pt-2">
+                    {{ form }}
+                </div>
+                {% csrf_token %}
 
+                <div class="row pt-1">
+                    <div class="col-4">
+                        <button style="width: 150px;" type="submit">
+                            Submit changes
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </p>
+        {% endfor %}
+
+</div>
 
 {% endblock %}

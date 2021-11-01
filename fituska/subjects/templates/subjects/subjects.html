@@ -17,7 +17,7 @@
 		</form>
 	</div>
 	{% for comp in ordered_compulsory_list %}
-	<div class=" w-25 mt-1 mb-5 px-2">
+	<div class=" w-25 mt-1 mb-5 ">
 		{% if comp == 'compulsory'  %}
 		<h2><span>{{ "Povinné" }}</span></h2>
 		{% endif %}
@@ -28,11 +28,13 @@
 	</div>
 
 	{% if user.is_authenticated %}
-		{%if forloop.first %}
+		{% if forloop.first %}
 	<h5 style="float: right;"><a href="subjects/">Přidat předmět</a></h5>
 		{% endif %}
 	{% endif %}
+	{% if forloop.first %}
 	<div class="w-100 p-3 mt-5">
+	{% endif %}
 		{% for grade in ordered_grade_list %}
 			{% if comp == 'compulsory' %}
 				<h4>Ročník {{ grade }}.</h4>

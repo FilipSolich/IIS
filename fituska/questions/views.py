@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 
 from .forms import AnswerForm, QuestionForm, CloseAnswerForm, FilterCategoryForm, ReactionForm
 from .models import Answer, Question, Rating, Reaction
-from accounts.decorators import teacher_required
+from accounts.decorators import teacher_required, student_required
 from subjects.models import Category, Subject
 
 
@@ -92,7 +92,7 @@ def detail_question(request, shortcut, year, question_id, old_answer_form=None,
 
     if old_answer_form:
         answer_form = old_answer_form
-    elif request.user.is_anonymous or user_answer:
+    elif request.user.is_anonymous or user_answer or request.user.is_teacher(subject):
         answer_form = None
     else:
         answer_form = AnswerForm()
@@ -112,10 +112,9 @@ def add_answer(request, shortcut, year, question_id):
 
     try:
         Answer.objects.get(question=question, user=request.user)
+        return HttpResponseBadRequest()
     except Answer.DoesNotExist:
         pass
-    else:
-        return HttpResponseBadRequest()
 
     form = AnswerForm(request.POST, request.FILES)
     if form.is_valid():
@@ -125,15 +124,14 @@ def add_answer(request, shortcut, year, question_id):
         answer.save()
 
         # Add 1 upvote from answer author
-        rate = Rating.objects.create(type=True, user=request.user, answer=answer)
-        rate.save()
+        Rating.objects.create(type=True, user=request.user, answer=answer).save()
 
         return redirect('question', shortcut, year, question_id)
 
     return redirect('question', shortcut, year, question_id, old_answer_form=form)
 
 
-@login_required
+@student_required
 def add_reaction(request, shortcut, year, question_id, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
 
@@ -147,6 +145,7 @@ def add_reaction(request, shortcut, year, question_id, answer_id):
         return redirect('question', shortcut, year, question_id)
 
     return redirect('question', shortcut, year,question_id, old_reaction_form=form)
+
 
 @csrf_exempt
 @require_POST

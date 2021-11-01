@@ -41,6 +41,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
         return subject.user == self
 
+    def is_student(self, subject):
+        from subjects.models import Registration
+
+        if self.is_superuser:
+            return True
+
+        try:
+            r = Registration.objects.get(user=self, subject=subject)
+            return r.confirmed
+        except Registration.DoesNotExist:
+            return False
+
 
 class Karma(models.Model):
 

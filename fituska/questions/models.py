@@ -31,6 +31,7 @@ class AbstractAnswer(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
 
     class Meta:
+
         abstract = True
 
     def __str__(self):

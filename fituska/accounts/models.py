@@ -36,6 +36,9 @@ class User(AbstractBaseUser, PermissionsMixin):
             return False
 
     def is_teacher(self, subject):
+        if self.is_superuser:
+            return True
+
         return subject.user == self
 
 

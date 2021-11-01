@@ -3,6 +3,7 @@ from django.forms import ModelForm, BooleanField
 
 from .models import Subject
 
+
 class AddSubjectForm(ModelForm):
 
     class Meta:
@@ -10,11 +11,14 @@ class AddSubjectForm(ModelForm):
         model = Subject
         fields = ('name', 'shortcut', 'year', 'semester', 'grade', 'compulsory',)
 
+
 class ConfirmSubjectForm(ModelForm):
 
     class Meta:
+
         model = Subject
         fields = ('confirmed',)
+
 
 class FilterYearForm(forms.Form):
 

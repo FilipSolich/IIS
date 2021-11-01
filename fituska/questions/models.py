@@ -9,6 +9,7 @@ class Question(models.Model):
     title = models.CharField('title', max_length=150)
     text = models.TextField('text', max_length=10000, blank=True, null=True)
     picture = models.ImageField('picture', blank=True, null=True)
+    closed = models.BooleanField('closed', default=False)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)

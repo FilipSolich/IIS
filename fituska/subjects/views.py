@@ -44,7 +44,9 @@ def create_subject(request):
     if request.method == 'POST':
         form = AddSubjectForm(request.POST)
         if form.is_valid():
-            form.save()
+            subject = form.save(commit = False)
+            subject.user = request.user
+            subject.save()
         return redirect("/")
     else:
         form = AddSubjectForm()
@@ -87,12 +89,12 @@ def subject_questions(request, subject_id):
 @teacher_required
 def create_category(request, subject_id):
     pass
-
+    #ToDo Marek View+Html
 @require_POST
 @teacher_required
 def delete_category(request, subject_id):
     pass
-
+    #Todo Marek View+Html
 
 @teacher_required
 def students(request, subject_id):

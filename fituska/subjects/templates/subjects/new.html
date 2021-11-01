@@ -2,27 +2,46 @@
 
 {% block content %}
 <div class="container">
-    <div class="row text-center">
-        <div class="col">
-            <h1>Přidat předmět</h1>
-        </div>
-    </div>
+    <div> <a class="text-decoration-none text-info" href="{% url 'list_subjects' %}">ZPĚT</a> </div>
+    <div class="d-flex justify-content-center w-100">
+        <div class="flex-column m-5">
+            <h4>Přidat předmět</h4>
     <!-- FORM -->
-    <div class="row">
-        <form method="POST">
-            <table>
-                {{ form }}
-            </table>
+            <form method="POST">
+                    <div class="mt-4">
+                         <label class="w-50">Název předmětu:</label>
+                         <label>{{ form.name }} </label>
+                    </div>
+                    <div class="mt-4">
+                            <label class="w-50">Zkratka předmětu:</label>
+                            <label>{{ form.shortcut }} </label>
+                    </div>
+                    <div class="mt-4"> 
+                            <label class="w-100">Rok průběhu předmětu:</label>
+                            <label>{{ form.year }}</label>
+                    </div>
+                    <div class="mt-4"> 
+                            <label class="w-100">Semestr:</label>
+                            <label>{{ form.semester }}</label>
+                    </div>
+                    <div class="mt-4">
+                            <label class="w-100">Ročník:</label> 
+                            <label>{{ form.grade }}</label> 
+                    </div>
+                    <div class="mt-4">
+                             <label class="w-100">Povinnost předmětu:</label>
+                             <label>{{ form.compulsory }}</label>
+                    </div>
 
-            {% csrf_token %}
-            <div class="row pt-1">
-                <div class="col-4">
-                    <button style="width: 90px;" type="submit">
-                        Submit
-                    </button>
-                </div>
-            </div>
-        </form>
+
+                {% csrf_token %}
+                    <div class="w-50 ms-4 mt-5 mb-5">
+                        <button class="rounded border-0 bg-info text-white p-2 mt-3 w-100" type="submit">
+                            Přidat předmět
+                        </button>
+                    </div>
+            </form>
+        <div>
     </div>
 </div>
 {% endblock %}

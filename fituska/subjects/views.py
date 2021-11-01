@@ -12,12 +12,15 @@ from utils import get_unique_values, get_current_school_year
 def list_subjects(request):
     ordered_subject_list = Subject.objects.all()
     years = get_unique_values(ordered_subject_list, '-year')
+    current_year = get_current_school_year()
+    if not current_year in years:
+        years.insert(0, current_year)
 
     form = FilterYearForm(request.GET, years=years, default_none=False)
 
     year = request.GET.get('year')
     if not year or year == '--':
-        year = get_current_school_year()
+        year = current_year
     ordered_subject_list = ordered_subject_list.filter(year=year)
 
     comp = []

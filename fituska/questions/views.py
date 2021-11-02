@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
+from .decorators import answer_not_closed, question_not_closed
 from .forms import AnswerForm, QuestionForm, CloseAnswerForm, FilterCategoryForm, ReactionForm
 from .models import Answer, Question, Rating, Reaction
 from accounts.decorators import teacher_required, student_required
@@ -53,6 +54,8 @@ def add_question(request, shortcut, year):
     return render(request, 'questions/add_question.html', {'form': form, 'subject': subject})
 
 
+# TODO: remove form for teacher points
+# TODO: handle closed question
 def detail_question(request, shortcut, year, question_id, old_answer_form=None,
                     old_close_answer_form=None, old_reaction_form=None):
     subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
@@ -105,8 +108,9 @@ def detail_question(request, shortcut, year, question_id, old_answer_form=None,
     })
 
 
+@question_not_closed
+@student_required
 @require_POST
-@login_required
 def add_answer(request, shortcut, year, question_id):
     question = get_object_or_404(Question, pk=question_id)
 
@@ -124,13 +128,33 @@ def add_answer(request, shortcut, year, question_id):
         answer.save()
 
         # Add 1 upvote from answer author
-        Rating.objects.create(type=True, user=request.user, answer=answer).save()
+        Rating.objects.create(type=True, user=request.user, answer=answer)
 
         return redirect('question', shortcut, year, question_id)
 
     return redirect('question', shortcut, year, question_id, old_answer_form=form)
 
 
+@teacher_required
+@require_POST
+def close_question(request, shortcut, year, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    question.closed = True
+    question.save()
+
+    answers = Answer.objects.filter(question=question)
+    for answer in answers:
+        if answer.valid:
+            karma, _ = Karma.objects.get_or_create(user=answer.user, subject=answer.subject)
+            karma.karma += answer.sum_points()
+            karma.save()
+
+    # TODO: add form for teacher points
+    return redirect('question', shortcut, year, question_id)
+
+
+@answer_not_closed
+@question_not_closed
 @student_required
 def add_reaction(request, shortcut, year, question_id, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
@@ -148,8 +172,8 @@ def add_reaction(request, shortcut, year, question_id, answer_id):
 
 
 @csrf_exempt
-@require_POST
 @teacher_required
+@require_POST
 def close_answer(request, shortcut, year, question_id, answer_id):
     valid = True if 'valid' in request.POST.keys() else False
     answer = get_object_or_404(Answer, pk=answer_id)
@@ -165,8 +189,10 @@ def close_answer(request, shortcut, year, question_id, answer_id):
 
 
 @csrf_exempt
-@require_POST
+@answer_not_closed
+@question_not_closed
 @login_required
+@require_POST
 def rate_answer(request, shortcut, year, question_id, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
     question = get_object_or_404(Question, pk=question_id)
@@ -176,20 +202,16 @@ def rate_answer(request, shortcut, year, question_id, answer_id):
 
     try:
         rate = Rating.objects.get(user=request.user, answer=answer)
-    except Rating.DoesNotExist:
-        rate = None
-        
-        if user_ratings >= 3:
-            return HttpResponseBadRequest()
 
-    if not rate:
-        rate = Rating.objects.create(type=type_, user=request.user, answer=answer)
-        rate.save()
-    else:
         if rate.type != type_:
             rate.type = type_
             rate.save()
         else:
             rate.delete()
+    except Rating.DoesNotExist:
+        if user_ratings >= 3:
+            return HttpResponseBadRequest()
+
+        Rating.objects.create(type=type_, user=request.user, answer=answer)
 
     return JsonResponse({'id': answer_id, 'type': type_})

@@ -50,7 +50,6 @@ class Answer(AbstractAnswer):
         ratings = [rating.type for rating in Rating.objects.filter(answer=self)]
         return ratings.count(True) - ratings.count(False)
 
-    @property
     def sum_points(self):
         return self.points + self.teacher_points
 

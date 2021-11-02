@@ -24,8 +24,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def karma(self):
         all_karma = Karma.objects.filter(user=self)
-        all_karma = [int(karma) for karma in all_karma]
-        return sum(all_karma)
+        return sum([int(karma) for karma in all_karma])
 
     @property
     def is_moderator(self):

@@ -13,6 +13,8 @@
    					<th scope="col">Semester</th>
     				<th scope="col">Ročník</th>
     				<th scope="col">Povinný </th>
+    				<th scope="col"> Učitel </th>
+
   				</tr>
   				<tr>
   					{% if subject.semester == "winter"%}
@@ -28,6 +30,7 @@
      				{% else %}
      					<td class="">Ne</td>
      				{% endif %}
+     					<td class="text-muted">{{ subject.user }} </td>
   				</tr>
 			</table>
 		</div>
@@ -49,7 +52,7 @@
 					<div class="border w-75 mt-2 p-2"> 
 						<p class="px-2"><a class="text-decoration-none text-info" href="{% url 'question' subject.shortcut subject.year q.id %}">{{ q.title }}</a></p>
 						<p class="ps-5" style="font-size: 12px;"> {{ q.text }} </p>
-						
+						<p class="text-muted" style="font-size:10px; ">{{ q.user }} </p>
 					</div>
 				{% endfor %}
 				

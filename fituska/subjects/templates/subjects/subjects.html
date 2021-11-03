@@ -3,12 +3,26 @@
 {% block content %}
 
 <div class="container">
-	<div class="text-end me-2 mt-2 "><a class="text-decoration-none text-info" href="{% url 'leaderboard' %}">
-			ŽEBŘÍČEK </a> </div>
+	<div class="text-end me-2 mt-2 ">
+		<a class="text-decoration-none text-info" href="{% url 'leaderboard' %}">ŽEBŘÍČEK </a>
+	</div>
 </div>
 
 
 <div class="container">
+	<div>
+		<div class="mx-5 mb-2 w-25	">
+			<table class="table w-50">
+				<tr>
+				{% if user.is_authenticated %}
+					<th class="border" scope="col" >
+						<a class="text-decoration-none text-dark" href="subjects/">Přidat předmět</a>
+					</th>
+				{% endif %}
+			</table>
+		</div>
+	</div>
+
 		<div class="w-25 mb-5 ms-5">
 		<form>
 			<label>Rok</label>
@@ -27,11 +41,6 @@
 
 	</div>
 
-	{% if user.is_authenticated %}
-		{% if forloop.first %}
-	<h5 style="float: right;"><a href="subjects/">Přidat předmět</a></h5>
-		{% endif %}
-	{% endif %}
 	{% if forloop.first %}
 	<div class="w-100 p-3 mt-5">
 	{% endif %}

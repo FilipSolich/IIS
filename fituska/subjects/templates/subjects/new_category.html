@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+	<div class="d-flex justify-content-center w-100">
+		<!--Zde bude vypis kategorii (for)  -->
+		<h4> Subject </h4>
+		<div class="row"> 
+			<span>Nazev kategorie</span>
+			<button class="rounded border-0 bg-danger text-white p-2 mt-3 w-100" type="submit">
+             Odebrat kategorii
+            </button>
+		</div>
+
+
+	  	<div class="flex-column m-5">
+           <h4>Přidat kategorii</h4>
+        <!-- FORM -->
+            <form method="POST">
+                <div class="mt-4">
+                    <label class="w-50">Název kategorie:</label>
+                    <label>{{ form.name }} </label>
+              	</div>
+				{% csrf_token %}
+                <div class="w-50 ms-4 mt-5 mb-5">
+                    <button class="rounded border-0 bg-info text-white p-2 mt-3 w-100" type="submit">
+                        Přidat předmět
+                    </button>
+                </div>
+            </form>
+        <div>
+    </div>
+</div>
+
+{% endblock %}

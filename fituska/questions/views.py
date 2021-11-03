@@ -6,10 +6,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .decorators import answer_not_closed, question_not_closed
+from .decorators import question_not_closed
 from .forms import AnswerForm, QuestionForm, QuestionCloseForm, FilterCategoryForm, ReactionForm
 from .models import Answer, Question, Rating, Reaction
 from accounts.decorators import teacher_required, student_required
+from accounts.models import Karma
 from subjects.models import Category, Subject
 
 
@@ -94,7 +95,7 @@ def detail_question(request, shortcut, year, question_id,
 
     if old_close_form:
         close_form = old_close_form
-    elif request.user.is_anonymous or request.user.is_student(subject):
+    elif request.user.is_anonymous or request.user.is_student(subject) or question.closed:
         close_form = None
     else:
         close_form = QuestionCloseForm()
@@ -102,7 +103,7 @@ def detail_question(request, shortcut, year, question_id,
     return render(request, 'questions/question.html', {
         'subject': subject,
         'question': question,
-        'is_teacher': not  request.user.is_anonymous and request.user.is_teacher(subject),
+        'is_teacher': not request.user.is_anonymous and request.user.is_teacher(subject),
         'answers_and_reactions': answers_and_reactons,
         'answer_form': answer_form,
         'close_form': close_form,
@@ -145,20 +146,23 @@ def close_question(request, shortcut, year, question_id):
         question.closed = True
         question.save()
 
-        answers = Answer.objects.filter(question=question)
-        for answer in answers:
-            if answer.valid:
-                karma, _ = Karma.objects.get_or_create(user=answer.user, subject=answer.subject)
+        for id_ in request.POST.keys():
+            if id_.startswith('check-'):
+                id_ = id_[len('check-'):]
+
+                answer = Answer.objects.get(pk=id_)
+                answer.valid = True
+                answer.save()
+
+                karma, _ = Karma.objects.get_or_create(user=answer.user, subject=question.subject)
                 karma.karma += answer.sum_points()
                 karma.save()
 
-        # TODO: add form for teacher points
         return redirect('question', shortcut, year, question_id)
 
     return redirect('question', shortcut, year, question_id, old_close_form=form)
 
 
-@answer_not_closed
 @question_not_closed
 @student_required
 def add_reaction(request, shortcut, year, question_id, answer_id):
@@ -176,25 +180,7 @@ def add_reaction(request, shortcut, year, question_id, answer_id):
     return redirect('question', shortcut, year,question_id, old_reaction_form=form)
 
 
-#@csrf_exempt
-#@teacher_required
-#@require_POST
-#def close_answer(request, shortcut, year, question_id, answer_id):
-#    valid = True if 'valid' in request.POST.keys() else False
-#    answer = get_object_or_404(Answer, pk=answer_id)
-#    form = CloseAnswerForm(request.POST)
-#    if form.is_valid():
-#        answer.valid = valid
-#        answer.teacher_points = form.cleaned_data.get('teacher_points', 0) if valid else 0
-#        answer.save()
-#
-#        return redirect('question', shortcut, year, question_id)
-#
-#    return redirect('question', shortcut, year, question_id, old_close_answer_form=form)
-
-
 @csrf_exempt
-@answer_not_closed
 @question_not_closed
 @login_required
 @require_POST

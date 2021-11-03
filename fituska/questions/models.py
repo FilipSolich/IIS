@@ -41,7 +41,7 @@ class AbstractAnswer(models.Model):
 
 class Answer(AbstractAnswer):
 
-    valid = models.BooleanField('valid', blank=True, null=True)
+    valid = models.BooleanField('valid', default=False)
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 

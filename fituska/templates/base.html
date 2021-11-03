@@ -46,6 +46,7 @@
 		<div class="bg-white text-dark h-100">
 			<div class="">
 				<div class="border border-secondary" >
+					{{ user }} <!-- TODO Remove-->
 					{% if user.is_authenticated %}
 						<div class="text-end">
 							<a href="{% url 'logout' %}">Log-out</a>

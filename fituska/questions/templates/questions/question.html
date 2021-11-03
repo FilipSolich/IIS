@@ -39,17 +39,13 @@
 					<div class="col-sm"><img src="{{ answer.picture.url }}"></div>
 				{% endif %}
 
-				{% if close_form %}
-					<form method="post" action="{% url 'close_answer' subject.shortcut subject.year question.id answer.id %}">
-						{{ close_form.teacher_points.label_tag }}
-						{{ close_form.teacher_points }}
-						{{ close_form.answer_id }}
-						<input type="submit" name="valid" value="Správná odpověď" class="rounded bg-success" />
-						<input type="submit" name="invalid" value="Špatná odpověď" class="rounded bg-danger" />
-					</form>
-				{% endif %}
+				<div class="w-25 mx-2">
+					{% if user.is_teacher %} <!-- #TODO subject -->
+					<div style="float:right !important;" class="mt-4 ms-4">
+						<h4><input class="form-check-input" type="checkbox" id="{{ answer.id }}"></h4>
+					</div>
+					{% endif %}
 
-				<div class="w-25 mx-5">
 					<div class="col-sm row w-25" style="float:right !important;">
 						<span class="h4">
 							<a class="text-success" onclick="answer_rate('{% url 'rate' subject.shortcut subject.year question.id answer.id %}', {{ answer.id }}, true)">
@@ -72,6 +68,7 @@
 						</span>
 					</div>
 				</div>
+				
 			</div>
 			<div class="dropdown">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>

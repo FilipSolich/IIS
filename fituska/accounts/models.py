@@ -5,10 +5,10 @@ from django.db import models
 
 class User(AbstractBaseUser, PermissionsMixin):
 
-    login = models.CharField('login', max_length=8, unique=True)
-    email = models.EmailField('email address', unique=True)
-    first_name = models.CharField('first name', max_length=150, blank=True)
-    last_name = models.CharField('last name', max_length=150, blank=True)
+    login = models.CharField(max_length=8, unique=True, blank=False, null=False)
+    email = models.EmailField(unique=True, blank=False, null=False)
+    first_name = models.CharField(max_length=150, blank=True)
+    last_name = models.CharField(max_length=150, blank=True)
 
     objects = BaseUserManager()
 
@@ -57,10 +57,10 @@ class Karma(models.Model):
 
     from subjects.models import Subject # Must be here to prevent circular import
 
-    karma = models.IntegerField('karma', default=0)
+    karma = models.IntegerField(default=0)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Subject, on_delete=models.PROTECT)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
 
     def __int__(self):
         return self.karma

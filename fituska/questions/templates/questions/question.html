@@ -39,7 +39,13 @@
 					<div class="col-sm"><img src="{{ answer.picture.url }}"></div>
 				{% endif %}
 
-				<div class="w-25 mx-5">
+
+				<div class="w-25 mx-2">
+					{% if user.is_teacher %} <!-- #TODO subject -->
+					<div style="float:right !important;" class="mt-4 ms-4">
+						<h4><input class="form-check-input" type="checkbox" id="{{ answer.id }}"></h4>
+					</div>
+					{% endif %}
 					<div class="col-sm row w-25" style="float:right !important;">
 						<span class="h4">
 							<a class="text-success" onclick="answer_rate('{% url 'rate' subject.shortcut subject.year question.id answer.id %}', {{ answer.id }}, true)">
@@ -62,17 +68,28 @@
 						</span>
 					</div>
 				</div>
+				
 			</div>
-			{{ reaction_form.as_p }}
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
-				<div id="reaction" class="dropdown-menu mt-5" >
-					{% for reaction in reactions %}
-						<form>
-							<label>Zadejte prosím reakci</label>
-						</form>
-						<p>{{ reaction.text }}</p>
-					{% endfor %}
+			<div>
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
+					<div id="reaction" class="dropdown-menu mt-5" >
+						<div class="m-5">
+							<h5>Zadejte reakci: </h5>
+								<div class="row">
+									<label>Text:</label>
+									<label>{{ reaction_form.text }}</label>
+									<label>Zadejte obrázek</label>
+									<label class="mt-2">{{ reaction_form.picture }}</label>
+								</div>
+						</div>
+						{% for reaction in reactions %}
+							<form>
+								<label>Zadejte prosím reakci</label>
+							</form>
+							<p>{{ reaction.text }}</p>
+						{% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>

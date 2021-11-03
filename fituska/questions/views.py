@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .decorators import answer_not_closed, question_not_closed
-from .forms import AnswerForm, QuestionForm, CloseAnswerForm, FilterCategoryForm, ReactionForm
+from .forms import AnswerForm, QuestionForm, QuestionCloseForm, FilterCategoryForm, ReactionForm
 from .models import Answer, Question, Rating, Reaction
 from accounts.decorators import teacher_required, student_required
 from subjects.models import Category, Subject
@@ -56,8 +56,8 @@ def add_question(request, shortcut, year):
 
 # TODO: remove form for teacher points
 # TODO: handle closed question
-def detail_question(request, shortcut, year, question_id, old_answer_form=None,
-                    old_close_answer_form=None, old_reaction_form=None):
+def detail_question(request, shortcut, year, question_id,
+                    old_answer_form=None, old_reaction_form=None, old_close_form=None):
     subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
     question = get_object_or_404(Question, pk=question_id)
     answers = Answer.objects.filter(question=question)
@@ -68,6 +68,9 @@ def detail_question(request, shortcut, year, question_id, old_answer_form=None,
 
         if old_reaction_form and answer.id == old_reaction_form.answer_id:
             reaction_form = old_reaction_form
+        elif (request.user.is_anonymous or
+                not request.user.is_student(subject) and not request.user.is_teacher(subject)):
+            reaction_form = None
         else:
             reaction_form = ReactionForm(initial={'answer_id': answer.id})
 
@@ -76,17 +79,7 @@ def detail_question(request, shortcut, year, question_id, old_answer_form=None,
         except (Rating.DoesNotExist, TypeError):
             rate = None
 
-        if old_close_answer_form and answer.id == old_close_answer_form.answer_id:
-            close_answer_form = old_close_answer_form
-        elif (answer.valid is None and not request.user.is_anonymous and
-                request.user.is_teacher(subject)):
-            close_answer_form = CloseAnswerForm(initial={'answer_id': answer.id})
-        else:
-            close_answer_form = None
-
-        answers_and_reactons.append((
-            answer, reactions, reaction_form, rate, close_answer_form
-        ))
+        answers_and_reactons.append((answer, reactions, reaction_form, rate,))
 
     try:
         user_answer = Answer.objects.get(question=question, user=request.user)
@@ -95,16 +88,26 @@ def detail_question(request, shortcut, year, question_id, old_answer_form=None,
 
     if old_answer_form:
         answer_form = old_answer_form
-    elif request.user.is_anonymous or user_answer or request.user.is_teacher(subject):
+    elif (request.user.is_anonymous or user_answer or request.user.is_teacher(subject) or
+            not request.user.is_student(subject)):
         answer_form = None
     else:
         answer_form = AnswerForm()
 
+    if old_close_form:
+        close_form = old_close_form
+    elif request.user.is_anonymous or request.user.is_student(subject):
+        close_form = None
+    else:
+        close_form = QuestionCloseForm()
+
     return render(request, 'questions/question.html', {
         'subject': subject,
         'question': question,
+        'is_teacher': request.user.is_teacher(subject),
         'answers_and_reactions': answers_and_reactons,
         'answer_form': answer_form,
+        'close_form': close_form,
     })
 
 
@@ -171,21 +174,21 @@ def add_reaction(request, shortcut, year, question_id, answer_id):
     return redirect('question', shortcut, year,question_id, old_reaction_form=form)
 
 
-@csrf_exempt
-@teacher_required
-@require_POST
-def close_answer(request, shortcut, year, question_id, answer_id):
-    valid = True if 'valid' in request.POST.keys() else False
-    answer = get_object_or_404(Answer, pk=answer_id)
-    form = CloseAnswerForm(request.POST)
-    if form.is_valid():
-        answer.valid = valid
-        answer.teacher_points = form.cleaned_data.get('teacher_points', 0) if valid else 0
-        answer.save()
-
-        return redirect('question', shortcut, year, question_id)
-
-    return redirect('question', shortcut, year, question_id, old_close_answer_form=form)
+#@csrf_exempt
+#@teacher_required
+#@require_POST
+#def close_answer(request, shortcut, year, question_id, answer_id):
+#    valid = True if 'valid' in request.POST.keys() else False
+#    answer = get_object_or_404(Answer, pk=answer_id)
+#    form = CloseAnswerForm(request.POST)
+#    if form.is_valid():
+#        answer.valid = valid
+#        answer.teacher_points = form.cleaned_data.get('teacher_points', 0) if valid else 0
+#        answer.save()
+#
+#        return redirect('question', shortcut, year, question_id)
+#
+#    return redirect('question', shortcut, year, question_id, old_close_answer_form=form)
 
 
 @csrf_exempt

@@ -39,10 +39,9 @@ class ReactionForm(forms.ModelForm):
         fields = ['text', 'picture']
 
 
-class CloseAnswerForm(forms.Form):
+class QuestionCloseForm(forms.Form):
 
     teacher_points = forms.IntegerField(initial=0, required=False)
-    answer_id = forms.IntegerField(widget=forms.HiddenInput())
 
     def clean_teacher_points(self):
         value = self.cleaned_data['teacher_points']

@@ -10,6 +10,7 @@ class Question(models.Model):
     text = models.TextField('text', max_length=10000, blank=True, null=True)
     picture = models.ImageField('picture', blank=True, null=True)
     closed = models.BooleanField('closed', default=False)
+    teacher_points = models.IntegerField('teacher_points', default=0, blank=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
@@ -41,7 +42,6 @@ class AbstractAnswer(models.Model):
 class Answer(AbstractAnswer):
 
     valid = models.BooleanField('valid', blank=True, null=True)
-    teacher_points = models.IntegerField('teacher_points', default=0, blank=True)
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
@@ -51,7 +51,7 @@ class Answer(AbstractAnswer):
         return ratings.count(True) - ratings.count(False)
 
     def sum_points(self):
-        return self.points + self.teacher_points
+        return self.points + self.question.teacher_points
 
 
 class Reaction(AbstractAnswer):

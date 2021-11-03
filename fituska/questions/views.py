@@ -54,8 +54,6 @@ def add_question(request, shortcut, year):
     return render(request, 'questions/add_question.html', {'form': form, 'subject': subject})
 
 
-# TODO: remove form for teacher points
-# TODO: handle closed question
 def detail_question(request, shortcut, year, question_id,
                     old_answer_form=None, old_reaction_form=None, old_close_form=None):
     subject = get_object_or_404(Subject, shortcut=shortcut, year=year)
@@ -141,19 +139,23 @@ def add_answer(request, shortcut, year, question_id):
 @teacher_required
 @require_POST
 def close_question(request, shortcut, year, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    question.closed = True
-    question.save()
+    form = QuestionCloseForm(request.POST)
+    if form.is_valid():
+        question = get_object_or_404(Question, pk=question_id)
+        question.closed = True
+        question.save()
 
-    answers = Answer.objects.filter(question=question)
-    for answer in answers:
-        if answer.valid:
-            karma, _ = Karma.objects.get_or_create(user=answer.user, subject=answer.subject)
-            karma.karma += answer.sum_points()
-            karma.save()
+        answers = Answer.objects.filter(question=question)
+        for answer in answers:
+            if answer.valid:
+                karma, _ = Karma.objects.get_or_create(user=answer.user, subject=answer.subject)
+                karma.karma += answer.sum_points()
+                karma.save()
 
-    # TODO: add form for teacher points
-    return redirect('question', shortcut, year, question_id)
+        # TODO: add form for teacher points
+        return redirect('question', shortcut, year, question_id)
+
+    return redirect('question', shortcut, year, question_id, old_close_form=form)
 
 
 @answer_not_closed

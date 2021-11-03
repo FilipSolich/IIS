@@ -39,7 +39,7 @@ class ReactionForm(forms.ModelForm):
         fields = ['text', 'picture']
 
 
-class QuestionCloseForm(forms.Form):
+class QuestionCloseForm(AnswerForm):
 
     teacher_points = forms.IntegerField(initial=0, required=False)
 

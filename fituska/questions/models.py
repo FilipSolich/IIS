@@ -6,11 +6,11 @@ from subjects.models import Category, Subject
 
 class Question(models.Model):
 
-    title = models.CharField('title', max_length=150)
-    text = models.TextField('text', max_length=10000, blank=True, null=True)
-    picture = models.ImageField('picture', blank=True, null=True)
-    closed = models.BooleanField('closed', default=False)
-    teacher_points = models.IntegerField('teacher_points', default=0, blank=True)
+    title = models.CharField(max_length=150, blank=False, null=False)
+    text = models.TextField(max_length=10000, blank=True, null=True)
+    picture = models.ImageField(blank=True, null=True)
+    closed = models.BooleanField(default=False)
+    teacher_points = models.IntegerField(default=0, blank=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
@@ -26,10 +26,10 @@ class Question(models.Model):
 
 class AbstractAnswer(models.Model):
 
-    text = models.TextField(blank=False, max_length=10000)
-    picture = models.ImageField('picture', blank=True, null=True)
+    text = models.TextField(max_length=10000, blank=False, null=False)
+    picture = models.ImageField(blank=True, null=True)
 
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
 
@@ -41,7 +41,7 @@ class AbstractAnswer(models.Model):
 
 class Answer(AbstractAnswer):
 
-    valid = models.BooleanField('valid', default=False)
+    valid = models.BooleanField(default=False)
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
@@ -61,7 +61,7 @@ class Reaction(AbstractAnswer):
 
 class Rating(models.Model):
 
-    type = models.BooleanField('type')
+    type = models.BooleanField(null=False)
 
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)

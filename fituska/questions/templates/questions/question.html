@@ -71,13 +71,18 @@
 				
 			</div>
 			<div>
-				<div>
-					<h5>Formulář na reakce:</h5>
-						{{ reaction_form.as_p }}
-				</div>
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
 					<div id="reaction" class="dropdown-menu mt-5" >
+						<div class="m-5">
+							<h5>Zadejte reakci: </h5>
+								<div class="row">
+									<label>Text:</label>
+									<label>{{ reaction_form.text }}</label>
+									<label>Zadejte obrázek</label>
+									<label class="mt-2">{{ reaction_form.picture }}</label>
+								</div>
+						</div>
 						{% for reaction in reactions %}
 							<form>
 								<label>Zadejte prosím reakci</label>

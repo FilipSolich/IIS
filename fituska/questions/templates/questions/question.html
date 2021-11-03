@@ -5,7 +5,23 @@
 
 <div class="container">
 	<div> <a class="text-decoration-none text-info" href="{% url 'questions' subject.shortcut subject.year %}">ZPĚT</a> </div>
-	<div class="m-5"> <h6> <span> Předmět: </span> <span class="text-muted"> {{ subject.name }} </span></h6	> </div>
+	<div class="column mt-5 mb-5 ms-5">
+			{% if close_form %}
+		<div class=" border p-3  pb-4 rounded bg-warning text-dark" style="float:right !important;">
+			<form id="closeForm" method="post" action="{% url 'close_question' subject.shortcut subject.year question.id %}">
+				{% csrf_token %}
+				<div class ="column" >
+					<label> Učitelské body </label>
+					<span>{{ close_form.teacher_points }} </span>
+					<input class="rounded border-0 bg-info text-white p-1 mt-3" type="submit" value="Uzavřít otázku"/>
+				</div>
+			</form>
+		</div>
+		{% endif %}
+		<div class=" w-25"> <h6> <span> Předmět: </span> <span class="text-muted"> {{ subject.name }} </span></h6> </div>
+
+	</div>
+
 	<div class="m-5">
 		<h3>{{ question.title }}</h3>
 		<p class="mx-5">{{ question.text}} </p>
@@ -17,13 +33,7 @@
 
 <br>
 
-{% if close_form %}
-	<form id="closeForm" method="post" action="{% url 'close_question' subject.shortcut subject.year question.id %}">
-		{% csrf_token %}
-		{{ close_form.as_p }}
-		<input type="submit" value="Uzavřít otázku"/>
-	</form>
-{% endif %}
+
 
 <div class="mx-5">
 	{% if answer_form %}

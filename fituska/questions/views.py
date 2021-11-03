@@ -104,7 +104,7 @@ def detail_question(request, shortcut, year, question_id,
     return render(request, 'questions/question.html', {
         'subject': subject,
         'question': question,
-        'is_teacher': request.user.is_teacher(subject),
+        'is_teacher': not  request.user.is_anonymous and request.user.is_teacher(subject),
         'answers_and_reactions': answers_and_reactons,
         'answer_form': answer_form,
         'close_form': close_form,

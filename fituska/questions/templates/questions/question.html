@@ -70,15 +70,21 @@
 				</div>
 				
 			</div>
-			<div class="dropdown">
-				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
-				<div id="reaction" class="dropdown-menu mt-5" >
-					{% for reaction in reactions %}
-						<form>
-							<label>Zadejte prosím reakci</label>
-						</form>
-						<p>{{ reaction.text }}</p>
-					{% endfor %}
+			<div>
+				<div>
+					<h5>Formulář na reakce:</h5>
+						{{ reaction_form.as_p }}
+				</div>
+				<div class="dropdown">
+					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
+					<div id="reaction" class="dropdown-menu mt-5" >
+						{% for reaction in reactions %}
+							<form>
+								<label>Zadejte prosím reakci</label>
+							</form>
+							<p>{{ reaction.text }}</p>
+						{% endfor %}
+					</div>
 				</div>
 			</div>
 		</div>

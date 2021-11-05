@@ -32,7 +32,6 @@ def list_subjects(request):
             uncomp.append(subj)
 
 
-
     return render(request, 'subjects/subjects.html', {
         'ordered_subject_list': ordered_subject_list,
         'ordered_grade_list': get_unique_values(ordered_subject_list,"grade"),
@@ -59,20 +58,25 @@ def create_subject(request):
 @permission_required('subjects.can_confirm_subject')
 def new_subjects(request):
     unconfirmed_subjects = Subject.objects.filter(confirmed=False)
-
-    if request.method == 'POST':
-        form = ConfirmSubjectForm(request.POST)
-        if form.is_valid():
-            form.save()
-        return redirect("/subjects/new")
-    else:
-        form = ConfirmSubjectForm()
-    return render(request, 'subjects/confirm.html', {'unconfirmed_subjects': unconfirmed_subjects, 'form': form})
+    return render(request, 'subjects/unconfirmed.html', {'unconfirmed_subjects': unconfirmed_subjects})
 
 
 @permission_required('subjects.can_confirm_subject')
-def confirm_subject(request):
-    pass
+def confirm_subject(request, subject_id):
+    subject = Subject.objects.get(id = subject_id)    
+    if request.method == 'POST':
+        
+        form = ConfirmSubjectForm(request.POST, instance=subject)
+
+        if form.is_valid():
+            subject = form.save(commit=False)
+            subject.save()
+            return redirect("/subjects/new")
+
+    else:
+        form = ConfirmSubjectForm()
+         
+    return render(request, 'subjects/confirm.html', {'subject': subject, 'form': form})
 
 
 @permission_required('subjects.can_confirm_subject')

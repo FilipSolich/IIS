@@ -9,7 +9,7 @@ class AddSubjectForm(ModelForm):
     class Meta:
 
         model = Subject
-        fields = ('name', 'shortcut', 'year', 'semester', 'grade', 'compulsory',)
+        fields = ['name', 'shortcut', 'year', 'semester', 'grade', 'compulsory',]
 
 
 class ConfirmSubjectForm(ModelForm):
@@ -17,7 +17,7 @@ class ConfirmSubjectForm(ModelForm):
     class Meta:
 
         model = Subject
-        fields = ('confirmed',)
+        fields = ['confirmed',]
 
 
 class FilterYearForm(forms.Form):

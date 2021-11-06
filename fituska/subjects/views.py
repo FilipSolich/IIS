@@ -60,10 +60,9 @@ def new_subjects(request):
     unconfirmed_subjects = Subject.objects.filter(confirmed=False)
     return render(request, 'subjects/unconfirmed.html', {'unconfirmed_subjects': unconfirmed_subjects})
 
-
 @permission_required('subjects.can_confirm_subject')
 def confirm_subject(request, subject_id):
-    subject = Subject.objects.get(id = subject_id)    
+    subject = Subject.objects.get(id = subject_id)
     if request.method == 'POST':
         
         form = ConfirmSubjectForm(request.POST, instance=subject)
@@ -78,10 +77,21 @@ def confirm_subject(request, subject_id):
          
     return render(request, 'subjects/confirm.html', {'subject': subject, 'form': form})
 
-
 @permission_required('subjects.can_confirm_subject')
-def reject_subject(request):
-    pass
+def reject_subject(request, subject_id):
+    subject = Subject.objects.get(id = subject_id)
+    if request.method == 'POST':
+        
+        form = ConfirmSubjectForm(request.POST, instance=subject)
+
+        if form.is_valid():
+            subject.delete()
+            return redirect("/subjects/new")
+
+    else:
+        form = ConfirmSubjectForm()
+         
+    return render(request, 'subjects/reject.html', {'subject': subject, 'form': form})
 
 
 def subject_questions(request, subject_id):

@@ -14,14 +14,14 @@
 						<form method="post" action="{% url 'delete_moderator' %}">
 							{% csrf_token %}
 							<input type="hidden" name="user_id" value="{{ mod.id }}">
-							<input class="rounded border-0 bg-warning text-white p-1 btn-danger" type="submit" value="Odebrat"/>
+							<input class="rounded border-0 bg-warning text-white p-1" type="submit" value="Odebrat"/>
 						</form>
 					</span>
 					<span class="badge rounded-pill">
 						<form method="post" action="{% url 'delete_user' %}">
 							{% csrf_token %}
 							<input type="hidden" name="user_id" value="{{ mod.id }}">
-							<input class="rounded border-0 bg-danger text-white p-1 btn-danger" type="submit" value="Odstranit uživatele"/>
+							<input class="rounded border-0 bg-success text-white p-1r" type="submit" value="Odstranit uživatele"/>
 						</form>
 					</span>
 			</li>

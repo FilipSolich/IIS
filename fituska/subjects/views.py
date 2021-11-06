@@ -75,7 +75,7 @@ def confirm_subject(request, subject_id):
     else:
         form = ConfirmSubjectForm()
          
-    return render(request, 'subjects/confirm.html', {'subject': subject, 'form': form})
+    return render(request, 'subjects/edit_subject.html', {'subject': subject, 'form': form})
 
 @permission_required('subjects.can_confirm_subject')
 def reject_subject(request, subject_id):
@@ -91,7 +91,7 @@ def reject_subject(request, subject_id):
     else:
         form = ConfirmSubjectForm()
          
-    return render(request, 'subjects/reject.html', {'subject': subject, 'form': form})
+    return render(request, 'subjects/edit_subject.html', {'subject': subject, 'form': form})
 
 
 def subject_questions(request, subject_id):

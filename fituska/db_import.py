@@ -13,20 +13,25 @@ mod = Group.objects.get(name='Moderators')
 # User
 u1 = User.objects.create(login='xnovak00', email='novacek@seznam.cz', first_name='Filip', last_name='Novák', is_superuser=True)
 u1.set_password('filip_novak')
+u1.save()
 
 u2 = User.objects.create(login='xsechr00',email='marokac@seznam.cz', first_name='Marek', last_name='Sechra')
 u2.set_password('marek_sechra')
 u2.groups.add(mod)
+u2.save()
 
 u3 = User.objects.create(login='xsolic00', email='solich@tutanota.cz', first_name='Filip', last_name='Solich')
 u3.set_password('filip_solich')
 u3.groups.add(mod)
+u3.save()
 
 u4 = User.objects.create(login='xvokal00', email='d.vokal@gmail.com', first_name='Daniel', last_name='Vokál')
 u4.set_password('nejakeheslo1')
+u4.save()
 
 u5 = User.objects.create(login='xnamys00', email='v.myslitel@seznam.cz', first_name='Vojtěch', last_name='Namyslo')
 u5.set_password('nejakeheslo2')
+u5.save()
 
 
 # Subject

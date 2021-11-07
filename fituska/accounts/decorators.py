@@ -14,7 +14,12 @@ def student_required(view):
 
 def _role_on_subject(view, method):
     def inner(request, *args, **kwargs):
-        subject = get_object_or_404(Subject, shortcut=kwargs['shortcut'], year=kwargs['year'])
+        id_ = kwargs.get('subject_id')
+        if id_:
+            subject = get_object_or_404(Subject, pk=id_)
+        else:
+            subject = get_object_or_404(Subject, shortcut=kwargs['shortcut'], year=kwargs['year'])
+
         if not request.user.is_anonymous and getattr(request.user, method)(subject):
             return view(request, *args, **kwargs)
         else:

@@ -59,11 +59,11 @@
 						</div>
 					{% endif %}
 					<div class="container">
-						<div class="text-end me-2 mt-2 ">
+						<div class="text-end me-2 mt-2">
 							<a class="text-decoration-none text-info" href="{% url 'leaderboard' %}">ŽEBŘÍČEK </a>
 						</div>
 						{% if user.is_superuser %}
-						<div class="text-end me-2 mt-2 ">
+						<div class="text-end me-2 mt-2">
 							<a class="text-decoration-none text-info" href="{% url 'list_users' %}">Správa uživatelů </a>
 						</div>
 						{% endif %}

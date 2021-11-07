@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm, BooleanField
 
 from .models import Subject
-
+from .models import Category
 
 class AddSubjectForm(ModelForm):
 
@@ -32,3 +32,8 @@ class FilterYearForm(forms.Form):
         if default_none:
             years.insert(0, ('--', '--'))
         self.fields['year'] = forms.ChoiceField(choices=years, required=False)
+
+class AddCategoryForm:
+    class Meta:
+        model = Category
+        fields = ['name',]

@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from .models import Subject
-from .forms import AddSubjectForm, ConfirmSubjectForm, FilterYearForm
+from .forms import AddSubjectForm, ConfirmSubjectForm, FilterYearForm, AddCategoryForm
 from accounts.decorators import teacher_required
 from utils import get_unique_values, get_current_school_year
 
@@ -105,8 +105,16 @@ def subject_questions(request, subject_id):
 
 @teacher_required
 def create_category(request, subject_id):
-    pass
-    #ToDo Marek View+Html
+    if request.method == 'POST':
+        form = AddCategoryForm(request.POST)
+        if form.is_valid():
+            cat = form.save(commit = False)
+            cat.save()
+            return redirect("/")
+    else:
+        form = AddCategoryForm()
+    return render(request, 'subjects/new_category.html', {'form': form})
+
 @require_POST
 @teacher_required
 def delete_category(request, subject_id):

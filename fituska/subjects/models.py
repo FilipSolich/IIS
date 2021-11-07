@@ -5,22 +5,22 @@ from accounts.models import User
 
 class Subject(models.Model):
 
-    class choice_compulsory(models.TextChoices):
+    class CompulsoryChoice(models.TextChoices):
 
-        compulsory = 'povinný'
-        uncompulsory = 'nepovinný'
+        COMPULSORY = 'povinny', 'Povinný'
+        UNCOMPULSORY = 'nepovinny', 'Nepovinný'
 
-    class type_semester(models.TextChoices):
+    class SemesterType(models.TextChoices):
 
-        winter = "zimní"
-        summer = "letní"
+        WINTER = 'zimní', 'Zimní'
+        SUMMER = 'letní', 'Letní'
 
     name = models.CharField(max_length=100, blank=False, null=False)
     shortcut = models.CharField(max_length=6, blank=False, null=False)
     year = models.IntegerField(blank=False, null=False)
-    semester = models.CharField(choices=type_semester.choices, max_length=20, blank=False, null=False)
+    semester = models.CharField(max_length=20, choices=SemesterType.choices, default=SemesterType.WINTER, blank=False, null=False)
     grade = models.IntegerField(blank=False, null=False)
-    compulsory = models.CharField(max_length=20, choices=choice_compulsory.choices, default=choice_compulsory.uncompulsory)
+    compulsory = models.CharField(max_length=20, choices=CompulsoryChoice.choices, default=CompulsoryChoice.UNCOMPULSORY)
     confirmed = models.BooleanField(null=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)

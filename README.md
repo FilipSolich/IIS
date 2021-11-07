@@ -25,3 +25,9 @@ $ python manage.py creategroups
 $ python manage.py shell < db_import.py
 $ python manage.py runserver
 ```
+
+## Nový import dat do databaze
+
+```shell
+$ python manage.py loaddata db.json
+```

@@ -3,30 +3,32 @@
 {% block content %}
 <div class="container">
     <div class="d-flex justify-content-center">
-    	<div class="d-flex flex-column">
+    	<div class="d-flex flex-row mb-5">
             <div class="p-5">
-                {% for cat in category %}
-        		<h4> Aktuální kategorie </h4>
-        		<div class="mt-4"> 
-        			<b>Nazev kategorie</b>
+                
+                <h4> Aktuální kategorie </h4>
+                <div class="mt-4"> 
+                    <ul class="list-group">
+                    {% for cat in category %}
                     <div>
-                        {{ cat.name }} 
+                        <li class="list-group-item"> {{ cat.name }} </li> 
                     </div>
-        		</div>
+                     {% endfor %}
+                    </ul>
+                </div>
             </div>
-            {% endfor %}
-           
-    	  	<div class="p-5">
+            <div class="p-5 mb-5 mx-4">
                <h4>Přidat kategorii</h4>
             <!-- FORM -->
                 <form method="POST">
                     {% csrf_token %}
-                    <div class="mt-4">
-                        <label>{{ form.as_p }}</label>
+                    <div class="mt-4 mb-4">
+                        <label class="pe-2"> Název </label>
+                        <label>{{ form.name }}</label>
                     </div>
                     <div class="">
-                        <input type="hidden" name="category.name" value="{{ category.name }}"/>
-                        <input class="rounded border-0 bg-success text-white p-1" type="submit" value="Potvrdit"/>
+                        <input type="hidden" name="subject.id" value="{{ subject.id }}"/>
+                        <input class="rounded border-0 bg-success text-white p-1 px-2" type="submit" value="Přidat"/>
                     </div>
                 </form>
             </div>

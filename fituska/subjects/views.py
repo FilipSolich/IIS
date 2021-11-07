@@ -106,7 +106,8 @@ def subject_questions(request, subject_id):
 @teacher_required
 def create_category(request, subject_id):
 
-    category = Category.objects.filter(pk = subject_id)
+    category = Category.objects.all()
+    category = category.filter(subject = subject_id )
     if request.method == 'POST':
         form = AddCategoryForm(request.POST)
         if form.is_valid():

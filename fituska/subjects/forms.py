@@ -33,7 +33,9 @@ class FilterYearForm(forms.Form):
             years.insert(0, ('--', '--'))
         self.fields['year'] = forms.ChoiceField(choices=years, required=False)
 
-class AddCategoryForm:
+class AddCategoryForm(ModelForm):
+
     class Meta:
+
         model = Category
         fields = ['name',]

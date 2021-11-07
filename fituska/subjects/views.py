@@ -3,7 +3,7 @@ from django.http import response, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
-from .models import Subject
+from .models import Subject,Category
 from .forms import AddSubjectForm, ConfirmSubjectForm, FilterYearForm, AddCategoryForm
 from accounts.decorators import teacher_required
 from utils import get_unique_values, get_current_school_year
@@ -105,6 +105,8 @@ def subject_questions(request, subject_id):
 
 @teacher_required
 def create_category(request, subject_id):
+
+    category = Category.objects.filter(pk = subject_id)
     if request.method == 'POST':
         form = AddCategoryForm(request.POST)
         if form.is_valid():
@@ -113,7 +115,7 @@ def create_category(request, subject_id):
             return redirect("/")
     else:
         form = AddCategoryForm()
-    return render(request, 'subjects/new_category.html', {'form': form})
+    return render(request, 'subjects/new_category.html', {'category': category,'form': form})
 
 @require_POST
 @teacher_required

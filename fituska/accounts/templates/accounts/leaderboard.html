@@ -8,12 +8,10 @@
 	<div class="d-flex justify-content-center">
 		<form class="p-5 m-5 border w-50 rounded " method="get" action="{% url 'leaderboard' %}">
 			<table>
-				<td class="pe-1">rok:</td>
-					<th class="pe-3">{{ form.year}} </th>
-				<td class="pe-1">zkratka:  </td>
-					<th class="">{{ form.shortcut }} </th>
+				<td class="pe-1">Předmět:</td>
+				<th class="pe-3">{{ form.subject }} </th>
 			</table>
-			<input class=" rounded border-0 bg-info text-white p-2" style="float:right !important" type="submit" value="hledat"/>
+			<input class=" rounded border-0 bg-info text-white p-2" style="float:right !important" type="submit" value="Hledat"/>
 		</form>
 	</div>
 	<div class="d-flex justify-content-center">

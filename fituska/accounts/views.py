@@ -31,22 +31,16 @@ class SignUpView(FormView):
 
 
 def leaderboard(request):
-    subjects = Subject.objects.all()
-    years = get_unique_values(subjects, '-year')
-    shortcuts = get_unique_values(subjects, 'shortcut')
-
-    form = FilterLeaderboardForm(request.GET, shortcuts=shortcuts, years=years)
+    subjects = Subject.objects.all().order_by('-year', 'shortcut')
+    form = FilterLeaderboardForm(request.GET, subjects=subjects)
     context = {'form': form}
 
-    shortcut = request.GET.get('shortcut')
-    year = request.GET.get('year')
-
-    if shortcut == '--' or year == '--':
-        shortcut = None
-        year = None
+    subject = request.GET.get('subject')
+    if subject == '--':
+        subject = None
 
     try:
-        subject = Subject.objects.get(shortcut=shortcut, year=year)
+        subject = Subject.objects.get(pk=subject)
     except Subject.DoesNotExist:
         users = sorted(User.objects.all(), key=lambda user: user.karma, reverse=True)
         context.update({'users': users})

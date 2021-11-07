@@ -34,6 +34,10 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def school_year(self):
+        return f'{self.year}/{self.year+1}'
+
 
 class Registration(models.Model):
 

@@ -13,13 +13,17 @@ class UserCreationForm(BaseUserCreationForm):
         fields = ('email', 'login', 'first_name', 'last_name')
 
 
-class FilterLeaderboardForm(FilterYearForm):
+class FilterLeaderboardForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
-        shortcuts = kwargs.pop('shortcuts')
+        subjects = kwargs.pop('subjects')
 
         super().__init__(*args, **kwargs)
 
-        shortcuts = [(shortcut, shortcut) for shortcut in shortcuts]
-        shortcuts.insert(0, ('--', '--'))
-        self.fields['shortcut'] = forms.ChoiceField(choices=shortcuts, required=False, label='Zkratka')
+        subjects_choices = [
+            (f'{subject.id}', f'{subject.school_year} {subject.shortcut}') for subject in subjects
+        ]
+        subjects_choices.insert(0, ('--', '--'))
+        self.fields['subject'] = forms.ChoiceField(
+            choices=subjects_choices, required=False, label='Předmět'
+        )

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
-import django_heroku
+import django_on_heroku
 import dj_database_url
 
 
@@ -153,4 +153,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Heroku settings
 
-django_heroku.settings(locals())
+django_on_heroku.settings(locals())

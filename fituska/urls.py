@@ -4,9 +4,13 @@ from django.urls import include, path
 
 from subjects.views import list_subjects
 
+def test(request):
+    from django.http import HttpResponse
+    return HttpResponse('it works')
 
 urlpatterns = [
-    path('', list_subjects, name='list_subjects'),
+    #path('', list_subjects, name='list_subjects'),
+    path('', test, name='list_subjects'),
     path('subjects/', include('subjects.urls')),
     path('accounts/', include('accounts.urls')),
     path('questions/', include('questions.urls')),

@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-nlu+e_x3ect$%9x2bdy$p1(6mb&1td0a_m=!&qs&f-kvtt0m02
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://iis-fituska-v2.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'iis-fituska-v2.herokuapp.com']
 
 # Application definition
 

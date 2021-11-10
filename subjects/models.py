@@ -1,9 +1,9 @@
 from django.db import models
 
-from accounts.models import User
-
 
 class Subject(models.Model):
+
+    from accounts.models import User
 
     class CompulsoryChoice(models.TextChoices):
 
@@ -40,6 +40,8 @@ class Subject(models.Model):
 
 
 class Registration(models.Model):
+
+    from accounts.models import User
 
     confirmed = models.BooleanField(null=True)
 

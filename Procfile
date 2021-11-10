@@ -1,1 +1,1 @@
-web: gunicorn fituska.wsgi
+web: gunicorn fituska.wsgi --log-file -

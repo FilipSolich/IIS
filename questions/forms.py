@@ -14,6 +14,7 @@ class QuestionForm(forms.ModelForm):
         self.fields['category'] = forms.ModelChoiceField(
             queryset=Category.objects.filter(subject=subject)
         )
+        self.fields['category'].required = False
 
     class Meta:
 

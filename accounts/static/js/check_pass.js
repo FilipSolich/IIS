@@ -1,4 +1,3 @@
-
 function check_pass()
 {
 	if ( document.getElementById('id_password2').value != document.getElementById('id_password1').value ){
@@ -12,13 +11,10 @@ function check_pass()
 		document.getElementById('submit').style.display = 'block';
 	}
 }
+
+// TODO: remove marek
 $(document).ready(function() {
-	
-	if (  $('.inner').html()!="" ){
+	if ($('.inner').html() != "" ){
 		console.log("div is 0");
 	}
-
-	
-
 });
-

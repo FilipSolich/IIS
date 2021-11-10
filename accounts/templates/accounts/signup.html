@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block content %}
-
-
 {% if form.errors %}
-	<p>Wrong username or password. please try again.</p>
+<p>Wrong username or password. please try again.</p>
 {% endif %}
 <div class="container w-50 justify-content-center mt-5 ">
 	<div class="text-center display-5">Registrační formulář</div>
@@ -33,5 +31,8 @@
 		</div>
 	</form>
 </div>
+{% endblock %}
 
+{% block js %}
+<script type="text/javascript" src="{% static 'js/check_pass.js' %}"></script>
 {% endblock %}

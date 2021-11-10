@@ -15,18 +15,16 @@
 ```shell
 $ git clone git@github.com:FilipSolich/IIS.git
 $ cd IIS
-$ python -m venv .env
-$ source .env/bin/activate
+$ python -m venv .venv
+$ source .venv/bin/activate
 $ pip install -r requirements.txt
-$ cd fituska
 $ python manage.py makemigrations
 $ python manage.py migrate
 $ python manage.py creategroups
-$ python manage.py shell < db_import.py
 $ python manage.py runserver
 ```
 
-## Nový import dat do databaze
+# Import dat do DB
 
 ```shell
 $ python manage.py loaddata db.json

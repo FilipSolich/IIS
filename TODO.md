@@ -12,3 +12,5 @@
 
 - Import better data
 - Deploy on heroku
+
+- Add AbstractBaseUser to ER

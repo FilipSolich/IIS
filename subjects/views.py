@@ -10,8 +10,8 @@ from utils import get_unique_values, get_current_school_year
 
 
 def list_subjects(request):
-    ordered_subject_list = Subject.objects.all()
-    years = get_unique_values(ordered_subject_list, '-year')
+    subjects = Subject.objects.filter(confirmed=True)
+    years = get_unique_values(subjects, '-year')
     current_year = get_current_school_year()
     if not current_year in years:
         years.insert(0, current_year)
@@ -21,23 +21,20 @@ def list_subjects(request):
     year = request.GET.get('year')
     if not year or year == '--':
         year = current_year
-    ordered_subject_list = ordered_subject_list.filter(year=year)
+    subjects = subjects.filter(year=year)
 
-    comp = []
-    uncomp = []
-    for subj in ordered_subject_list:
-        if subj.compulsory == "compulsory":
-            comp.append(subj)
-        else:
-            uncomp.append(subj)
+    compulsory = get_unique_values(subjects, 'compulsory')
+    grade = get_unique_values(subjects, 'grade')
+    semester = get_unique_values(subjects, '-semester')
 
+    subjects_dict = {c: {g: {s: [] for s in semester} for g in grade} for c in compulsory}
+
+    for subject in subjects:
+        subjects_dict[subject.compulsory][subject.grade][subject.semester].append(subject)
 
     return render(request, 'subjects/subjects.html', {
-        'ordered_subject_list': ordered_subject_list,
-        'ordered_grade_list': get_unique_values(ordered_subject_list,"grade"),
-        'ordered_semester_list': get_unique_values(ordered_subject_list,"-semester"),
-        'ordered_compulsory_list': get_unique_values(ordered_subject_list,"compulsory"),
-        'form': form
+        'subjects_dict': subjects_dict,
+        'form': form,
     })
 
 

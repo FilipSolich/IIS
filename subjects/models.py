@@ -7,13 +7,13 @@ class Subject(models.Model):
 
     class CompulsoryChoice(models.TextChoices):
 
-        COMPULSORY = 'povinny', 'Povinný'
-        UNCOMPULSORY = 'nepovinny', 'Nepovinný'
+        COMPULSORY = 'compulsory', 'Povinný'
+        UNCOMPULSORY = 'uncompulsory', 'Nepovinný'
 
     class SemesterType(models.TextChoices):
 
-        WINTER = 'zimní', 'Zimní'
-        SUMMER = 'letní', 'Letní'
+        WINTER = 'winter', 'Zimní'
+        SUMMER = 'summer', 'Letní'
 
     name = models.CharField(max_length=100, blank=False, null=False)
     shortcut = models.CharField(max_length=6, blank=False, null=False)

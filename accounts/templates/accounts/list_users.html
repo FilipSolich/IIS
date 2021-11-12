@@ -14,14 +14,14 @@
 						<form method="post" action="{% url 'delete_moderator' %}">
 							{% csrf_token %}
 							<input type="hidden" name="user_id" value="{{ mod.id }}">
-							<input class="rounded border-0 bg-warning text-white p-1" type="submit" value="Odebrat"/>
+							<input class="rounded border-0 bg-warning text-white p-1" type="submit" value="Odebrat moderátora"/>
 						</form>
 					</span>
 					<span class="badge rounded-pill">
 						<form method="post" action="{% url 'delete_user' %}">
 							{% csrf_token %}
 							<input type="hidden" name="user_id" value="{{ mod.id }}">
-							<input class="rounded border-0 bg-success text-white p-1r" type="submit" value="Odstranit uživatele"/>
+							<input class="rounded border-0 bg-danger text-white p-1r" type="submit" value="Odstranit uživatele"/>
 						</form>
 					</span>
 			</li>
@@ -38,7 +38,7 @@
 					<form method="post" action="{% url 'make_moderator' %}">
 						{% csrf_token %}
 						<input type="hidden" name="user_id" value="{{ user.id }}">
-						<input class="rounded border-0 bg-success text-white p-1 btn-primary" type="submit" value="Přidat"/>
+						<input class="rounded border-0 bg-success text-white p-1 btn-primary" type="submit" value="Přidat moderátora"/>
 					</form>
 				</span>
 				<span class="badge rounded-pill">

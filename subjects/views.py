@@ -105,24 +105,25 @@ def subject_questions(request, subject_id):
 
 @teacher_required
 def create_category(request, subject_id):
-
+    subject = get_object_or_404(Subject, pk = subject_id)
     category = Category.objects.all()
     category = category.filter(subject = subject_id )
     if request.method == 'POST':
         form = AddCategoryForm(request.POST)
         if form.is_valid():
             cat = form.save(commit = False)
+            cat.subject_id = subject_id
             cat.save()
-            return redirect("/")
+            return redirect('create_category', subject_id = subject_id)
     else:
         form = AddCategoryForm()
-    return render(request, 'subjects/new_category.html', {'category': category,'form': form})
+    return render(request, 'subjects/new_category.html', {'category': category,'form': form ,'subject': subject})
 
 @require_POST
 @teacher_required
 def delete_category(request, subject_id):
-    pass
-    #Todo Marek View+Html
+    get_object_or_404(Category, pk=request.POST.get('category_id')).delete()
+    return redirect('create_category', subject_id = subject_id)
 
 @teacher_required
 def students(request, subject_id):

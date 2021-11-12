@@ -10,9 +10,16 @@
                 <div class="mt-4"> 
                     <ul class="list-group">
                     {% for cat in category %}
-                    <div>
-                        <li class="list-group-item"> {{ cat.name }} </li> 
-                    </div>
+                    <form class="" method="post" action="{% url 'delete_category' subject.id %}">
+                        <div class="row mt-2">
+                            <li class="list-group-item w-50"> {{ cat.name }} </li>
+                            <div class="w-25 mt-2">
+                                {% csrf_token %}
+                                <input type="hidden" name="category_id" value="{{ cat.id }}">
+                                <input class="rounded border-0 bg-danger text-white p-1 btn-primary" type="submit" value="Odebrat"/>
+                            </div>
+                        </div>
+                    </form>
                      {% endfor %}
                     </ul>
                 </div>

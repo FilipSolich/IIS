@@ -4,28 +4,14 @@
 {% block content %}
 {% if form.errors %}
 	{% for field in form %}
-		{% for error in field.errors %} 
-			{% if error == "login" %}
+		{% for error in field.errors %}
+		<div class="d-flex justify-content-center">
 			<div class="alert alert-danger" role="alert">
-				Zadali jste špatně login (xlogin00).
+				<p>Zadali jste špatně svoje údaje, zkontrolujte heslo.</p>
+				<p>Chyba je v {{ field }} </p>
+				<p> {{ error }} </p>
 			</div>
-			{% elif error == "email" %}
-			<div class="alert alert-danger" role="alert">
-				Zadali jste špatně svůj email (mujemail@domena.com).
-			</div>
-			{% elif error == "first_name" %}
-			<div class="alert alert-danger" role="alert">
-				Zadali jste špatně svoje křestní jméno.
-			</div>
-			{% elif error == "last_name" %}
-			<div class="alert alert-danger" role="alert">
-				Zadali jste špatně svoje příjmení.
-			</div>
-			{% else %}
-			<div class="alert alert-danger" role="alert">
-				Zadali jste špatně svoje údaje, zkontrolujte heslo.
-			</div>
-			{% endif %}
+		</div>
 		{% endfor %}
 	{% endfor %}
 {% endif %}

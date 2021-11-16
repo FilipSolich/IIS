@@ -1,7 +1,3 @@
-# Accounts
-
-- Fix karma leaderboard
-
 # Cleanup
 
 - Remove all TODO

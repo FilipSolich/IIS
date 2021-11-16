@@ -67,7 +67,7 @@
 						{% endif %}
 						{% if perms.subjects.can_confirm_subject %}
 						<div class="text-end me-2 mt-2 ">
-							<a class="text-decoration-none text-info" href="subjects/new">Nově přidané předměty </a>
+							<a class="text-decoration-none text-info" href="{% url 'new_subjects' %}">Nově přidané předměty </a>
 						</div>
 						{% endif %}
 					</div>

@@ -15,7 +15,7 @@
 			<ul class="list-group w-100 mt-1">
 				<h5>{{ subject.name }}</h5>
 				<div class="align-self-end">
-					<a class=" text-decoration-none rounded border-0 text-white p-1 bg-warning" href="reject/{{ subject.id }}">
+					<a class=" text-decoration-none rounded border-0 text-white p-1 bg-warning" href="{% url 'reject_subject' subject.id %}">
 						Upravit předmět
 					</a>
 				</div>

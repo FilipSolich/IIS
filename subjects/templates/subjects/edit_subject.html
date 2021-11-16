@@ -1,46 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
 <div class="container">
-    <div> <a class="text-decoration-none text-info" href="{% url 'new_subjects' %}">ZPĚT</a> </div>  
-    <div class="row text-center">
-        <div class="col">
-            <h1>Upravit předmět</h1>
-        </div>
-    </div>
-    
-    <div class=" d-flex justify-content-center mb-5">
-      <div class="w-75">
-        
-        <ul class="list-group w-100 mt-1">
-            <h5>{{ subject.name }}</h5>
-            <li class="list-group-item">Zkratka: {{ subject.shortcut }}</li>
-            <li class="list-group-item">Rok: {{ subject.year }}</li>
-            <li class="list-group-item">Semestr: {{ subject.semester }}</li>
-            <li class="list-group-item">Ročník: {{ subject.grade }}</li>
-            <li class="list-group-item">Povinnost: {{ subject.compulsory }}</li>
-            <li class="list-group-item">Přidal/a: <b>{{ subject.user }}</b></li>
-        </ul>
-         <div class="row pt-1 mt-2">
-                <div class="col-3">
-                    <form method="post" action="{% url 'reject_subject' subject.id %}">
-                    {% csrf_token %}
-                        <input type="hidden" name="subject_id" value="{{ subject.id }}"/>
-                        <input class="rounded border-0 bg-danger text-white p-1" type="submit" value="Zamitnout"/>
-                    </form>
-                </div>
-                 <div class="col-3 mx-3">
-                    <form method="post" action="{% url 'confirm_subject' subject.id %}">
-                    {% csrf_token %}
-                        <input type="hidden" name="subject_id" value="{{ subject.id }}"/>
-                        <input class="rounded border-0 bg-success text-white p-1" type="submit" value="Potvrdit"/>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
+	<div> <a class="text-decoration-none text-info" href="{% url 'new_subjects' %}">ZPĚT</a> </div>  
+	<div class="row text-center">
+		<div class="col">
+			<h1>Upravit předmět</h1>
+		</div>
+	</div>
+	<div class=" d-flex justify-content-center mb-5">
+		<div class="w-75">
+			<ul class="list-group w-100 mt-1">
+				<h5>{{ subject.name }}</h5>
+				<li class="list-group-item">Zkratka: {{ subject.shortcut }}</li>
+				<li class="list-group-item">Rok: {{ subject.year }}</li>
+				<li class="list-group-item">Semestr: {{ subject.semester }}</li>
+				<li class="list-group-item">Ročník: {{ subject.grade }}</li>
+				<li class="list-group-item">Povinnost: {{ subject.compulsory }}</li>
+				<li class="list-group-item">Přidal/a: <b>{{ subject.user }}</b></li>
+			</ul>
+			<div class="row pt-1 mt-2">
+				<div class="col-3">
+					<form method="post" action="{% url 'reject_subject' subject.id %}">
+					{% csrf_token %}
+						<input type="hidden" name="subject_id" value="{{ subject.id }}"/>
+						<input class="rounded border-0 bg-danger text-white p-1" type="submit" value="Zamitnout"/>
+					</form>
+				</div>
+				<div class="col-3 mx-3">
+					<form method="post" action="{% url 'confirm_subject' subject.id %}">
+					{% csrf_token %}
+						<input type="hidden" name="subject_id" value="{{ subject.id }}"/>
+						<input class="rounded border-0 bg-success text-white p-1" type="submit" value="Potvrdit"/>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
 
 {% endblock %}

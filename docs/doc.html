@@ -25,7 +25,7 @@
             </dd>
             <dd>Marek Sechra <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
                 <a href="mailto:xsechr00@stud.fit.vutbr.cz">xsechr00@stud.fit.vutbr.cz</a> - 
-                ER diagram, DB schema, Frontend, Backend (částečně)
+                ER diagram, DB schema, Frontend, Backend
             </dd>
             <dd>Vasil Poposki <!-- Nahraďte skutečným jménem a e-mailem autora a popisem činnosti -->
                 <a href="mailto:xpopos00@stud.fit.vutbr.cz">xpopos00@stud.fit.vutbr.cz</a> - 
@@ -45,7 +45,53 @@
         </table>
 
         <h2>Implementace</h2>
-        <!-- TODO dodelat dokumentaci implementace -->
+        <div>
+            <p>Framework: Django (3.2.7)</p>
+            <p>Stylování: Bootstrap (5.0.2) </p>
+            <p> Celkový program využívá 3 aplikace </p>
+            <p> Zvolili jsme model MVC, který se v našem frameworku jmenuje MVT.</p>
+            <p>
+                M reprezentuje model, kde se zprostředkávájí databazové 
+            transakce a vytváří se struktura databáze pro danou aplikaci
+            </p> 
+            <p>
+                V reprezentuje view, která je hlavním srdcem aplikace komunikuje s modelem a zároveň s šablonou.Je zde implementována veškerá business logika a její transakce.
+            </p>
+            <p>
+            Posledním prvkem modelu je template neboli šablona, která reprezentuje samotný výpis dat, které jsou interpretována uživateli.
+            </p>
+            <ul>
+                <li> Accounts </li>
+                <li> Subjects </li>
+                <li> Questions </li>
+            </ul>
+            <div>
+                <h4> Accounts </h4>
+                <p>
+                    V této aplikaci se implementuje všechna problematika související s uživatelem jako jeho přihlašení, odhlášení
+                    , žebříček a práva uživatelů.Ke každému uživateli jsme vytvořili atribut, který popisuje jeho práva (student/učitel/moderátor) vše zaštituje námi vytvořený administátor. Pokud se uživateli nepodaří přihlásit, registrovat objeví se korektní hláška, která
+                    uživatele nasměřuje na správné vyplnění. Uživatel je přihlášen dokud se sám neodhlásí.
+                </p>
+                <p>
+                    Pro problematiku hlídání správného přistupu k business transakcím jsme vytvořili navrhový vzor dekorátor <i>@student_required </i>  a <i>@teacher_required</i>
+                </p>
+            </div>
+            <div>
+                <h4> Subjects</h4>
+                <p>
+                    V této aplikace vytvaříme vše co se týka předmětu. možnost editace předmětu, pokud je daný uživatel k tomu autorizován, jinak se mu taková možnost ani nezobrazí. Nově přidané předměty se musí potvrdit, poté se vypisují na hlavní stránk naší Fitušky.
+                    Pokud učitel vytvoří, který není korektní nebo neodpovídá zadání je zastaven a upozorněn na konkretní chybu.
+                </p>
+            </div>
+            <div>
+                <h4> Questions </h4>
+                <p>
+                    V této aplikaci provádíme implementaci ohledně otázek a odpovědí a reakcí, současně je zde umístený blok pro hodnocení odpovědi studentem. Zajimavostí je, že formulář pro tohle hodnocení využívá AJAX, abychom zamezili zbytečnému překreslování 
+                    stránky.
+                </p>
+            </div>
+
+        </div>
 
         <h3>Databáze</h3>
 

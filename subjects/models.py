@@ -21,7 +21,7 @@ class Subject(models.Model):
     semester = models.CharField(max_length=20, choices=SemesterType.choices, default=SemesterType.WINTER, blank=False, null=False)
     grade = models.IntegerField(blank=False, null=False)
     compulsory = models.CharField(max_length=20, choices=CompulsoryChoice.choices, default=CompulsoryChoice.UNCOMPULSORY)
-    confirmed = models.BooleanField(null=True)
+    confirmed = models.BooleanField(default=False, null=False)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

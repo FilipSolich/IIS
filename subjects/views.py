@@ -43,10 +43,11 @@ def create_subject(request):
     if request.method == 'POST':
         form = AddSubjectForm(request.POST)
         if form.is_valid():
-            subject = form.save(commit = False)
+            subject = form.save(commit=False)
             subject.user = request.user
             subject.save()
-        return redirect("/")
+            return redirect('list_subjects')
+
     else:
         form = AddSubjectForm()
     return render(request, 'subjects/new.html', {'form': form})

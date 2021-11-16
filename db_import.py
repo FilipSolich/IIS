@@ -13,58 +13,33 @@ mod = Group.objects.get(name='Moderators')
 # User
 u1 = User.objects.create(login='xnovak00', email='novacek@seznam.cz', first_name='Filip', last_name='Novák', is_superuser=True)
 u1.set_password('filip_novak')
-u1.save()
 
 u2 = User.objects.create(login='xsechr00',email='marokac@seznam.cz', first_name='Marek', last_name='Sechra')
 u2.set_password('marek_sechra')
 u2.groups.add(mod)
-u2.save()
 
 u3 = User.objects.create(login='xsolic00', email='solich@tutanota.cz', first_name='Filip', last_name='Solich')
 u3.set_password('filip_solich')
 u3.groups.add(mod)
-u3.save()
 
 u4 = User.objects.create(login='xvokal00', email='d.vokal@gmail.com', first_name='Daniel', last_name='Vokál')
 u4.set_password('nejakeheslo1')
-u4.save()
 
 u5 = User.objects.create(login='xnamys00', email='v.myslitel@seznam.cz', first_name='Vojtěch', last_name='Namyslo')
 u5.set_password('nejakeheslo2')
-u5.save()
 
 
 # Subject
-s1 = Subject.objects.create(name='Diskretní matematika', year='2020', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory',confirmed = False, user = u1)
-s2 = Subject.objects.create(name='Diskretní matematika', year='2019', semester='winter', shortcut='IDM', grade=1,compulsory='compulsory', confirmed = False, user = u1 )
-s3 = Subject.objects.create(name='Diskretní matematika', year='2018', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory', confirmed = False, user = u2 )
-s4 = Subject.objects.create(name='Softwarové inženýrství', year='2020', semester='winter', shortcut='IUS', grade=1, compulsory='compulsory', confirmed = False, user = u3)
-s5 = Subject.objects.create(name='Matematická analýza 1', year ='2020', semester = 'summer', shortcut ='IMA1', grade = 1, compulsory ='compulsory', confirmed = False, user = u3 )
-s6 = Subject.objects.create(name='Návrh číslicových systémů', year ='2020', semester = 'summer', shortcut ='INC', grade = 1, compulsory ='compulsory', confirmed = True, user = u3 )
-s7 = Subject.objects.create(name='Algoritmy', year ='2020', semester = 'winter', shortcut ='IAL', grade = 2, compulsory ='compulsory', confirmed = True, user = u4 )
-s8 = Subject.objects.create(name='Formální jazyky a překladače', year ='2020', semester = 'winter', shortcut ='IFJ', grade = 2, compulsory ='compulsory', confirmed = True, user = u4 )
-s9 = Subject.objects.create(name='Kondiční posilování', year ='2020', semester = 'winter', shortcut ='TV-KP', grade = 2, compulsory ='uncompulsory', confirmed = True, user = u5 )
-s10 = Subject.objects.create(name='Bezpečnost a počítačové sítě', year ='2020', semester = 'summer', shortcut ='IBS', grade = 2, compulsory ='uncompulsory',  confirmed = True,user = u5 )
-
-
-
-
-
-
-
-k1 = Karma.objects.create(karma=10, user=u1, subject=s1)
-k2 = Karma.objects.create(karma=15, user=u1, subject=s2)
-k3 = Karma.objects.create(karma=4, user=u2, subject=s3)
-k4 = Karma.objects.create(karma=15, user=u2, subject=s4)
-k5 = Karma.objects.create(karma=20, user=u3, subject=s1)
-k6 = Karma.objects.create(karma=2, user=u3, subject=s2)
-k7 = Karma.objects.create(karma=13, user=u4, subject=s3)
-k8 = Karma.objects.create(karma=99, user=u4, subject=s4)
-
-
-
-
-
+s1 = Subject.objects.create(name='Diskretní matematika', year='2021', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory',confirmed = False, user = u1)
+s2 = Subject.objects.create(name='Diskretní matematika', year='2020', semester='winter', shortcut='IDM', grade=1,compulsory='compulsory', confirmed = False, user = u1 )
+s3 = Subject.objects.create(name='Diskretní matematika', year='2020', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory', confirmed = False, user = u2 )
+s4 = Subject.objects.create(name='Softwarové inženýrství', year='2021', semester='winter', shortcut='IUS', grade=1, compulsory='compulsory', confirmed = False, user = u3)
+s5 = Subject.objects.create(name='Matematická analýza 1', year ='2021', semester = 'summer', shortcut ='IMA1', grade = 1, compulsory ='compulsory', confirmed = False, user = u3 )
+s6 = Subject.objects.create(name='Návrh číslicových systémů', year ='2021', semester = 'summer', shortcut ='INC', grade = 1, compulsory ='compulsory', confirmed = True, user = u3 )
+s7 = Subject.objects.create(name='Algoritmy', year ='2021', semester = 'winter', shortcut ='IAL', grade = 2, compulsory ='compulsory', confirmed = True, user = u4 )
+s8 = Subject.objects.create(name='Formální jazyky a překladače', year ='2021', semester = 'winter', shortcut ='IFJ', grade = 2, compulsory ='compulsory', confirmed = True, user = u4 )
+s9 = Subject.objects.create(name='Kondiční posilování', year ='2021', semester = 'winter', shortcut ='TV-KP', grade = 2, compulsory ='uncompulsory', confirmed = True, user = u5 )
+s10 = Subject.objects.create(name='Bezpečnost a počítačové sítě', year ='2021', semester = 'summer', shortcut ='IBS', grade = 2, compulsory ='uncompulsory',  confirmed = True,user = u5 )
 
 
 r1 = Registration.objects.create(confirmed=True, user=u1, subject=s1)
@@ -79,11 +54,6 @@ r9 = Registration.objects.create(confirmed=True, user=u5, subject=s6)
 r10 = Registration.objects.create(confirmed=False, user=u5, subject=s8)
 r11 = Registration.objects.create(confirmed=False, user=u4, subject=s9)
 r12 = Registration.objects.create(confirmed=False, user=u5, subject=s10)
-
-
-
-
-
 
 
 c1 = Category.objects.create(name="Semestrálni zkouška", subject=s1)
@@ -107,8 +77,6 @@ c18 = Category.objects.create(name="Semestrálni zkouška", subject=s10)
 c19 = Category.objects.create(name="Půlsemestrální zkouška", subject=s10)
 
 
-
-
 q1 = Question.objects.create(title="Náhled zkoušky",text="Dobrý den, chci se zeptat kdy bude možnost náhlednout na zkoušku ? Díky",user= u2, subject=s1, category = c1)
 q2 = Question.objects.create(title="Pruběh zkoušky",text="Dobrý den, chci se zeptat jestli bude zkouška v D105 ? Nikde jsem nenašel žadné info Díky", user= u2, subject=s1, category = c1)
 q3 = Question.objects.create(title="1. uloha", text="Jake bylo reseni 1. ulohy?", subject=s2, user=u1, category=c5)
@@ -123,11 +91,6 @@ q11 = Question.objects.create(title="Opravny termin", text="Kdy presne bude 1. o
 q12 = Question.objects.create(title="IDE", text="Dobry den, jake vyvojove prostredi budeme na cvicenich pouzivat?", subject=s5, user=u3, category=c11)
 
 
-
-
-
-
-
 a1 = Answer.objects.create(text="Možnost náhledu bude 21.2.2020 v kanceláří T208", valid=True, user= u1, question=q1)
 a2 = Answer.objects.create(text="Zkouška bude probíhat v D105 a D0025 od 8:00", valid=True, user= u1, question=q2)
 a3 = Answer.objects.create(text="Výsledkem této ulohy byl určitý integrál, který měl hodnotu 42", valid=True, user= u1, question=q3)
@@ -140,4 +103,3 @@ a9 = Answer.objects.create(text="Prosím odevzdejte výsledky archiv ve formátu
 a10 = Answer.objects.create(text="Pokud používáte Visual Studio doporučuji si stáhnout knihovnu na kreslení těchto diagramů nebo můžeme využít draw.io", valid=True, user= u1, question=q10)
 a11 = Answer.objects.create(text="Možnost náhledu bude 8.3.2020 v kanceláří T208", valid=True, user= u1, question=q11)
 a12 = Answer.objects.create(text="Budeme výhradně využivát VIM, jestli se to dá brát jako IDE", valid=True, user= u1, question=q12)
-

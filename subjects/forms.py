@@ -4,12 +4,13 @@ from django.forms import ModelForm, BooleanField
 from .models import Subject
 from .models import Category
 
+
 class AddSubjectForm(ModelForm):
 
     class Meta:
 
         model = Subject
-        fields = ['name', 'shortcut', 'year', 'semester', 'grade', 'compulsory',]
+        fields = ['name', 'shortcut', 'year', 'semester', 'grade', 'compulsory']
 
 
 class ConfirmSubjectForm(ModelForm):
@@ -32,6 +33,7 @@ class FilterYearForm(forms.Form):
         if default_none:
             years.insert(0, ('--', '--'))
         self.fields['year'] = forms.ChoiceField(choices=years, required=False)
+
 
 class AddCategoryForm(ModelForm):
 

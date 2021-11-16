@@ -33,7 +33,10 @@ class SignUpView(FormView):
 def leaderboard(request):
     subjects = Subject.objects.extra(
         select={
-            'count': 'SELECT COUNT(*) FROM accounts_karma WHERE accounts_karma.subject_id = subjects_subject.id'
+            'count': (
+                'SELECT COUNT(*) FROM accounts_karma '
+                'WHERE accounts_karma.subject_id = subjects_subject.id'
+            )
         },
         where=['count > 0'],
     ).order_by('-year', 'shortcut')

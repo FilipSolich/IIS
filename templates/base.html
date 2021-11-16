@@ -42,22 +42,23 @@
 
 	<main class="container">
 		<div class="bg-white text-dark h-100">
+			<div>
 			<div class="">
 				<div class="border border-secondary" >
 					{{ user }}
 					{% if user.is_authenticated %}
-						<div class="text-end">
-							<a href="{% url 'logout' %}">Log-out</a>
+						<div class="text-end mx-4">
+							<b><a class="text-decoration-none text-info  border rounded p-2 border-warning" href="{% url 'logout' %}">Odhlásit</a></b>
 						</div>
 					{% else %}
-						<div class="text-end me-2">
-							<a href="{% url 'login'%}">
+						<div class="text-end mx-4">
+							<a  href="{% url 'login'%}">
 								<i class="bi bi-people-fill text-info" style="font-size: 35px;"></i>
 							</a>
 						</div>
 					{% endif %}
-					<div class="container">
-						<div class="text-end me-2 mt-2">
+					<div class="mx-4">
+						<div class="text-end me-2 mt-4">
 							<a class="text-decoration-none text-info" href="{% url 'leaderboard' %}">ŽEBŘÍČEK </a>
 						</div>
 						{% if user.is_superuser %}
@@ -76,6 +77,7 @@
 					{% endblock %}
 				</div>
 			</div>
+		</div>
 		</div>
 
 	</main>

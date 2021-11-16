@@ -46,7 +46,7 @@ def create_subject(request):
             subject = form.save(commit = False)
             subject.user = request.user
             subject.save()
-        return redirect("/")
+            return redirect("/")
     else:
         form = AddSubjectForm()
     return render(request, 'subjects/new.html', {'form': form})

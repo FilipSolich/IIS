@@ -6,6 +6,39 @@
 	<div class="d-flex justify-content-center w-100">
 		<div>
 			<div class="flex-column m-5">
+				{% if form.errors %}
+					{% for error in form.errors %}
+						{% if error == "shortcut" %}
+						<div class="alert alert-danger" role="alert">
+							Zadali jste špatně zkratku předmětu.
+						</div>
+						{% elif error == "name" %}
+						<div class="alert alert-danger" role="alert">
+							Zadali jste špatně název předmětu.
+						</div>
+						{% elif error == "year"%}
+						<div class="alert alert-danger" role="alert">
+							Zadali jste špatně rok průběhu předmětu.
+						</div>
+						{% elif error == "semester"%}
+						<div class="alert alert-danger" role="alert">
+							Zadali jste špatně semestr.
+						</div>
+						{% elif error == "grade"%}
+						<div class="alert alert-danger" role="alert">
+							Zadali jste špatně ročník.
+						</div>
+						{% elif error == "compulsory"%}
+						<div class="alert alert-danger" role="alert">
+							Zadali jste špatně povinnost předmětu.
+						</div>
+						{% else %}
+						<div class="alert alert-danger" role="alert">
+							Špatně odeslaný formulář
+						</div>
+						{% endif %}
+					{% endfor %}
+				{% endif %}
 				<h4>Přidat předmět</h4>
 				<form method="POST">
 					<div class="mt-4">

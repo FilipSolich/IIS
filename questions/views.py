@@ -11,7 +11,7 @@ from .forms import AnswerForm, QuestionForm, QuestionCloseForm, FilterCategoryFo
 from .models import Answer, Question, Rating, Reaction
 from accounts.decorators import teacher_required, student_required
 from accounts.models import Karma
-from subjects.models import Category, Subject
+from subjects.models import Category, Subject, Registration
 
 
 def list_questions(request, shortcut, year):
@@ -23,6 +23,10 @@ def list_questions(request, shortcut, year):
     if category_id == '--':
         category_id = None
 
+    student_registered = False
+    if(Registration.objects.filter(user = request.user, subject=subject)):
+        student_registered = True
+
     try:
         category = Category.objects.get(pk=category_id)
     except Category.DoesNotExist:
@@ -33,7 +37,8 @@ def list_questions(request, shortcut, year):
     return render(request, 'questions/questions.html', {
         'subject': subject,
         'questions': questions,
-        'category_form': category_form
+        'category_form': category_form,
+        'student_registered' : student_registered
     })
 
 

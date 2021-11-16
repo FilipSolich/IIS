@@ -1,7 +1,8 @@
 from django import forms
+from django.db.models import fields
 from django.forms import ModelForm, BooleanField
 
-from .models import Subject
+from .models import Registration, Subject
 from .models import Category
 
 
@@ -41,3 +42,11 @@ class AddCategoryForm(ModelForm):
 
         model = Category
         fields = ['name',]
+
+
+class RegisterSubjectForm(ModelForm):
+    
+    class Meta:
+
+        model = Registration
+        fields = []

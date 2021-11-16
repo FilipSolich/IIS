@@ -3,8 +3,19 @@
 
 {% block content %}
 {% if form.errors %}
-<p>Wrong username or password. please try again.</p>
+	{% for field in form %}
+		{% for error in field.errors %}
+		<div class="d-flex justify-content-center">
+			<div class="alert alert-danger" role="alert">
+				<p>Zadali jste špatně svoje údaje, zkontrolujte heslo.</p>
+				<p>Chyba je v {{ field }} </p>
+				<p> {{ error }} </p>
+			</div>
+		</div>
+		{% endfor %}
+	{% endfor %}
 {% endif %}
+
 <div class="container w-50 justify-content-center mt-5 ">
 	<div class="text-center display-5">Registrační formulář</div>
 	<form class="p-5"method="post" action="{% url 'signup' %}">

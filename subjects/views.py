@@ -3,8 +3,9 @@ from django.http import response, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
-from .models import Subject,Category
-from .forms import AddSubjectForm, ConfirmSubjectForm, FilterYearForm, AddCategoryForm
+from .models import Subject, Category, Registration
+from .forms import AddSubjectForm, ConfirmSubjectForm, FilterYearForm, AddCategoryForm, RegisterSubjectForm
+from accounts.models import User
 from accounts.decorators import teacher_required
 from utils import get_unique_values, get_current_school_year
 
@@ -54,7 +55,7 @@ def create_subject(request):
 
 @permission_required('subjects.can_confirm_subject')
 def new_subjects(request):
-    unconfirmed_subjects = Subject.objects.filter(confirmed=False)
+    unconfirmed_subjects = Subject.objects.filter(confirmed=None)
     return render(request, 'subjects/unconfirmed.html', {'unconfirmed_subjects': unconfirmed_subjects})
 
 @permission_required('subjects.can_confirm_subject')
@@ -65,8 +66,8 @@ def confirm_subject(request, subject_id):
         form = ConfirmSubjectForm(request.POST, instance=subject)
 
         if form.is_valid():
-            subject = form.save(commit=False)
-            subject.save()
+            subject.confirmed = True
+            subject = form.save()
             return redirect("/subjects/new")
 
     else:
@@ -124,7 +125,12 @@ def delete_category(request, subject_id):
 
 @teacher_required
 def students(request, subject_id):
-    pass
+    students_list = []
+    for user in User.objects.all():
+        if(user.is_student(subject_id)):
+            students_list.append(user)
+    
+    return render(request, 'subject/students.html', {'students_list':students_list,})
 
 
 @require_POST
@@ -139,7 +145,20 @@ def reject_student(request, subject_id):
     pass
 
 
-@require_POST
+#@require_POST
 @login_required
 def register_subject(request, subject_id):
-    pass
+    subject = Subject.objects.get(id = subject_id)
+
+    if request.method == 'POST':
+        form = RegisterSubjectForm(request.POST)
+        if form.is_valid():
+            registration = form.save(commit = False)
+            registration.confirmed = None
+            registration.user = request.user
+            registration.subject = Subject.objects.get(pk=subject_id)
+            registration.save()
+        return redirect("/")
+    else:
+        form = RegisterSubjectForm()
+    return render(request, 'subjects/register_subject.html', {'subject':subject, 'form': form})

@@ -3,13 +3,18 @@
 {%block content%}
 
 {% if form.errors %}
-       {% for field in form %}
-           {% for error in field.errors %} 
-              <div class="alert alert-danger">
-                   <strong>{{ error|escape }}</strong>
-              </div>
-           {% endfor %}
-       {% endfor %}
+	<div class="d-flex justify-content-center"> 
+		<div class="alert alert-danger" role="alert">
+			<p>Zadali jste špatně svoje údaje, zkontrolujte heslo.</p>
+		</div>
+		{% for field in form %}
+		{% for error in field.errors %} 
+			<div class="alert alert-danger">
+				<strong>{{ error|escape }}</strong>
+			</div>
+		{% endfor %}
+	{% endfor %}
+	</div>
 {% endif %}
 
 <div class="container mt-5 d-flex justify-content-center w-50 p-3 mb-5">
@@ -29,11 +34,9 @@
 				<input class="ms-5" type="hidden" name="next" value="{{ next }}"/>
 			</div>
 		</div>
-
-
-
 	</form>
 </div>
+
 <div class="float-right text-end w-50 mb-5">
 	<a class = "text-decoration-none text-info" href="{% url 'signup' %}"> Registrace </a>
 </div>

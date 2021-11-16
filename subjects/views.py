@@ -47,7 +47,7 @@ def create_subject(request):
             subject = form.save(commit = False)
             subject.user = request.user
             subject.save()
-        return redirect("/")
+            return redirect("/")
     else:
         form = AddSubjectForm()
     return render(request, 'subjects/new.html', {'form': form})
@@ -58,6 +58,7 @@ def new_subjects(request):
     unconfirmed_subjects = Subject.objects.filter(confirmed=None)
     return render(request, 'subjects/unconfirmed.html', {'unconfirmed_subjects': unconfirmed_subjects})
 
+
 @permission_required('subjects.can_confirm_subject')
 def confirm_subject(request, subject_id):
     subject = Subject.objects.get(id = subject_id)
@@ -66,14 +67,16 @@ def confirm_subject(request, subject_id):
         form = ConfirmSubjectForm(request.POST, instance=subject)
 
         if form.is_valid():
+            subject = form.save(commit=False)
             subject.confirmed = True
-            subject = form.save()
+            subject.save()
             return redirect("/subjects/new")
 
     else:
         form = ConfirmSubjectForm()
          
     return render(request, 'subjects/edit_subject.html', {'subject': subject, 'form': form})
+
 
 @permission_required('subjects.can_confirm_subject')
 def reject_subject(request, subject_id):
@@ -92,15 +95,6 @@ def reject_subject(request, subject_id):
     return render(request, 'subjects/edit_subject.html', {'subject': subject, 'form': form})
 
 
-def subject_questions(request, subject_id):
-
-    try:
-        subject = Subject.objects.get(pk = subject_id)
-    except:
-        raise response.Http404("Subject does not exist")
-    return render(request, 'subjects/questions.html', {'subject': subject})
-
-
 @teacher_required
 def create_category(request, subject_id):
     subject = get_object_or_404(Subject, pk = subject_id)
@@ -117,11 +111,13 @@ def create_category(request, subject_id):
         form = AddCategoryForm()
     return render(request, 'subjects/new_category.html', {'category': category,'form': form ,'subject': subject})
 
+
 @require_POST
 @teacher_required
 def delete_category(request, subject_id):
     get_object_or_404(Category, pk=request.POST.get('category_id')).delete()
     return redirect('create_category', subject_id = subject_id)
+
 
 @teacher_required
 def students(request, subject_id):

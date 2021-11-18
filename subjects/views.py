@@ -56,7 +56,7 @@ def create_subject(request):
 
 @permission_required('subjects.can_confirm_subject')
 def new_subjects(request):
-    unconfirmed_subjects = Subject.objects.filter(confirmed=None)
+    unconfirmed_subjects = Subject.objects.filter(confirmed=False)
     return render(request, 'subjects/unconfirmed.html', {'unconfirmed_subjects': unconfirmed_subjects})
 
 

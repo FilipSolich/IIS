@@ -69,11 +69,13 @@
 				</div>
 				{% endif %}
 			</div>
+			{% if is_student %}
 			<div class="w-75">
 				<span class="rounded border-0 bg-warning p-1 mt-3 pe-3" style="float:right !important;">
 					<a class="text-decoration-none text-dark" href="{% url 'add_question' subject.shortcut subject.year %}"> Přidat otázku </a>
-				</span> 
+				</span>
 			</div>
+			{% endif %}
 			<div class="mt-5 mb-5">
 				{% for q in questions%}
 				{% if forloop.first %}

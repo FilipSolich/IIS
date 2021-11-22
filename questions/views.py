@@ -48,6 +48,7 @@ def list_questions(request, shortcut, year):
         'subject': subject,
         'questions': questions,
         'category_form': category_form,
+        'is_student': not request.user.is_anonymous and request.user.is_student(subject),
         'is_teacher': not request.user.is_anonymous and request.user.is_teacher(subject),
         'register_button' : register_button,
     })

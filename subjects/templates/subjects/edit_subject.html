@@ -15,9 +15,21 @@
 				<h5>{{ subject.name }}</h5>
 				<li class="list-group-item">Zkratka: {{ subject.shortcut }}</li>
 				<li class="list-group-item">Rok: {{ subject.year }}</li>
-				<li class="list-group-item">Semestr: {{ subject.semester }}</li>
+				<li class="list-group-item">Semestr:
+					{% if subject.semester == "winter" %}
+						Zimní
+					{% else %}
+						Letní
+					{% endif %}
+				</li>
 				<li class="list-group-item">Ročník: {{ subject.grade }}</li>
-				<li class="list-group-item">Povinnost: {{ subject.compulsory }}</li>
+				<li class="list-group-item">Povinnost:
+					{% if subject.compulsory == "compulsory" %}
+						Povinný
+					{% else %}
+						Nepovinný
+					{% endif %}
+				</li>
 				<li class="list-group-item">Přidal/a: <b>{{ subject.user }}</b></li>
 			</ul>
 			<div class="row pt-1 mt-2">

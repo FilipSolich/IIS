@@ -19,7 +19,7 @@
 		{% endif %}
 		<h3> {{ question.title }}</h3>
 		<p class="mx-5">{{ question.text}} </p>
-		<p class="text-muted"> {{ subject.user }} </p>
+		<p class="text-muted"> {{ question.user }} </p>
 	</div>
 </div>
 
@@ -55,13 +55,12 @@
 			<div class="row">
 				<div class="w-75 col-sm">
 					<spa>{{ answer.text }}</spa>
-					<p class="text-muted" style="float:right !important; "> {{ answer.user }}</p>  <!-- TODO spatny user, ne ten co polozil otazku (Marek)-->
+					<p class="text-muted" style="float:right !important; "> {{ answer.user }}</p>
 				</div>
 				
 				{% if answer.picture %}
 					<div class="col-sm" ><img src="{{ answer.picture.url }}"></div>
 				{% endif %}
-
 
 				<div class="w-25 mx-2">
 					{% if close_form %} <!-- #TODO subject -->
@@ -93,9 +92,9 @@
 				</div>
 			</div>
 			<div>
+				{% if not question.closed and user.is_authenticated %}
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
-					<!-- TODO WTF? -->
 					<div id="reaction" class="dropdown-menu mt-5" >
 						<div class="m-5">
 							<form method="post" enctype="multipart/form-data" action="{% url 'add_reaction' subject.shortcut subject.year  question.id  answer.id %}">
@@ -106,7 +105,7 @@
 									{{ reaction_form.text }}
 									<label>Zadejte obrázek</label>
 									{{ reaction_form.picture }}
-									<input class="w-25 bg-info text-white mt-4 border-0 ms-2 rounded"type="submit"/>
+									<input class="w-25 bg-info text-white mt-4 border-0 ms-2 rounded pt-2 pb-2" type="submit" value="Odeslat reakci"/>
 								</div>
 							</form>
 						</div>
@@ -115,6 +114,7 @@
 						{% endfor %}
 					</div>
 				</div>
+				{% endif %}
 			</div>
 		</div>
 	{% endfor %}

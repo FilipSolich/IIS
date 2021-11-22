@@ -10,7 +10,7 @@
 					{% for error in form.errors %}
 						{% if error == "shortcut" %}
 						<div class="alert alert-danger" role="alert">
-							Zadali jste špatně zkratku předmětu.
+							Zadali jste špatně zkratku předmětu. Max 6 znaků
 						</div>
 						{% elif error == "name" %}
 						<div class="alert alert-danger" role="alert">
@@ -26,7 +26,7 @@
 						</div>
 						{% elif error == "grade"%}
 						<div class="alert alert-danger" role="alert">
-							Zadali jste špatně ročník.
+							Zadali jste špatně ročník. příklad: 1 
 						</div>
 						{% elif error == "compulsory"%}
 						<div class="alert alert-danger" role="alert">
@@ -42,15 +42,15 @@
 				<h4>Přidat předmět</h4>
 				<form method="POST">
 					<div class="mt-4">
-						<label class="w-50">Název předmětu:</label>
+						<label class="w-50">Název předmětu: *</label>
 						<label>{{ form.name }} </label>
 					</div>
 					<div class="mt-4">
-						<label class="w-50">Zkratka předmětu:</label>
+						<label class="w-50">Zkratka předmětu: *</label>
 						<label>{{ form.shortcut }} </label>
 					</div>
 					<div class="mt-4"> 
-						<label class="w-100">Rok průběhu předmětu:</label>
+						<label class="w-100">Rok průběhu předmětu: *</label>
 						<label>{{ form.year }}</label>
 					</div>
 					<div class="mt-4"> 
@@ -58,12 +58,15 @@
 						<label>{{ form.semester }}</label>
 					</div>
 					<div class="mt-4">
-						<label class="w-100">Ročník:</label> 
+						<label class="w-100">Ročník: *</label> 
 						<label>{{ form.grade }}</label> 
 					</div>
 					<div class="mt-4">
 						<label class="w-100">Povinnost předmětu:</label>
 						<label>{{ form.compulsory }}</label>
+					</div>
+					<div class="mt-4">
+						<span class="text-muted">* Povinné položky </span>
 					</div>
 					{% csrf_token %}
 					<div class="w-50 ms-4 mt-5 mb-5">

@@ -7,7 +7,10 @@ from .models import Category
 
 
 class AddSubjectForm(ModelForm):
-
+    name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Fyzika II'}))
+    shortcut = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'FYZ-02'}))
+    year = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder':'2021'}))
+    grade = forms.IntegerField(widget=forms.TextInput(attrs={'placeholder':'1'}))
     class Meta:
 
         model = Subject

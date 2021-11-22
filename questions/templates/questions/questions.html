@@ -6,11 +6,23 @@
 	<div class="mb-3"> <a class="text-decoration-none text-info" href="{% url 'list_subjects' %}"> ZPĚT</a> </div>
     <div class="row text-left">
         <div class="col">
+            <h1>{{subject.shortcut}} - {{ subject.name }} ({{ subject.year }})</h1>
+
+			<div>
+				<a class=" text-decoration-none rounded border-0 text-white p-1 bg-warning" href="{% url 'students' subject.id  %}">
+					Studenti kurzu
+				</a>
+			</div>
+
             <h1>{{subject.shortcut}} - {{ subject.name }} ({{ subject.school_year }})</h1>
             {% if not student_registered %}
-				<a href="/subjects/{{subject.id}}/register/"> Registruj se</a>
+			<form method="post">
+			{% csrf_token %}
+			<input type="submit" value="Registruj se"></form>
 			{% endif %}
 			
+
+
 			<div class="w-50">
 	         <table class="table">
   				<tr>

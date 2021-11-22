@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from .models import Subject, Category, Registration
-from .forms import AddSubjectForm, ConfirmSubjectForm, FilterYearForm, AddCategoryForm, RegisterSubjectForm
+from .forms import AddSubjectForm, ConfirmSubjectForm, FilterYearForm, AddCategoryForm, RegisterSubjectForm, ConfirmStudentForm
 from accounts.models import User
 from accounts.decorators import teacher_required
 from utils import get_unique_values, get_current_school_year
@@ -120,42 +120,61 @@ def delete_category(request, subject_id):
     return redirect('create_category', subject_id = subject_id)
 
 
-@teacher_required
+#@teacher_required
 def students(request, subject_id):
+    subject = get_object_or_404(Subject, pk = subject_id)
+    r = Registration.objects.filter(subject=subject)
     students_list = []
     for user in User.objects.all():
-        if(user.is_student(subject_id)):
-            students_list.append(user)
+        if user.is_student(subject_id):
+            try:
+                reg = r.get(user=user)
+                confirmed = reg.confirmed
+            except:
+                confirmed = False
+            
+            students_list.append((user,confirmed))
     
-    return render(request, 'subject/students.html', {'students_list':students_list,})
-
-
-@require_POST
-@teacher_required
-def confirm_student(request, subject_id):
-    pass
-
+    return render(request, 'subjects/students.html', {'students_list' : students_list, 'subject': subject})
 
 @require_POST
-@teacher_required
-def reject_student(request, subject_id):
-    pass
-
-
-#@require_POST
-@login_required
-def register_subject(request, subject_id):
+#@teacher_required
+def confirm_student(request, subject_id, student_id):
     subject = Subject.objects.get(id = subject_id)
+    student = User.objects.get(id = student_id)
+    registration = Registration.objects.filter(user=student, subject=subject)
 
     if request.method == 'POST':
-        form = RegisterSubjectForm(request.POST)
+        
+        form = ConfirmStudentForm(request.POST, instance=registration)
+
         if form.is_valid():
             registration = form.save(commit = False)
-            registration.confirmed = None
-            registration.user = request.user
-            registration.subject = Subject.objects.get(pk=subject_id)
+            registration.confirmed = True
             registration.save()
-        return redirect("/")
+            return redirect("/subjects/students")
+
     else:
-        form = RegisterSubjectForm()
-    return render(request, 'subjects/register_subject.html', {'subject':subject, 'form': form})
+        form = ConfirmStudentForm()
+         
+    return render(request, 'subjects/edit_student.html', {'subject': subject, 'student': student, 'form': form})
+
+#@require_POST
+#@teacher_required
+def reject_student(request, subject_id, student_id):
+    subject = Subject.objects.get(id = subject_id)
+    student = User.objects.get(id = student_id)
+    registration = Registration.objects.filter(user=student, subject=subject)
+
+    if request.method == 'POST':
+        
+        form = ConfirmStudentForm(request.POST, instance=registration)
+
+        if form.is_valid():
+            registration.delete()
+            return redirect("/subjects/students")
+
+    else:
+        form = ConfirmStudentForm()
+         
+    return render(request, 'subjects/edit_student.html', {'subject': subject, 'student': student, 'form': form})

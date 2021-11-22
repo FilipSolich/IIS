@@ -32,6 +32,8 @@ class AnswerForm(forms.ModelForm):
 
 class ReactionForm(forms.ModelForm):
 
+    answer_id = forms.IntegerField(widget=forms.HiddenInput())
+
     class Meta:
 
         model = Reaction
@@ -43,7 +45,7 @@ class QuestionCloseForm(AnswerForm):
     teacher_points = forms.IntegerField(initial=0, required=False)
 
     def clean_teacher_points(self):
-        value = self.cleaned_data['teacher_points']
+        value = self.cleaned_data['teacher_points'] or 0
         if value < 0:
             raise ValidationError('Počet bodů musí být kladné číslo.')
 

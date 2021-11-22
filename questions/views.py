@@ -1,7 +1,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -23,16 +23,20 @@ def list_questions(request, shortcut, year):
     if category_id == '--':
         category_id = None
 
-    student_registered = False
-    if(Registration.objects.filter(user = request.user, subject=subject)):
-        student_registered = True
-
     try:
         category = Category.objects.get(pk=category_id)
     except Category.DoesNotExist:
         questions = Question.objects.filter(subject=subject)
     else:
         questions = Question.objects.filter(subject=subject, category=category)
+    
+    student_registered = False
+    if(Registration.objects.filter(user = request.user, subject=subject)):
+        student_registered = True
+    if request.method == 'POST':
+        registration = Registration.objects.create(confirmed=None, user=request.user, subject=subject)
+        registration.save()
+        return HttpResponseRedirect(request.path_info)
 
     return render(request, 'questions/questions.html', {
         'subject': subject,

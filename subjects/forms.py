@@ -50,3 +50,10 @@ class RegisterSubjectForm(ModelForm):
 
         model = Registration
         fields = []
+
+class ConfirmStudentForm(ModelForm):
+
+    class Meta:
+
+        model = Registration
+        fields = ['confirmed',]

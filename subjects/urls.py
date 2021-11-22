@@ -11,7 +11,6 @@ urlpatterns = [
     path('<int:subject_id>/categories/', views.create_category, name='create_category'),
     path('<int:subject_id>/categories/delete/', views.delete_category, name='delete_category'),
     path('<int:subject_id>/students/', views.students, name='students'),
-    path('<int:subject_id>/students/confirm/', views.confirm_student, name='confirm_student'),
-    path('<int:subject_id>/students/reject/', views.reject_student, name='reject_student'),
-    path('<int:subject_id>/register/', views.register_subject, name='register_subject'),
+    path('<int:subject_id>/students/<int:student_id>/confirm/', views.confirm_student, name='confirm_student'),
+    path('<int:subject_id>/students/<int:student_id>/reject/', views.reject_student, name='reject_student'),
 ]

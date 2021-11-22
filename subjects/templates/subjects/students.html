@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row text-center">
+		<div class="col">
+			<h1>{{subject.shortcut}} - {{ subject.name }}({{ subject.year }})</h1>
+		</div>
+	</div>
+	
+	{% for student, confirmed in students_list %}
+	<div class=" d-flex justify-content-center mb-5">
+		<div class="w-75">
+			<ul class="list-group w-100 mt-1">
+				<h5>{{ student }}</h5>
+				{% if not confirmed %}
+				<div class="align-self-begin">
+					<a class=" text-decoration-none rounded border-0 text-white p-1 bg-warning" href="{% url 'reject_student' subject.id student.id %}">
+						Shválit studenta
+					</a>
+				</div>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+
+{% endblock %}

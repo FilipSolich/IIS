@@ -14,6 +14,7 @@
 				</a>
 			</div>
 
+            <h1>{{subject.shortcut}} - {{ subject.name }} ({{ subject.school_year }})</h1>
             {% if not student_registered %}
 			<form method="post">
 			{% csrf_token %}

@@ -184,19 +184,20 @@ def close_question(request, shortcut, year, question_id):
 
 @question_not_closed
 @student_required
+@require_POST
 def add_reaction(request, shortcut, year, question_id, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
 
-    form = ReactionForm(request.POST)
+    form = ReactionForm(request.POST, request.FILES)
     if form.is_valid():
         reaction = form.save(commit=False)
-        reaction.user = reqeust.user
+        reaction.user = request.user
         reaction.answer = answer
         reaction.save()
 
         return redirect('question', shortcut, year, question_id)
 
-    return redirect('question', shortcut, year,question_id, old_reaction_form=form)
+    return redirect('question', shortcut, year, question_id, old_reaction_form=form)
 
 
 @csrf_exempt

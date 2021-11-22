@@ -91,7 +91,6 @@
 						</span>
 					</div>
 				</div>
-				
 			</div>
 			<div>
 				<div class="dropdown">
@@ -99,14 +98,14 @@
 					<!-- TODO WTF? -->
 					<div id="reaction" class="dropdown-menu mt-5" >
 						<div class="m-5">
-							<form method="post" action="{% url 'add_reaction' subject.shortcut subject.year  question.id  answer.id %}">
+							<form method="post" enctype="multipart/form-data" action="{% url 'add_reaction' subject.shortcut subject.year  question.id  answer.id %}">
 								{% csrf_token %}
 							<h5>Zadejte reakci: </h5>
 								<div class="row">
 									<label>Text:</label>
-									<label>{{ reaction_form.text }}</label>
+									{{ reaction_form.text }}
 									<label>Zadejte obrázek</label>
-									<label class="mt-2">{{ reaction_form.picture }}</label>
+									{{ reaction_form.picture }}
 									<input class="w-25 bg-info text-white mt-4 border-0 ms-2 rounded"type="submit"/>
 								</div>
 							</form>

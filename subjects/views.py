@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required, permission_required
-from django.http import response, HttpResponseForbidden
+from django.http import response, HttpResponseForbidden, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
 
 from .models import Subject, Category, Registration
-from .forms import AddSubjectForm, ConfirmSubjectForm, FilterYearForm, AddCategoryForm, RegisterSubjectForm, ConfirmStudentForm
+from .forms import AddSubjectForm, ConfirmSubjectForm, FilterYearForm, AddCategoryForm
 from accounts.models import User
 from accounts.decorators import teacher_required
 from utils import get_unique_values, get_current_school_year
@@ -120,61 +120,58 @@ def delete_category(request, subject_id):
     return redirect('create_category', subject_id = subject_id)
 
 
-#@teacher_required
+@require_POST
+@login_required
+def register(request, subject_id):
+    subject = get_object_or_404(Subject, pk=subject_id)
+    if not request.user.is_teacher(subject):
+        try:
+            Registration.objects.get(subject=subject, user=request.user)
+        except Registration.DoesNotExist:
+            Registration.objects.create(subject=subject, user=request.user)
+
+    return redirect('questions', shortcut=subject.shortcut, year=subject.year)
+
+
+@teacher_required
 def students(request, subject_id):
-    subject = get_object_or_404(Subject, pk = subject_id)
-    r = Registration.objects.filter(subject=subject)
-    students_list = []
-    for user in User.objects.all():
-        if user.is_student(subject_id):
-            try:
-                reg = r.get(user=user)
-                confirmed = reg.confirmed
-            except:
-                confirmed = False
-            
-            students_list.append((user,confirmed))
-    
-    return render(request, 'subjects/students.html', {'students_list' : students_list, 'subject': subject})
+    subject = get_object_or_404(Subject, pk=subject_id)
+    registrations = Registration.objects.filter(subject=subject)
+    not_registred = registrations.filter(confirmed=None)
+    registred = registrations.filter(confirmed=True)
+
+    return render(request, 'subjects/students.html', {
+        'subject': subject,
+        'not_registred': not_registred,
+        'registred': registred,
+    })
+
 
 @require_POST
-#@teacher_required
+@teacher_required
 def confirm_student(request, subject_id, student_id):
-    subject = Subject.objects.get(id = subject_id)
-    student = User.objects.get(id = student_id)
-    registration = Registration.objects.filter(user=student, subject=subject)
+    subject = get_object_or_404(Subject, pk=subject_id)
+    student = get_object_or_404(User, pk=student_id)
 
-    if request.method == 'POST':
-        
-        form = ConfirmStudentForm(request.POST, instance=registration)
+    try:
+        registration = Registration.objects.get(subject=subject, user=student)
+        registration.confirmed = True
+        registration.save()
+        return redirect('students', subject_id=subject.id)
+    except registration.DoesNotExist:
+        return HttpResponseBadRequest()
 
-        if form.is_valid():
-            registration = form.save(commit = False)
-            registration.confirmed = True
-            registration.save()
-            return redirect("/subjects/students")
 
-    else:
-        form = ConfirmStudentForm()
-         
-    return render(request, 'subjects/edit_student.html', {'subject': subject, 'student': student, 'form': form})
-
-#@require_POST
-#@teacher_required
+@require_POST
+@teacher_required
 def reject_student(request, subject_id, student_id):
-    subject = Subject.objects.get(id = subject_id)
-    student = User.objects.get(id = student_id)
-    registration = Registration.objects.filter(user=student, subject=subject)
+    subject = get_object_or_404(Subject, pk=subject_id)
+    student = get_object_or_404(User, pk=student_id)
 
-    if request.method == 'POST':
-        
-        form = ConfirmStudentForm(request.POST, instance=registration)
-
-        if form.is_valid():
-            registration.delete()
-            return redirect("/subjects/students")
-
-    else:
-        form = ConfirmStudentForm()
-         
-    return render(request, 'subjects/edit_student.html', {'subject': subject, 'student': student, 'form': form})
+    try:
+        registration = Registration.objects.get(subject=subject, user=student)
+        registration.confirmed = False
+        registration.save()
+        return redirect('students', subject_id=subject.id)
+    except registration.DoesNotExist:
+        return HttpResponseBadRequest()

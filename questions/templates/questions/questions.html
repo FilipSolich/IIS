@@ -4,50 +4,52 @@
 
 <div class="container ms-5 mb-5">
 	<div class="mb-3"> <a class="text-decoration-none text-info" href="{% url 'list_subjects' %}"> ZPĚT</a> </div>
-    <div class="row text-left">
-        <div class="col">
-            <h1>{{subject.shortcut}} - {{ subject.name }} ({{ subject.year }})</h1>
-
+	<div class="row text-left">
+		<div class="col">
+			<!-- TODO Fix formating -->
+			{% if is_teacher %}
 			<div>
 				<a class=" text-decoration-none rounded border-0 text-white p-1 bg-warning" href="{% url 'students' subject.id  %}">
 					Studenti kurzu
 				</a>
 			</div>
-
-            <h1>{{subject.shortcut}} - {{ subject.name }} ({{ subject.school_year }})</h1>
-            {% if not student_registered %}
-			<form method="post">
-			{% csrf_token %}
-			<input type="submit" value="Registruj se"></form>
 			{% endif %}
-			
 
+			<h1>{{subject.shortcut}} - {{ subject.name }} ({{ subject.school_year }})</h1>
+
+			<!-- TODO Fix format -->
+			{% if register_button %}
+			<form method="post" action="{% url 'register' subject.id %}">
+				{% csrf_token %}
+				<input type="submit" value="Registruj se">
+			</form>
+			{% endif %}
 
 			<div class="w-50">
-	         <table class="table">
-  				<tr>
-   					<th scope="col">Semester</th>
-    				<th scope="col">Ročník</th>
-    				<th scope="col">Povinný </th>
-    				<th scope="col"> Učitel </th>
+			 <table class="table">
+				<tr>
+					<th scope="col">Semester</th>
+					<th scope="col">Ročník</th>
+					<th scope="col">Povinný </th>
+					<th scope="col"> Učitel </th>
 
-  				</tr>
-  				<tr>
-  					{% if subject.semester == "winter"%}
-    					<td class="text-info">Zimní</td>
-    				{% else %}
-    					<td class="text-warning">Letní</td>
-    				{% endif %}
+				</tr>
+				<tr>
+					{% if subject.semester == "winter"%}
+						<td class="text-info">Zimní</td>
+					{% else %}
+						<td class="text-warning">Letní</td>
+					{% endif %}
 
-     				<td>{{ subject.grade }}</td>
+					<td>{{ subject.grade }}</td>
 
-     				{% if subject.compulsory == "compulsory" %}
-     					<td class="text-danger">Ano</td>
-     				{% else %}
-     					<td class="">Ne</td>
-     				{% endif %}
-     					<td class="text-muted">{{ subject.user }} </td>
-  				</tr>
+					{% if subject.compulsory == "compulsory" %}
+						<td class="text-danger">Ano</td>
+					{% else %}
+						<td class="">Ne</td>
+					{% endif %}
+					<td class="text-muted">{{ subject.user }} </td>
+				</tr>
 			</table>
 		</div>
 			<div class="row">
@@ -83,12 +85,9 @@
 						<p class="text-muted" style="font-size:10px; ">{{ q.user }} </p>
 					</div>
 				{% endfor %}
-				
-				
 			</div>
-
 		</div> 
-    </div>
+	</div>
 </div>
 
 {% endblock %}

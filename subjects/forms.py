@@ -42,18 +42,3 @@ class AddCategoryForm(ModelForm):
 
         model = Category
         fields = ['name',]
-
-
-class RegisterSubjectForm(ModelForm):
-    
-    class Meta:
-
-        model = Registration
-        fields = []
-
-class ConfirmStudentForm(ModelForm):
-
-    class Meta:
-
-        model = Registration
-        fields = ['confirmed',]

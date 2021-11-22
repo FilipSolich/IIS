@@ -1,7 +1,7 @@
 import json
 
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -29,20 +29,27 @@ def list_questions(request, shortcut, year):
         questions = Question.objects.filter(subject=subject)
     else:
         questions = Question.objects.filter(subject=subject, category=category)
-    
-    student_registered = False
-    if(Registration.objects.filter(user = request.user, subject=subject)):
-        student_registered = True
-    if request.method == 'POST':
-        registration = Registration.objects.create(confirmed=None, user=request.user, subject=subject)
-        registration.save()
-        return HttpResponseRedirect(request.path_info)
+
+
+    if not request.user.is_anonymous:
+        try:
+            registration = Registration.objects.get(subject=subject, user=request.user)
+        except Registration.DoesNotExist:
+            registration = None
+
+        if request.user.is_teacher(subject) or request.user.is_student(subject) or registration:
+            register_button = False
+        else:
+            register_button = True
+    else:
+        register_button = False
 
     return render(request, 'questions/questions.html', {
         'subject': subject,
         'questions': questions,
         'category_form': category_form,
-        'student_registered' : student_registered
+        'is_teacher': not request.user.is_anonymous and request.user.is_teacher(subject),
+        'register_button' : register_button,
     })
 
 

@@ -41,7 +41,7 @@ class Subject(models.Model):
 
 class Registration(models.Model):
 
-    confirmed = models.BooleanField(null=True)
+    confirmed = models.BooleanField(null=True, default=None)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)

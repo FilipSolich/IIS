@@ -55,7 +55,7 @@
 			<div class="row">
 				<div class="w-75 col-sm">
 					<spa>{{ answer.text }}</spa>
-					<p class="text-muted" style="float:right !important; "> {{ answer.user }}</p>
+					<p class="text-muted" style="float:right !important; "> {{ answer.user }}</p>  <!-- TODO spatny user, ne ten co polozil otazku (Marek)-->
 				</div>
 				
 				{% if answer.picture %}
@@ -99,18 +99,19 @@
 					<!-- TODO WTF? -->
 					<div id="reaction" class="dropdown-menu mt-5" >
 						<div class="m-5">
+							<form method="post" action="{% url 'add_reaction' subject.shortcut subject.year  question.id  answer.id %}">
+								{% csrf_token %}
 							<h5>Zadejte reakci: </h5>
 								<div class="row">
 									<label>Text:</label>
 									<label>{{ reaction_form.text }}</label>
 									<label>Zadejte obrázek</label>
 									<label class="mt-2">{{ reaction_form.picture }}</label>
+									<input class="w-25 bg-info text-white mt-4 border-0 ms-2 rounded"type="submit"/>
 								</div>
+							</form>
 						</div>
 						{% for reaction in reactions %}
-							<form>
-								<label>Zadejte prosím reakci</label>
-							</form>
 							<p>{{ reaction.text }}</p>
 						{% endfor %}
 					</div>

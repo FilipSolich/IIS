@@ -10,47 +10,50 @@
 	</div>
 
 	<div class="m-5">
+		{% if question.picture %}
+			<p class="mt-3 mb-3">
+				<a href="{{ question.picture.url }}" target="_blank">
+					<img width="75" height="100" border="0" align="center"  src="{{ question.picture.url }}"/>
+				</a>
+			</p>
+		{% endif %}
 		<h3> {{ question.title }}</h3>
 		<p class="mx-5">{{ question.text}} </p>
-		<p class="text-muted"> {{ subject.user }} </p>
-		{% if question.picture %}
-			<p class="mt-3 mb-3"><img src="{{ question.picture.url }}"> </p>
-		{% endif %}
+		<p class="text-muted"> {{ question.user }} </p>
 	</div>
 </div>
 
 <br>
 
-
-
 <div class="mx-5">
 	{% if answer_form %}
-		{% if is_teacher %}
-		<form method="post" enctype="multipart/form-data" action="{% url 'add_answer' subject.shortcut subject.year question.id %}">
+		{% if not is_teacher %}
+			<form method="post" enctype="multipart/form-data" action="{% url 'add_answer' subject.shortcut subject.year question.id %}">
+			<label class="mt-5">Zadejte prosím odpověď:</label>
 		{% else %}
-		<form id="closeForm" method="post" action="{% url 'close_question' subject.shortcut subject.year question.id %}">
+			<form id="closeForm" method="post" enctype="multipart/form-data" action="{% url 'close_question' subject.shortcut subject.year question.id %}">
+			<label class="mt-5">Napište finální odpověď a označte správné odpovědi:</label>
+		{% endif %}
 		{% csrf_token %}
-		<label class="mt-5">Zadejte prosím odpověď:</label>
 		<div class="mt-3 mb-3" >{{ answer_form.text }}</div>
 		<div style="font-size:14px !important ;">{{ answer_form.picture}}</div>
-		{% if close_form %}
+		{% if is_teacher %}
 			<label> Učitelské body </label>
-			<span>{{ close_form.teacher_points }} </span>
+			<span>{{ answer_form.teacher_points }} </span>
 			<input class="rounded border-0 bg-info text-white p-1 mt-3" type="submit" value="Uzavřít otázku"/>
 		{% else %}
 			<input class="rounded border-0 bg-info text-white p-1 mt-3" type="submit" value="Odeslat"/>
 		{% endif %}
-	</form>
-	{% endif %}
+		</form>
 	{% endif %}
 
-	<!---->
 	<br>
 	{% for answer, reactions, reaction_form, rate in answers_and_reactions %}
 	{% if  forloop.first %}
 	<h6>Odpovědi</h6>
 	{% endif %}
-		<div class="border mt-2 mb-5 p-3 {% if answer.valid and question.closed %}border-success{% elif question.closed %}border-danger{% endif %}">
+		<div class="border mt-2 mb-5 p-3 
+			border-{% if answer.valid and question.closed %}{% if answer.user == subject.user %}info{% else %}success{% endif %}{% elif question.closed %}danger{% endif %}">
 			<div class="row">
 				<div class="w-75 col-sm">
 					<spa>{{ answer.text }}</spa>
@@ -58,12 +61,11 @@
 				</div>
 				
 				{% if answer.picture %}
-					<div class="col-sm"><img src="{{ answer.picture.url }}"></div>
+					<div class="col-sm" ><img src="{{ answer.picture.url }}"></div>
 				{% endif %}
 
-
 				<div class="w-25 mx-2">
-					{% if close_form %} <!-- #TODO subject -->
+					{% if is_teacher and answer_form %}
 					<div style="float:right !important;" class="mt-4 ms-4">
 						<h4><input class="form-check-input" type="checkbox" name="check-{{ answer.id }}" form="closeForm"></h4>
 					</div>
@@ -90,29 +92,32 @@
 						</span>
 					</div>
 				</div>
-				
 			</div>
 			<div>
+				{% if not question.closed and user.is_authenticated %}
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
 					<div id="reaction" class="dropdown-menu mt-5" >
 						<div class="m-5">
+							<form method="post" enctype="multipart/form-data" action="{% url 'add_reaction' subject.shortcut subject.year  question.id  answer.id %}">
+								{% csrf_token %}
 							<h5>Zadejte reakci: </h5>
 								<div class="row">
 									<label>Text:</label>
-									<label>{{ reaction_form.text }}</label>
+									{{ reaction_form.text }}
 									<label>Zadejte obrázek</label>
-									<label class="mt-2">{{ reaction_form.picture }}</label>
+									{{ reaction_form.picture }}
+									<input class="w-25 bg-info text-white mt-4 border-0 ms-2 rounded pt-2 pb-2" type="submit" value="Odeslat reakci"/>
+									{{ reaction_form.answer_id }}
 								</div>
+							</form>
 						</div>
 						{% for reaction in reactions %}
-							<form>
-								<label>Zadejte prosím reakci</label>
-							</form>
 							<p>{{ reaction.text }}</p>
 						{% endfor %}
 					</div>
 				</div>
+				{% endif %}
 			</div>
 		</div>
 	{% endfor %}

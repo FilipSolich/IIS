@@ -1,83 +1,70 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-
-
 <div class="container">
-	<div>
-		<div class="mx-5 mb-2 w-25	">
-			<table class="table w-50">
-				<tr>
-				{% if user.is_authenticated %}
-					<th class="border" scope="col" >
-						<a class="text-decoration-none text-dark" href="subjects/">Přidat předmět</a>
-					</th>
-				{% endif %}
-			</table>
-		</div>
+{% if user.is_authenticated %}
+	<div class="mx-5 mb-2 w-25	">
+		<table class="table w-50">
+			<tr>
+				<th class="border" scope="col" >
+					<a class="text-decoration-none text-dark" href="{% url 'create_subject' %}">Přidat předmět</a>
+				</th>
+			</tr>
+		</table>
 	</div>
+{% endif %}
 
-		<div class="w-25 mb-5 ms-5">
+	<div class="w-25 mb-5 ms-5">
 		<form>
 			<label>Rok</label>
-			<div class="pt-2">{{ form.year }} </div>
-			<input class=" rounded border-0 bg-info text-white p-2 mt-3"  type="submit" value="hledat"/>
+			<div class="pt-2">{{ form.year }}</div>
+			<input class=" rounded border-0 bg-info text-white p-2 mt-3" type="submit" value="hledat"/>
 		</form>
 	</div>
-	{% for comp in ordered_compulsory_list %}
-	<div class=" w-25 mt-1 mb-5 ">
-		{% if comp == 'compulsory'  %}
-		<h2><span>{{ "Povinné" }}</span></h2>
-		{% endif %}
-		{% if comp == 'uncompulsory' %}
-		<h2><span>{{ "Nepovinné" }}</span></h2>
-		{% endif %}
 
+{%for comp, grades in subjects_dict.items %}
+	<div class="w-25 mt-1 mb-5">
+		<h2>
+			<span>{% if comp == 'compulsory' %}Povinné{% elif comp == 'uncompulsory'%}Nepovinné{% endif %}</span>
+		</h2>
 	</div>
 
-	{% if forloop.first %}
 	<div class="w-100 p-3 mt-5">
-	{% endif %}
-		{% for grade in ordered_grade_list %}
-			{% if comp == 'compulsory' %}
-				<h4>Ročník {{ grade }}.</h4>
-			{% endif %}
+	{% for grade, semesters in grades.items %}
+		{% if semesters.winter or semesters.summer %}
+			<h4>{{ grade }}. Ročník</h4>
 
-		<ul class="list-inline ">
-			{% for semester in  ordered_semester_list %}
-			<li class="list-inline-item border-0 w-75 mt-1">
-				{% if semester == 'winter' %}
-							<div class="text-info" id="outer">Zimní</div>
-				{% endif %}
+			<ul class="list-inline ">
+			{% for semester, subjects in semesters.items %}
+				{% if subjects %}
+					<li class="list-inline-item border-0 w-75 mt-1">
+					{% if semester == 'winter' %}
+						<div class="text-info" id="outer">Zimní</div>
+					{% elif semester == 'summer' %}
+						<div class="text-warning" id="outer">Letní</div>
+					{% endif %}
+					</li>
 
-				{% if semester == 'summer' %}
-					<div class="text-warning" id="outer">Letní</div>
+					<div >
+						<ul class="list-group w-100 mt-1">
+							<span class="inner">
+							{% for subject in subjects %}
+								<li class="list-group-item">
+									<a class="text-decoration-none text-dark"
+									   href="{% url 'questions' subject.shortcut subject.year %}">
+										{{ subject.name }}
+									</a>
+								</li>
+							{% endfor %}
+							</span>
+						</ul>
+					</div>
 				{% endif %}
-		
-				<div >
-					<ul class="list-group w-100 mt-1">
-						<span class="inner">
-						{% for subject in ordered_subject_list %}
-								{% if subject.grade == grade and subject.semester == semester and subject.compulsory == comp %}
-						<li class="list-group-item">
-							<a class="text-decoration-none text-dark" href="{% url 'questions' subject.shortcut subject.year %}">
-								
-								{{ subject.name }}
-							</a>
-						</li>
-						{% endif %}
-						{% endfor %}
-					</span>
-					</ul>
-				</div>
-			</li>
 			{% endfor %}
-		</ul>
-		{% endfor %}
-		{% endfor %}
+			</ul>
+		{% endif %}
+	{% endfor %}
 	</div>
-
-
-	
+{% endfor %}
+</div>
 {% endblock %}

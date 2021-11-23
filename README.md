@@ -24,7 +24,7 @@ $ python manage.py creategroups
 $ python manage.py runserver
 ```
 
-# Import dat do DB
+## Import dat do DB
 
 ```shell
 $ python manage.py loaddata db.json

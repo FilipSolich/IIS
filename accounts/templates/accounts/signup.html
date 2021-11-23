@@ -3,27 +3,39 @@
 
 {% block content %}
 {% if form.errors %}
-<p>Wrong username or password. please try again.</p>
+	{% for field in form %}
+		{% for error in field.errors %}
+		<div class="d-flex justify-content-center">
+			<div class="alert alert-danger" role="alert">
+				<p>Zadali jste špatně svoje údaje, zkontrolujte heslo.</p>
+				<p>Chyba je v {{ field }} </p>
+				<p> {{ error }} </p>
+			</div>
+		</div>
+		{% endfor %}
+	{% endfor %}
 {% endif %}
+
 <div class="container w-50 justify-content-center mt-5 ">
 	<div class="text-center display-5">Registrační formulář</div>
 	<form class="p-5"method="post" action="{% url 'signup' %}">
 		<div class="form-group ms-5">
 			{% csrf_token %}
-			<label class="w-25 pt-2">Jméno</label>
+			<label class="w-25 pt-2">Jméno *</label>
 			<div class="" type="text" placeholder="Jméno"> {{ form.first_name }} </div>
-			<label class="w-25 pt-2">Přijimení </label>
+			<label class="w-25 pt-2">Přijimení *</label>
 			<div class="" type="text" placeholder="Přijimení"> {{ form.last_name }} </div>
-			<label class="w-25" for="emailID">Email</label>
+			<label class="w-25" for="emailID">Email *</label>
 			<div class="" type="email" id="emailID" aria-describedby="emailHelp" placeholder="Zadejte Email"> {{ form.email }} </div>
-			<label class="pt-2 w-25">Login</label>
+			<label class="pt-2 w-25">Login *</label>
 			<div class="h-100" type="text" placeholder="xxlogin00"> {{ form.login }} </div>
 
-			<label class="pt-4">Heslo</label>
+			<label class="pt-4">Heslo *</label>
 			<div class=""type="password" id="password" name="password" onchange="check_pass();" placeholder="vaše heslo"> {{ form.password1 }} </div>
-			<label class=" pt-2">Zadejte znova heslo </label>
+			<label class=" pt-2">Zadejte znova heslo *</label>
 			<div class="" type="password" id="password2" name="password2" placeholder="vaše heslo"  onchange="check_pass();"> {{ form.password2 }} </div>
 			<span id='msg'> </span>
+			<div> <span class="text-muted"> * povinné atributy </span> </div>
 			<div class="d-flex justify-content-end mt-2 w-75">
 				<input class=" rounded border-0 bg-info text-white p-1" id="submit" type="submit" value="Registration" />
 				<input class="" type="hidden" name="next"  value="{{ next }}" />

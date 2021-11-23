@@ -7,6 +7,11 @@ from subjects.forms import FilterYearForm
 
 class UserCreationForm(BaseUserCreationForm):
 
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':'email@domain.cz'}))
+    login = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'xsechr00'}))
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Jan'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder':'Novák'}))
+
     class Meta:
 
         model = User

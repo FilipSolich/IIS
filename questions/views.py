@@ -11,7 +11,7 @@ from .forms import AnswerForm, QuestionForm, QuestionCloseForm, FilterCategoryFo
 from .models import Answer, Question, Rating, Reaction
 from accounts.decorators import teacher_required, student_required
 from accounts.models import Karma
-from subjects.models import Category, Subject
+from subjects.models import Category, Subject, Registration
 
 
 def list_questions(request, shortcut, year):
@@ -30,10 +30,27 @@ def list_questions(request, shortcut, year):
     else:
         questions = Question.objects.filter(subject=subject, category=category)
 
+
+    if not request.user.is_anonymous:
+        try:
+            registration = Registration.objects.get(subject=subject, user=request.user)
+        except Registration.DoesNotExist:
+            registration = None
+
+        if request.user.is_teacher(subject) or request.user.is_student(subject) or registration:
+            register_button = False
+        else:
+            register_button = True
+    else:
+        register_button = False
+
     return render(request, 'questions/questions.html', {
         'subject': subject,
         'questions': questions,
-        'category_form': category_form
+        'category_form': category_form,
+        'is_student': not request.user.is_anonymous and request.user.is_student(subject),
+        'is_teacher': not request.user.is_anonymous and request.user.is_teacher(subject),
+        'register_button' : register_button,
     })
 
 
@@ -65,7 +82,7 @@ def detail_question(request, shortcut, year, question_id,
     for answer in answers:
         reactions = Reaction.objects.filter(answer=answer)
 
-        if old_reaction_form and answer.id == old_reaction_form.answer_id:
+        if old_reaction_form and answer.id == old_reaction_form.fields.get('answer_id'):
             reaction_form = old_reaction_form
         elif (request.user.is_anonymous or question.closed or
                 not request.user.is_student(subject) and not request.user.is_teacher(subject)):
@@ -88,11 +105,13 @@ def detail_question(request, shortcut, year, question_id,
     if old_answer_form:
         answer_form = old_answer_form
     elif (request.user.is_anonymous or user_answer or not request.user.is_student(subject)
-            or question.closed):
+            or question.closed) and not request.user.is_teacher(subject):
         answer_form = None
     elif request.user.is_teacher(subject):
         if old_close_form:
             answer_form = old_close_form
+        elif question.closed:
+            answer_form = None
         else:
             answer_form = QuestionCloseForm()
     else:
@@ -131,7 +150,7 @@ def add_answer(request, shortcut, year, question_id):
 
         return redirect('question', shortcut, year, question_id)
 
-    return redirect('question', shortcut, year, question_id, old_answer_form=form)
+    return detail_question(request, shortcut, year, question_id, old_answer_form=form)
 
 
 @teacher_required
@@ -146,6 +165,7 @@ def close_question(request, shortcut, year, question_id):
         answer = form.save(commit=False)
         answer.user = request.user
         answer.question = question
+        answer.valid = True
         answer.save()
 
         for id_ in request.POST.keys():
@@ -162,24 +182,25 @@ def close_question(request, shortcut, year, question_id):
 
         return redirect('question', shortcut, year, question_id)
 
-    return redirect('question', shortcut, year, question_id, old_close_form=form)
+    return detail_question(request, shortcut, year, question_id, old_close_form=form)
 
 
 @question_not_closed
 @student_required
+@require_POST
 def add_reaction(request, shortcut, year, question_id, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
 
-    form = ReactionForm(request.POST)
+    form = ReactionForm(request.POST, request.FILES)
     if form.is_valid():
         reaction = form.save(commit=False)
-        reaction.user = reqeust.user
+        reaction.user = request.user
         reaction.answer = answer
         reaction.save()
 
         return redirect('question', shortcut, year, question_id)
 
-    return redirect('question', shortcut, year,question_id, old_reaction_form=form)
+    return detail_question(request, shortcut, year, question_id, old_reaction_form=form)
 
 
 @csrf_exempt

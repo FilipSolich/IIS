@@ -31,7 +31,16 @@ class SignUpView(FormView):
 
 
 def leaderboard(request):
-    subjects = Subject.objects.all().order_by('-year', 'shortcut')
+    subjects = Subject.objects.extra(
+        select={
+            'count': (
+                'SELECT COUNT(*) FROM accounts_karma '
+                'WHERE accounts_karma.subject_id = subjects_subject.id'
+            )
+        },
+        where=['count > 0'],
+    ).order_by('-year', 'shortcut')
+
     form = FilterLeaderboardForm(request.GET, subjects=subjects)
     context = {'form': form}
 

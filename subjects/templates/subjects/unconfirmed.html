@@ -1,27 +1,30 @@
 {% extends 'base.html' %}
+
 {% block content %}
+
 <div class="container">
-   <div class="row text-center">
-      <div class="col">
-         <h1>Nově přidané předměty</h1>
-      </div>
-   </div>
-   
-   {% for subject in unconfirmed_subjects %}
-    <div class=" d-flex justify-content-center mb-5">
-      <div class="w-75">
-         <ul class="list-group w-100 mt-1">
-            <h5>{{ subject.name }}</h5>
-            <div class="align-self-end">
-               <a class=" text-decoration-none rounded border-0 text-white p-1 bg-warning" href="reject/{{ subject.id }}">
-                  Upravit předmět
-               </a>
-            </div>
-            <li class="list-group-item">Přidal/a: <b>{{ subject.user }}</b></li>
-         </ul>
-      </div>
-       </div>
-   {% endfor %}
-   
+	<div> <a class="text-decoration-none text-info ms-5" href="{% url 'list_subjects' %}">ZPĚT</a> </div>
+	<div class="row text-center">
+		<div class="col">
+			<h1>Nově přidané předměty</h1>
+		</div>
+	</div>
+	
+	{% for subject in unconfirmed_subjects %}
+	<div class=" d-flex justify-content-center mb-5">
+		<div class="w-75">
+			<ul class="list-group w-100 mt-1">
+				<h5>{{ subject.name }}</h5>
+				<div class="align-self-end">
+					<a class=" text-decoration-none rounded border-0 text-white p-1 bg-warning" href="{% url 'reject_subject' subject.id %}">
+						Upravit předmět
+					</a>
+				</div>
+				<li class="list-group-item">Přidal/a: <b>{{ subject.user }}</b></li>
+			</ul>
+		</div>
+	</div>
+	{% endfor %}
 </div>
+
 {% endblock %}

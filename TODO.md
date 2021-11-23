@@ -1,7 +1,3 @@
-# Accounts
-
-- Fix karma leaderboard
-
 # Cleanup
 
 - Remove all TODO
@@ -11,6 +7,4 @@
 # Deploy
 
 - Import better data
-- Deploy on heroku
 
-- Add AbstractBaseUser to ER

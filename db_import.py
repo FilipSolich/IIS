@@ -37,7 +37,7 @@ u5.save()
 # Subject
 s1 = Subject.objects.create(name='Diskretní matematika', year='2021', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory',confirmed = False, user = u1)
 s2 = Subject.objects.create(name='Diskretní matematika', year='2020', semester='winter', shortcut='IDM', grade=1,compulsory='compulsory', confirmed = False, user = u1 )
-s3 = Subject.objects.create(name='Diskretní matematika', year='2020', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory', confirmed = False, user = u2 )
+s3 = Subject.objects.create(name='Diskretní matematika', year='2019', semester='winter', shortcut='IDM', grade=1, compulsory='compulsory', confirmed = False, user = u2 )
 s4 = Subject.objects.create(name='Softwarové inženýrství', year='2021', semester='winter', shortcut='IUS', grade=1, compulsory='compulsory', confirmed = False, user = u3)
 s5 = Subject.objects.create(name='Matematická analýza 1', year ='2021', semester = 'summer', shortcut ='IMA1', grade = 1, compulsory ='compulsory', confirmed = False, user = u3 )
 s6 = Subject.objects.create(name='Návrh číslicových systémů', year ='2021', semester = 'summer', shortcut ='INC', grade = 1, compulsory ='compulsory', confirmed = True, user = u3 )

@@ -13,20 +13,25 @@ mod = Group.objects.get(name='Moderators')
 # User
 u1 = User.objects.create(login='xnovak00', email='novacek@seznam.cz', first_name='Filip', last_name='Novák', is_superuser=True)
 u1.set_password('filip_novak')
+u1.save()
 
 u2 = User.objects.create(login='xsechr00',email='marokac@seznam.cz', first_name='Marek', last_name='Sechra')
 u2.set_password('marek_sechra')
 u2.groups.add(mod)
+u2.save()
 
 u3 = User.objects.create(login='xsolic00', email='solich@tutanota.cz', first_name='Filip', last_name='Solich')
 u3.set_password('filip_solich')
 u3.groups.add(mod)
+u3.save()
 
 u4 = User.objects.create(login='xvokal00', email='d.vokal@gmail.com', first_name='Daniel', last_name='Vokál')
 u4.set_password('nejakeheslo1')
+u4.save()
 
 u5 = User.objects.create(login='xnamys00', email='v.myslitel@seznam.cz', first_name='Vojtěch', last_name='Namyslo')
 u5.set_password('nejakeheslo2')
+u5.save()
 
 
 # Subject
@@ -42,18 +47,18 @@ s9 = Subject.objects.create(name='Kondiční posilování', year ='2021', semest
 s10 = Subject.objects.create(name='Bezpečnost a počítačové sítě', year ='2021', semester = 'summer', shortcut ='IBS', grade = 2, compulsory ='uncompulsory',  confirmed = True,user = u5 )
 
 
-r1 = Registration.objects.create(confirmed=True, user=u1, subject=s1)
-r2 = Registration.objects.create(confirmed=True, user=u1, subject=s2)
-r3 = Registration.objects.create(confirmed=True, user=u2, subject=s3)
-r4 = Registration.objects.create(confirmed=True, user=u2, subject=s4)
-r5 = Registration.objects.create(confirmed=True, user=u3, subject=s6)
-r6 = Registration.objects.create(confirmed=True, user=u3, subject=s7)
-r7 = Registration.objects.create(confirmed=True, user=u4, subject=s4)
-r8 = Registration.objects.create(confirmed=True, user=u4, subject=s5)
-r9 = Registration.objects.create(confirmed=True, user=u5, subject=s6)
-r10 = Registration.objects.create(confirmed=False, user=u5, subject=s8)
-r11 = Registration.objects.create(confirmed=False, user=u4, subject=s9)
-r12 = Registration.objects.create(confirmed=False, user=u5, subject=s10)
+#r1 = Registration.objects.create(confirmed=True, user=u1, subject=s1)
+#r2 = Registration.objects.create(confirmed=True, user=u1, subject=s2)
+#r3 = Registration.objects.create(confirmed=True, user=u2, subject=s3)
+#r4 = Registration.objects.create(confirmed=True, user=u2, subject=s4)
+#r5 = Registration.objects.create(confirmed=True, user=u3, subject=s6)
+#r6 = Registration.objects.create(confirmed=True, user=u3, subject=s7)
+#r7 = Registration.objects.create(confirmed=True, user=u4, subject=s4)
+#r8 = Registration.objects.create(confirmed=True, user=u4, subject=s5)
+#r9 = Registration.objects.create(confirmed=True, user=u5, subject=s6)
+#r10 = Registration.objects.create(confirmed=False, user=u5, subject=s8)
+#r11 = Registration.objects.create(confirmed=False, user=u4, subject=s9)
+#r12 = Registration.objects.create(confirmed=False, user=u5, subject=s10)
 
 
 c1 = Category.objects.create(name="Semestrálni zkouška", subject=s1)

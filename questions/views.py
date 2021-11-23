@@ -102,18 +102,29 @@ def detail_question(request, shortcut, year, question_id,
     except (Answer.DoesNotExist, TypeError):
         user_answer = False
 
+    # if old_answer_form:
+    #     answer_form = old_answer_form
+    # elif (request.user.is_anonymous or user_answer or not request.user.is_student(subject)
+    #         or question.closed) and not request.user.is_teacher(subject):
+    #     answer_form = None
+    # elif request.user.is_teacher(subject):
+    #     if old_close_form:
+    #         answer_form = old_close_form
+    #     elif question.closed:
+    #         answer_form = None
+    #     else:
+    #         answer_form = QuestionCloseForm()
+    # else:
+    #     answer_form = AnswerForm()
+
     if old_answer_form:
         answer_form = old_answer_form
-    elif (request.user.is_anonymous or user_answer or not request.user.is_student(subject)
-            or question.closed) and not request.user.is_teacher(subject):
+    elif old_close_form:
+        answer_form = old_close_form
+    elif (request.user.is_anonymous or question.closed or user_answer or (not request.user.is_teacher(subject) and not request.user.is_student(subject))):
         answer_form = None
     elif request.user.is_teacher(subject):
-        if old_close_form:
-            answer_form = old_close_form
-        elif question.closed:
-            answer_form = None
-        else:
-            answer_form = QuestionCloseForm()
+        answer_form = QuestionCloseForm()
     else:
         answer_form = AnswerForm()
 

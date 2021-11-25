@@ -157,6 +157,7 @@ def close_question(request, shortcut, year, question_id):
     if form.is_valid():
         question = get_object_or_404(Question, pk=question_id)
         question.closed = True
+        question.teacher_points = form.fields.get('teacher_points')
         question.save()
 
         answer = form.save(commit=False)
@@ -164,6 +165,8 @@ def close_question(request, shortcut, year, question_id):
         answer.question = question
         answer.valid = True
         answer.save()
+
+        Rating.objects.create(type=True, user=request.user, answer=answer)
 
         for id_ in request.POST.keys():
             if id_.startswith('check-'):

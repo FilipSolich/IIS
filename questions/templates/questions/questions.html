@@ -6,7 +6,6 @@
 	<div class="mb-3"> <a class="text-decoration-none text-info" href="{% url 'list_subjects' %}"> ZPĚT</a> </div>
 	<div class="row text-left">
 		<div class="col">
-			<!-- TODO Fix formating -->
 			{% if is_teacher %}
 			<div class="mb-4">
 				<a class=" text-decoration-none rounded border-0 text-dark p-1 bg-warning" href="{% url 'students' subject.id  %}">
@@ -82,7 +81,11 @@
 					<h5> Otázky:  </h5>
 				{% endif %}
 					<div class="border w-75 mt-2 p-2"> 
-						<p class="px-2"><a class="text-decoration-none text-info" href="{% url 'question' subject.shortcut subject.year q.id %}">{{ q.title }}</a></p>
+						<p class="px-2">
+							<a class="text-decoration-none text-info" href="{% url 'question' subject.shortcut subject.year q.id %}">
+								{% if q.closed %}(Uzavřena) {% endif %}{{ q.title }}
+							</a>
+						</p>
 						<p class="ps-5" style="font-size: 12px;"> {{ q.text }} </p>
 						<p class="text-muted" style="font-size:10px; ">{{ q.user }} </p>
 					</div>

@@ -157,7 +157,7 @@ def close_question(request, shortcut, year, question_id):
     if form.is_valid():
         question = get_object_or_404(Question, pk=question_id)
         question.closed = True
-        question.teacher_points = form.fields.get('teacher_points')
+        question.teacher_points = form.cleaned_data.get('teacher_points', 0)
         question.save()
 
         answer = form.save(commit=False)

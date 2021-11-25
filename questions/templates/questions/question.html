@@ -99,10 +99,22 @@
 				</div>
 			</div>
 			<div>
-				{% if reactions or reaction_form %}
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
 					<div id="reaction" class="dropdown-menu mt-5" >
+						{% for reaction in reactions %}
+						<p class="mx-5">{{ reaction.text }}</p>
+						<p class="mx-5 text-muted">{{ reaction.user }}</p>
+						{% if reaction.picture %}
+						<p class="mx-5">
+							<a href="{{ reaction.picture.url }}" target="_blank">
+								<img width="75" height="100" border="0" align="center"  src="{{ reaction.picture.url }}"/>
+							</a>
+						</p>
+						{% endif %}
+					{% endfor %}
+			
+					{% if reactions or reaction_form %}
 						{% if reaction_form %}
 						<div class="m-5">
 							<form method="post" enctype="multipart/form-data" action="{% url 'add_reaction' subject.shortcut subject.year  question.id  answer.id %}">
@@ -119,16 +131,6 @@
 							</form>
 						</div>
 						{% endif %}
-						{% for reaction in reactions %}
-							<p class="mx-5">{{ reaction.text }}</p>
-							{% if reaction.picture %}
-							<p class="mx-5">
-								<a href="{{ reaction.picture.url }}" target="_blank">
-									<img width="75" height="100" border="0" align="center"  src="{{ reaction.picture.url }}"/>
-								</a>
-							</p>
-							{% endif %}
-						{% endfor %}
 					</div>
 				</div>
 				{% endif %}

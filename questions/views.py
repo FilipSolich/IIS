@@ -104,16 +104,13 @@ def detail_question(request, shortcut, year, question_id,
 
     if old_answer_form:
         answer_form = old_answer_form
-    elif (request.user.is_anonymous or user_answer or not request.user.is_student(subject)
-            or question.closed) and not request.user.is_teacher(subject):
+    elif old_close_form:
+        answer_form = old_close_form
+    elif (request.user.is_anonymous or question.closed or user_answer or
+            (not request.user.is_teacher(subject) and not request.user.is_student(subject))):
         answer_form = None
     elif request.user.is_teacher(subject):
-        if old_close_form:
-            answer_form = old_close_form
-        elif question.closed:
-            answer_form = None
-        else:
-            answer_form = QuestionCloseForm()
+        answer_form = QuestionCloseForm()
     else:
         answer_form = AnswerForm()
 
@@ -160,6 +157,7 @@ def close_question(request, shortcut, year, question_id):
     if form.is_valid():
         question = get_object_or_404(Question, pk=question_id)
         question.closed = True
+        question.teacher_points = form.cleaned_data.get('teacher_points', 0)
         question.save()
 
         answer = form.save(commit=False)
@@ -167,6 +165,8 @@ def close_question(request, shortcut, year, question_id):
         answer.question = question
         answer.valid = True
         answer.save()
+
+        Rating.objects.create(type=True, user=request.user, answer=answer)
 
         for id_ in request.POST.keys():
             if id_.startswith('check-'):

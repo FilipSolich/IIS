@@ -49,20 +49,25 @@
 
 	<br>
 	{% for answer, reactions, reaction_form, rate in answers_and_reactions %}
-	{% if  forloop.first %}
-	<h6>Odpovědi</h6>
-	{% endif %}
+		{% if  forloop.first %}
+		<h6>Odpovědi</h6>
+		{% endif %}
 		<div class="border mt-2 mb-5 p-3 
 			border-{% if answer.valid and question.closed %}{% if answer.user == subject.user %}info{% else %}success{% endif %}{% elif question.closed %}danger{% endif %}">
 			<div class="row">
 				<div class="w-75 col-sm">
 					<spa>{{ answer.text }}</spa>
 					<p class="text-muted" style="float:right !important; "> {{ answer.user }}</p>
-				</div>
 				
-				{% if answer.picture %}
-					<div class="col-sm" ><img src="{{ answer.picture.url }}"></div>
-				{% endif %}
+				
+					{% if answer.picture %}
+						<div class="" >
+							<a href="{{ answer.picture.url }}" target="_blank">
+								<img width="75" height="100" border="0" align="center"  src="{{ answer.picture.url }}"/>
+							</a>
+						</div>
+					{% endif %}
+				</div>	
 
 				<div class="w-25 mx-2">
 					{% if is_teacher and answer_form %}
@@ -93,32 +98,45 @@
 					</div>
 				</div>
 			</div>
+			{% if reactions or reaction_form %}
 			<div>
-				{% if not question.closed and user.is_authenticated %}
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
 					<div id="reaction" class="dropdown-menu mt-5" >
-						<div class="m-5">
-							<form method="post" enctype="multipart/form-data" action="{% url 'add_reaction' subject.shortcut subject.year  question.id  answer.id %}">
-								{% csrf_token %}
-							<h5>Zadejte reakci: </h5>
-								<div class="row">
-									<label>Text:</label>
-									{{ reaction_form.text }}
-									<label>Zadejte obrázek</label>
-									{{ reaction_form.picture }}
-									<input class="w-25 bg-info text-white mt-4 border-0 ms-2 rounded pt-2 pb-2" type="submit" value="Odeslat reakci"/>
-									{{ reaction_form.answer_id }}
-								</div>
-							</form>
-						</div>
 						{% for reaction in reactions %}
-							<p>{{ reaction.text }}</p>
+							<p class="mx-5">{{ reaction.text }}</p>
+							<p class="mx-5 text-muted">{{ reaction.user }}</p>
+							{% if reaction.picture %}
+							<p class="mx-5">
+								<a href="{{ reaction.picture.url }}" target="_blank">
+									<img width="75" height="100" border="0" align="center"  src="{{ reaction.picture.url }}"/>
+								</a>
+							</p>
+							{% endif %}
 						{% endfor %}
+			
+						{% if reactions or reaction_form %}
+							{% if reaction_form %}
+							<div class="m-5">
+								<form method="post" enctype="multipart/form-data" action="{% url 'add_reaction' subject.shortcut subject.year  question.id  answer.id %}">
+									{% csrf_token %}
+									<h5>Zadejte reakci: </h5>
+									<div class="row">
+										<label>Text:</label>
+										{{ reaction_form.text }}
+										<label>Zadejte obrázek</label>
+										{{ reaction_form.picture }}
+										<input class="w-25 bg-info text-white mt-4 border-0 ms-2 rounded pt-2 pb-2" type="submit" value="Odeslat reakci"/>
+										{{ reaction_form.answer_id }}
+									</div>
+								</form>
+							</div>
+							{% endif %}
+						{% endif %}
 					</div>
 				</div>
-				{% endif %}
 			</div>
+			{% endif %}
 		</div>
 	{% endfor %}
 </div>

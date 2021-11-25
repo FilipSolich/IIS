@@ -6,24 +6,15 @@
 	<div class="mb-3"> <a class="text-decoration-none text-info" href="{% url 'list_subjects' %}"> ZPĚT</a> </div>
 	<div class="row text-left">
 		<div class="col">
-			<!-- TODO Fix formating -->
 			{% if is_teacher %}
-			<div>
-				<a class=" text-decoration-none rounded border-0 text-white p-1 bg-warning" href="{% url 'students' subject.id  %}">
+			<div class="mb-4">
+				<a class=" text-decoration-none rounded border-0 text-dark p-1 bg-warning" href="{% url 'students' subject.id  %}">
 					Studenti kurzu
 				</a>
 			</div>
 			{% endif %}
 
 			<h1>{{subject.shortcut}} - {{ subject.name }} ({{ subject.school_year }})</h1>
-
-			<!-- TODO Fix format -->
-			{% if register_button %}
-			<form method="post" action="{% url 'register' subject.id %}">
-				{% csrf_token %}
-				<input type="submit" value="Registruj se">
-			</form>
-			{% endif %}
 
 			<div class="w-50">
 			 <table class="table">
@@ -32,7 +23,6 @@
 					<th scope="col">Ročník</th>
 					<th scope="col">Povinný </th>
 					<th scope="col"> Učitel </th>
-
 				</tr>
 				<tr>
 					{% if subject.semester == "winter"%}
@@ -49,6 +39,15 @@
 						<td class="">Ne</td>
 					{% endif %}
 					<td class="text-muted">{{ subject.user }} </td>
+
+					{% if register_button %}
+					<td>
+						<form method="post" action="{% url 'register' subject.id %}">
+						{% csrf_token %}
+							<input type="submit" class="text-decoration-none rounded border-0 text-white p-1 bg-warning" value="Registruj se"  style="float:right !important;">
+						</form>
+					</td>
+					{% endif %}
 				</tr>
 			</table>
 		</div>
@@ -82,7 +81,11 @@
 					<h5> Otázky:  </h5>
 				{% endif %}
 					<div class="border w-75 mt-2 p-2"> 
-						<p class="px-2"><a class="text-decoration-none text-info" href="{% url 'question' subject.shortcut subject.year q.id %}">{{ q.title }}</a></p>
+						<p class="px-2">
+							<a class="text-decoration-none text-info" href="{% url 'question' subject.shortcut subject.year q.id %}">
+								{% if q.closed %}(Uzavřena) {% endif %}{{ q.title }}
+							</a>
+						</p>
 						<p class="ps-5" style="font-size: 12px;"> {{ q.text }} </p>
 						<p class="text-muted" style="font-size:10px; ">{{ q.user }} </p>
 					</div>

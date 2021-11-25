@@ -4,19 +4,14 @@ from django.urls import include, path
 
 from subjects.views import list_subjects
 
-# TODO remove
-def test(request):
-    from django.http import HttpResponse
-    return HttpResponse('it works')
 
 urlpatterns = [
     path('', list_subjects, name='list_subjects'),
-    #path('', test, name='list_subjects'),
     path('subjects/', include('subjects.urls')),
     path('accounts/', include('accounts.urls')),
     path('questions/', include('questions.urls')),
 ]
 
 # Serving media files on Django development server
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# if settings.DEBUG:
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

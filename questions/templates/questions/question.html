@@ -13,7 +13,7 @@
 		{% if question.picture %}
 			<p class="mt-3 mb-3">
 				<a href="{{ question.picture.url }}" target="_blank">
-					<img width="75" height="100" border="0" align="center"  src="{{ question.picture.url }}"/>
+					<img width="75" height="100" border="0" align="center"  src="{% static question.picture %}"/>
 				</a>
 			</p>
 		{% endif %}

@@ -58,11 +58,16 @@
 				<div class="w-75 col-sm">
 					<spa>{{ answer.text }}</spa>
 					<p class="text-muted" style="float:right !important; "> {{ answer.user }}</p>
-				</div>
 				
-				{% if answer.picture %}
-					<div class="col-sm" ><img src="{{ answer.picture.url }}"></div>
-				{% endif %}
+				
+					{% if answer.picture %}
+						<div class="" >
+							<a href="{{ answer.picture.url }}" target="_blank">
+								<img width="75" height="100" border="0" align="center"  src="{{ answer.picture.url }}"/>
+							</a>
+						</div>
+					{% endif %}
+				</div>	
 
 				<div class="w-25 mx-2">
 					{% if is_teacher and answer_form %}
@@ -94,10 +99,11 @@
 				</div>
 			</div>
 			<div>
-				{% if not question.closed and user.is_authenticated %}
+				{% if reactions or reaction_form %}
 				<div class="dropdown">
 					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown">Reakce</button>
 					<div id="reaction" class="dropdown-menu mt-5" >
+						{% if reaction_form %}
 						<div class="m-5">
 							<form method="post" enctype="multipart/form-data" action="{% url 'add_reaction' subject.shortcut subject.year  question.id  answer.id %}">
 								{% csrf_token %}
@@ -112,12 +118,21 @@
 								</div>
 							</form>
 						</div>
+						{% endif %}
 						{% for reaction in reactions %}
-							<p>{{ reaction.text }}</p>
+							<p class="mx-5">{{ reaction.text }}</p>
+							{% if reaction.picture %}
+							<p class="mx-5">
+								<a href="{{ reaction.picture.url }}" target="_blank">
+									<img width="75" height="100" border="0" align="center"  src="{{ reaction.picture.url }}"/>
+								</a>
+							</p>
+							{% endif %}
 						{% endfor %}
 					</div>
 				</div>
 				{% endif %}
+				
 			</div>
 		</div>
 	{% endfor %}

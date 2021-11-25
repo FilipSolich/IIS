@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.db.models import fields
 from django.forms import ModelForm, BooleanField
 
@@ -17,6 +18,17 @@ class AddSubjectForm(ModelForm):
 
         model = Subject
         fields = ['name', 'shortcut', 'year', 'semester', 'grade', 'compulsory']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        shortcut = cleaned_data.get('shortcut')
+        year = cleaned_data.get('year')
+
+        try:
+            Subject.objects.get(shortcut=shortcut, year=year)
+            raise ValidationError('Předmět již existuje')
+        except Subject.DoesNotExist:
+            pass
 
 
 class ConfirmSubjectForm(ModelForm):

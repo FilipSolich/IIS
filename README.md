@@ -1,5 +1,13 @@
 # IIS - FITUŠKA
 
+Body 26/30
+
+## Autoři
+
+ - Filip Solich
+ - Marek Sechra
+ - Vasil Poposki
+
 ## Požadavky
 
  - Python 3.8+
